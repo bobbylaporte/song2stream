@@ -5,7 +5,18 @@
   "main": "main.js",
   "scripts": {
     "start": "electron main",
-    "build": "cd build && electron-packager .. --all"
+    "package": "mkdir packages && cd packages && electron-packager .. --all",
+    "pack": "build --dir", // not used yet until we have a signature
+    "dist": "build" // not used yet until we have a signature
+  },
+  "build": {
+    "appId": "com.bobbylaporte.song2stream",
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "iconUrl": "windowsIcon.ico"
+    }
   },
   "repository": {
     "type": "git",
@@ -27,7 +38,6 @@
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.1",
-    "electron": "^1.4.10",
     "electron-open-link-in-browser": "^1.0.2",
     "express": "^4.14.0",
     "express-handlebars": "^3.0.0",
@@ -41,6 +51,8 @@
   },
   "devDependencies": {
     "bower-webpack-plugin": "^0.1.9",
+    "electron": "^1.4.10",
+    "electron-installer-windows": "^0.2.0",
     "electron-packager": "^8.4.0",
     "electron-winstaller": "^2.5.0",
     "gulp": "^3.9.1",
@@ -54,5 +66,6 @@
     "jshint-stylish": "^2.2.0",
     "morgan": "^1.7.0",
     "webpack": "^1.13.1"
-  }
+  },
+  "postinstall": "install-app-deps"
 }
