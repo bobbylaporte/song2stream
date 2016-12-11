@@ -1,0 +1,58 @@
+{
+  "name": "song2stream",
+  "version": "0.0.1",
+  "description": "This is a tool to help streamers to overlay their currently playing Spotify song into the stream for viewers to see.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main",
+    "build": "cd build && electron-packager .. --all"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bobbylaporte/song2stream.git"
+  },
+  "keywords": [
+    "electron",
+    "express",
+    "electron-express",
+    "electron",
+    "express"
+  ],
+  "author": "Bobby LaPorte",
+  "license": "MIT",
+  "homepage": "https://github.com/bobbylaporte/song2stream#readme",
+  "dependencies": {
+    "bcryptjs": "^2.3.0",
+    "body-parser": "^1.15.2",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.1",
+    "electron": "^1.4.10",
+    "electron-open-link-in-browser": "^1.0.2",
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.14.0",
+    "jade": "^1.11.0",
+    "morgan": "^1.7.0",
+    "open": "0.0.5",
+    "shell": "^0.3.2",
+    "socket.io": "^1.7.1",
+    "spotify-local-control": "^1.0.0"
+  },
+  "devDependencies": {
+    "bower-webpack-plugin": "^0.1.9",
+    "electron-packager": "^8.4.0",
+    "electron-winstaller": "^2.5.0",
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.1",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.3.2",
+    "gulp-uglify": "^2.0.0",
+    "gulp-webpack": "^1.5.0",
+    "jshint": "^2.9.2",
+    "jshint-stylish": "^2.2.0",
+    "morgan": "^1.7.0",
+    "webpack": "^1.13.1"
+  }
+}

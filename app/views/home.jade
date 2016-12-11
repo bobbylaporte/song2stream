@@ -1,0 +1,74 @@
+extends layout
+block content
+  
+
+  h1 song2stream
+
+  a(href="http://localhost:1337/", target="_blank", class="overlay-link") View Overlay
+  form(class="config-form", name="config", method="POST", action="http://localhost:1337/api/user_preferences")
+    div.input
+      span.label Google Font
+      input(type="text", name="font_family", value="#{formData.font_family}")
+
+    div.input
+      span.label Font Size
+      input(type="text", name="font_size", value="#{formData.font_size}")
+
+    div.input
+      span.label Font Color
+      input(type="text", name="font_color", class="color", value="#{formData.font_color}")
+
+    div.input
+      span.label Align Text
+      select(name="align_text")
+        - formOptions.align_text.forEach(function(option){
+          if option === formData.align_text
+            option(value="#{option}", selected="selected") #{option}
+          else
+            option(value="#{option}") #{option}
+        -});
+
+    div.input
+      span.label Background Color
+      input(type="text", name="background_color", class="color", value="#{formData.background_color}")
+
+
+
+    div.input
+      span.label Animation Type
+      select(name="animation_type")
+        - formOptions.animation_type.forEach(function(option){
+          if option === formData.animation_type
+            option(value="#{option}", selected="selected") #{option}
+          else
+            option(value="#{option}") #{option}
+        -});
+
+    div.input
+      span.label Position X
+      select(name="position_x")
+        - formOptions.position_x.forEach(function(option){
+          if option === formData.position_x
+            option(value="#{option}", selected="selected") #{option}
+          else
+            option(value="#{option}") #{option}
+        -});
+
+
+    div.input
+      span.label Position Y
+      select(name="position_y")
+        - formOptions.position_y.forEach(function(option){
+          if option === formData.position_y
+            option(value="#{option}", selected="selected") #{option}
+          else
+            option(value="#{option}") #{option}
+        -});
+
+    div.input
+      span.label Auto Hide after 
+      input(type="number", name="auto_hide", value="#{formData.auto_hide}", style="width: 30px;")
+      span.label.after Seconds (0 will never hide)
+
+    div.actions
+      button(class="save-button") Save Config

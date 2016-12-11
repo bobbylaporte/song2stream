@@ -1,0 +1,185 @@
+
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+
+
+body {
+  font: 20px 'Ubuntu';
+  overflow: hidden;
+/*  background-color: #1c1c1d;
+  color: #FFF;*/
+}
+
+
+h1{
+	text-align: center;
+}
+
+
+.save-button{
+	display: block;
+	width: 100px;
+	height: 30px;
+	margin: 10px auto;
+}
+
+
+.overlay-link{
+	text-align: center;
+	display: block;
+	margin-bottom: 20px;
+}
+
+.config-form .input{
+	display: block;
+	clear: left;
+	height: 30px;
+}
+.config-form span{
+	font-size: 13px;
+	line-height: 20px;
+}
+
+.config-form .label{
+	font-size: 13px;
+	display: block;
+	float: left;
+	width: 150px;
+	text-align: right;
+	margin-right: 5px;
+	line-height: 20px;
+}
+
+.config-form .label.after{
+	text-align: left;
+	width: 165px;
+	margin-left: 5px;
+}
+
+.config-form input,
+.config-form select{
+	display: block;
+	float: left;
+}
+
+
+
+
+
+
+
+.card{
+	font-family: 'Ubuntu';
+	font-size: 40px;
+	position: absolute;
+
+	opacity: 1;
+
+	display: none;
+
+	margin-right: -10px;
+	background-color: #FFF;
+	width: auto;
+	max-width: 100%;
+	/*-webkit-box-shadow: -3px 3px 2px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: -3px 3px 2px 0px rgba(0,0,0,0.75);
+	box-shadow: -3px 3px 2px 0px rgba(0,0,0,0.75);*/
+	/*border: solid 1px #000;*/
+
+	transition: 0.8s all ease-in-out;
+	transform-style: preserve-3d;
+}
+
+
+.card.top{
+	top: 0px;
+}
+
+.card.bottom{
+	bottom: 0px;
+}
+
+.card.left{
+	left: 0px;
+}
+
+.card.right{
+	right: 0px;
+}
+
+.name{
+	font-size: 1em;
+	
+	/*width: 100%;*/
+	margin-left: 20px;
+	margin-right: 30px;
+	margin-top: 10px;
+
+	overflow: hidden;
+    position: relative;
+  	white-space: nowrap;
+  	/*text-overflow: ellipsis;*/
+}
+
+.artist{
+	font-size: 0.65em;
+	opacity: 0.65;
+	/*width: 100%;*/
+	margin-left: 20px;
+	margin-right: 30px;
+	margin-bottom: 10px;
+
+	overflow: hidden;
+    position: relative;
+  	white-space: nowrap;
+  	/*text-overflow: ellipsis;*/
+}
+
+.offline{
+	font-style: italic;
+	font-size: 0.85em;
+	opacity: 0.75;
+
+	margin-top: 10px;
+	margin-left: 20px;
+	margin-right: 30px;
+	margin-bottom: 10px;
+
+	overflow: hidden;
+    position: relative;
+  	white-space: nowrap;
+}
+
+.status{
+	font-size: 0.5em;
+	display: none;
+}
+
+
+
+
+
+
+
+.slide-right{
+	transform: translate(100%);
+}
+
+
+.slide-left{
+	transform: translate(-100%);
+}
+
+.slide-up{
+	transform: translate(0, -100%);
+}
+
+
+.slide-down{
+	transform: translate(0, 100%);
+}
+
+
+.fade-out{
+	opacity: 0;
+}
+
