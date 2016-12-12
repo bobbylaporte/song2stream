@@ -13,5 +13,18 @@ This is a tool to help streamers to overlay their currently playing Spotify song
 
 ### 3. View Overlay @ [http://localhost:1337](http://localhost:1337)
 
-### 4. Get Overlay into OBS 
+### 4. Adjust Settings
+
+- *Google Font*: Use any [Google Font](https://fonts.google.com/) you want. Just Paste in the name, spaces and all.
+- *Font Size*: The size of the song name in pixels. Artist name is automatically 65% the size.
+- *Font Color*: Any HEX, RGB, or RGBA value. Artist name is automatically 65% opacity.
+- *Align Text*: Left or Right
+- *Background Color*: Color of the box. Any HEX, RGB, or RGBA value.
+- *Animation Type*: Slide Left, Slide Right, Slide Up, Slide Down, Fade Out
+- *Position X*: Align box to Left or Right of the window
+- *Position Y*: Align box to Top or Bottom of the window
+- *Auto Hide*: Hide box after X seconds. 0 never hides.
+
+
+### 5. Get Overlay into OBS 
 Create a BrowserSource and paste in the url http://localhost:1337
