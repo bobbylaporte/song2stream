@@ -27,4 +27,6 @@ This is a tool to help streamers to overlay their currently playing Spotify song
 
 
 ### 5. Get Overlay into OBS 
-Create a BrowserSource and paste in the url http://localhost:1337
+Create a BrowserSource and paste in the url http://localhost:1337.
+
+Tip: Don't scale the BrowserSource window, but instead adjust it's Height and Width settings. Then adjust the Font Size in song2stream to shrink and grow the text and box.
