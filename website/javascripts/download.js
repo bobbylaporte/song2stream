@@ -57,33 +57,31 @@ $(document).ready(function(){
 
 
 
-  console.log(version)
-  console.log(platform);
-  console.log(architecture);
-
-
   ga('send', 'event', 'Download', 'view', version + '-' + platform + '-' + architecture);
 
 
+  switch(platform){
+    case 'darwin':
+      $('.download-helper .big-ass-button a').addClass('fa-apple');
+    break;
+    case 'win32':
+      $('.download-helper .big-ass-button a').addClass('fa-windows');
+    break;
+    case 'linux':
+      $('.download-helper .big-ass-button a').addClass('fa-linux');
+    break;
+  }
 
-  output += 'Version: ' + version + '<br>';
-  output += 'Platform: ' + platform + '<br>';
-  output += 'Architecture: ' + architecture + '<br>';
-
-  // For use when use s3 eventually
-  //output += '<a class="download_link" href="' + base_path + version + '/song2stream-' + platform + '-' + architecture + '.zip">Download Here</a>'
-
-  // For Dropbox
-  output += '<a class="download_link" href="' + link + '">Download Here</a>'
+  $('.download-helper .version span').text(version);
+  $('.download-helper .platform span').text(platform);
+  $('.download-helper .architecture span').text(architecture);
 
 
-  $('body').html(output);
-
-
-
-  $('.download_link').on('click', function(){
+  $('.download-helper .big-ass-button').on('click', function(){
     console.log('download');
     ga('send', 'event', 'Download', 'download', version + '-' + platform + '-' + architecture);
+
+    window.location.assign(link);
   });
 
 });
