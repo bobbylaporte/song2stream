@@ -62,13 +62,13 @@ $(document).ready(function(){
 
   switch(platform){
     case 'darwin':
-      $('.download-helper .big-ass-button a').addClass('fa-apple');
+      $('.big-ass-button i').addClass('fa-apple');
     break;
     case 'win32':
-      $('.download-helper .big-ass-button a').addClass('fa-windows');
+      $('.big-ass-button i').addClass('fa-windows');
     break;
     case 'linux':
-      $('.download-helper .big-ass-button a').addClass('fa-linux');
+      $('.big-ass-button i').addClass('fa-linux');
     break;
   }
 
@@ -76,12 +76,18 @@ $(document).ready(function(){
   $('.download-helper .platform span').text(platform);
   $('.download-helper .architecture span').text(architecture);
 
+  $('.big-ass-button').attr('href', link);
+
 
   $('.download-helper .big-ass-button').on('click', function(){
     console.log('download');
     ga('send', 'event', 'Download', 'download', version + '-' + platform + '-' + architecture);
-
-    window.location.assign(link);
   });
+
+
+  if(platform && version && architecture){
+    $('.download-helper').show();
+  }
+
 
 });

@@ -5,57 +5,44 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script type="text/javascript" src="/song2stream/website/javascripts/download.js"></script>
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="/song2stream/website/stylesheets/styles.css">
 </head>
 <body>
 
 
-  <header>
-    <h1>song2stream</h1>
 
 
-    <div class="hero three-up">
-      <div class="spotify">
-        Spotify
-      </div>
-      <div class="song2stream">
-        song2stream
-      </div>
-      <div class="obs">
-        OBS
-      </div>
-    </div>
+  <h1 class="h1 text-center">song2stream</h1>
+  <p class="text-center"><strong>Get your current Spotify song to display in your stream.</strong></p>
+  <header class="container hero-container">
 
-
-
-
-
-    <div class="download-helper">
-      <a class="big-ass-button">
-        <i class="fa"></i>
-        Download
-      </a>
-      <div class="details">
-        <div class="version">
-          Version: <span></span>
-        </div>
-
-        <div class="platform">
-          Platform: <span></span>
-        </div>
-
-        <div class="architecture">
-          Architecture: <span></span>
-        </div>
-      </div>
-    </div>
-
-    <a href="https://github.com/bobbylaporte/song2stream/releases/tag/0.0.1" class="all-downloads-link">
-      View all Downloads
-    </a>
-
+    <div class="hero"></div>
 
   </header>
+
+    <div class="download-helper">
+    <a class="btn btn-success big-ass-button">
+      <i class="fa"></i>
+      Download
+    </a>
+    <div class="details row">
+      <div class="platform col-xs-4 text-center">
+        Platform: <span></span>
+      </div>
+
+      <div class="architecture col-xs-4 text-center">
+        Architecture: <span></span>
+      </div>
+      <div class="version col-xs-4 text-center">
+        Version: <span></span>
+      </div>
+    </div>
+  </div>
+
+  <a href="https://github.com/bobbylaporte/song2stream/releases/tag/0.0.1" class="view-all-downloads">
+    View all Downloads
+  </a>
 
 
 
