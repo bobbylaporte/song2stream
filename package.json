@@ -6,8 +6,8 @@
   "scripts": {
     "start": "electron main",
     "package": "mkdir packages && cd packages && electron-packager .. --all",
-    "pack": "build --dir", // not used yet until we have a signature
-    "dist": "build" // not used yet until we have a signature
+    "pack": "build --dir",
+    "dist": "build"
   },
   "build": {
     "appId": "com.bobbylaporte.song2stream",
@@ -22,13 +22,6 @@
     "type": "git",
     "url": "git+https://github.com/bobbylaporte/song2stream.git"
   },
-  "keywords": [
-    "electron",
-    "express",
-    "electron-express",
-    "electron",
-    "express"
-  ],
   "author": "Bobby LaPorte",
   "license": "MIT",
   "homepage": "https://github.com/bobbylaporte/song2stream#readme",
@@ -38,14 +31,12 @@
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.1",
-    "electron-open-link-in-browser": "^1.0.2",
     "express": "^4.14.0",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.14.0",
     "jade": "^1.11.0",
     "morgan": "^1.7.0",
     "open": "0.0.5",
-    "shell": "^0.3.2",
     "socket.io": "^1.7.1",
     "spotify-local-control": "^1.0.0"
   },
