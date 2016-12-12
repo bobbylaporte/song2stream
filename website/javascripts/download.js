@@ -13,7 +13,7 @@ $(document).ready(function(){
       // Mac
       platform = 'darwin';
       architecture = 'x64';
-      link = 'https://www.dropbox.com/s/rcjsu1s0eeqrkkn/song2stream-darwin-x64.zip?dl=0';
+      link = 'https://github.com/bobbylaporte/song2stream/releases/download/0.0.1/song2stream-darwin-x64.zip';
 
     break;
     case 'Win32':
@@ -21,24 +21,24 @@ $(document).ready(function(){
       // Windows
       platform = 'win32'
       architecture = 'ia32';
-      link = 'https://www.dropbox.com/s/275v6uixfzy42pl/song2stream-win32-ia32.zip?dl=0';
+      link = 'https://github.com/bobbylaporte/song2stream/releases/download/0.0.1/song2stream-win32-ia32.zip';
 
 
       if(window.navigator.cpuClass === 'x64'){
         architecture = 'x64';
-        link = 'https://www.dropbox.com/s/egij2idepnfx32j/song2stream-win32-x64.zip?dl=0';
+        link = 'https://github.com/bobbylaporte/song2stream/releases/download/0.0.1/song2stream-win32-x64.zip';
       }
 
     break;
     case 'Linux i686':
       platform = 'linux';
       architecture = 'ia32';
-      link = 'https://www.dropbox.com/s/wysuemvl4wfivyn/song2stream-linux-ia32.zip?dl=0';
+      link = 'https://github.com/bobbylaporte/song2stream/releases/download/0.0.1/song2stream-linux-ia32.zip';
 
     case 'Linux x86_64':
       platform = 'linux';
       architecture = 'x64';
-      link = 'https://www.dropbox.com/s/xkv1li9xdupvyck/song2stream-linux-x64.zip?dl=0';
+      link = 'https://github.com/bobbylaporte/song2stream/releases/download/0.0.1/song2stream-linux-x64.zip';
 
     break;
   }
