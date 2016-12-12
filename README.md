@@ -11,5 +11,7 @@ This is a tool to help streamers to overlay their currently playing Spotify song
 
 ### 2. Make sure Spotify is running
 
-### 3. Overlay into OBS 
+### 3. View Overlay @ [http://localhost:1337](http://localhost:1337)
+
+### 4. Get Overlay into OBS 
 Create a BrowserSource and paste in the url http://localhost:1337
