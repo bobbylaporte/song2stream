@@ -6,7 +6,7 @@ Hey Streamers, I've been building this small tool and some of you might find it 
 
 ## [Download Here](https://github.com/bobbylaporte/song2stream/releases/tag/0.0.1)
 
-
+[Homepage](https://bobbylaporte.github.io/song2stream/)
 
 ![Demo GIF](https://media.giphy.com/media/xDoKwY1gZKlNK/giphy.gif)
 
