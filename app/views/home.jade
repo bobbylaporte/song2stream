@@ -1,6 +1,6 @@
 extends layout
 block content
-  
+
 
   h1 song2stream
 
@@ -32,7 +32,15 @@ block content
       span.label Background Color
       input(type="text", name="background_color", class="color", value="#{formData.background_color}")
 
-
+    div.input
+      span.label Template Type
+      select(name="template_type")
+        - formOptions.template_type.forEach(function(option){
+          if option === formData.template_type
+            option(value="#{option}", selected="selected") #{option}
+          else
+            option(value="#{option}") #{option}
+        -});
 
     div.input
       span.label Animation Type
@@ -66,7 +74,7 @@ block content
         -});
 
     div.input
-      span.label Auto Hide after 
+      span.label Auto Hide after
       input(type="number", name="auto_hide", value="#{formData.auto_hide}", style="width: 30px;")
       span.label.after Seconds (0 will never hide)
 

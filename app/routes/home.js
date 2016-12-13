@@ -20,6 +20,7 @@ module.exports = function(io){
 			"animation_type": ["fade-out", "slide-up", "slide-down", "slide-left", "slide-right"],
 			"position_x": ["left", "right"],
 			"position_y": ["top", "bottom"],
+      "template_type": ['single_line', 'two_lines']
 		};
 
 	  	res.render('home', { 'formData': JSON.parse(data), 'formOptions': options });

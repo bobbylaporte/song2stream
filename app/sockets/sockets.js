@@ -6,8 +6,8 @@ var pollingTimer;
 
 module.exports.listen = function(app){
 
-	var isOffline = true;
-	
+	var isOffline = false;
+
 
 	var currentTrack = { name: '', artist: ''};
 
@@ -17,17 +17,21 @@ module.exports.listen = function(app){
 
     io.on('connection', function (socket) {
 
+      console.log('client connected');
+
     	console.log('first connection?');
     	console.log(first_connection);
 
+      clearTimeout(pollingTimer);
+
       // Client has connected
       //console.log('Sockets started up on the server.');
-      
+
       socket.on('disconnect', function (socket) {
       	console.log('client disconnected');
-	  	first_connection = false;
-	  	currentTrack = { name: '', artist: ''};
-	  });
+  	  	first_connection = false;
+  	  	currentTrack = { name: '', artist: ''};
+  	  });
 
       socket.on('start_polling', function(){
       	console.log('start polling');
@@ -46,65 +50,94 @@ module.exports.listen = function(app){
 
 	    	console.log('polling spotify service');
 
-
 	    	var promise = client.status().then(function(response){
 
 	    		clearTimeout(pollingTimer);
 
-	    		//console.log('body');
-	    		//console.log(response.body);
-	    	    console.log(typeof response.body.error);
+          if(response.body.track === undefined && response.body.error !== undefined){
 
-	    		if(response.body.track === undefined){ // go offline
-	    			console.log('has error');
-	    			console.log(response.body.error);
-	    			//response.body.error.type
-	    			// 4107 === Invalid token. Should call client.connect again
-	    			// 4110 === no user logged in
-	    			if(response.body.error.type === '4107'){
-	    				// Try refreshing connection
-	    				client = connect();
-	    			}
-	    			if(!isOffline){
-						isOffline = true;
-						currentTrack = { name: '', artist: ''};
-						console.log('go offline');
-						io.emit('go_offline');
-					}
-	    		}else{
+            console.log('spotify service returned an error');
+            console.log(response.body);
+
+            //response.body.error.type
+            // 4107 === Invalid token. Should call client.connect again
+            // 4110 === no user logged in
+
+            if(response.body.error.type === '4107'){
+              // Try refreshing spotify client connection
+              client = connect();
+            }else if(!isOffline && response.body.error.type === '4110'){
+              currentTrack = { name: '', artist: ''};
+              console.log('go offline');
+              io.emit('go_offline');
+            }
+
+            isOffline = true;
 
 
-	    			// no error, good to go
+          }else{
 
-	    			if(isOffline){
-	    				isOffline = false;
-	    			}
+            console.log('spotify service returned a track');
+            console.log(response.body.track);
 
-					var track_name = response.body.track.track_resource.name;
-					var artist_name = response.body.track.artist_resource.name;
-					var album_name = response.body.track.album_resource.name;
-					var playing = response.body.playing;
+  	    		// no error, good to go
 
-					var track = { name: track_name, artist: artist_name, first_connection: first_connection };
+  	    		if(isOffline){
+  	    			isOffline = false;
+  	    		}
 
-					//console.log(track);
-					//console.log(currentTrack);
+  					var track_name = response.body.track.track_resource.name;
+  					var artist_name = response.body.track.artist_resource.name;
+  					var album_name = response.body.track.album_resource.name;
+  					var playing = response.body.playing;
 
-					if((currentTrack.name !== track.name) || first_connection){
-						first_connection = false;
-						currentTrack = track;
-						io.emit('update_track', track);
-					}
-					
-	    		}
+  					var track = { name: track_name, artist: artist_name, first_connection: first_connection };
+
+  					//console.log(track);
+  					//console.log(currentTrack);
+
+  					if((currentTrack.name !== track.name) || first_connection){
+  						first_connection = false;
+  						currentTrack = track;
+  						io.emit('update_track', track);
+  					}
+
+  	    	}
 
 
 
 				pollingTimer = setTimeout(function(){
 					//wait 5 seconds and try again
 					poll();
-				}, 3000);	
-			});
+				}, 3000);
+
+
+			}, function(response){
+
+        clearTimeout(pollingTimer);
+
+
+        console.log('spotify service promise failed');
+        console.log(response);
+
+        //client = connect();
+
+        if(!isOffline){
+          isOffline = true;
+          currentTrack = { name: '', artist: ''};
+          console.log('go offline no spotify');
+          io.emit('go_offline');
+        }
+
+
+
+        // pollingTimer = setTimeout(function(){
+        //   //wait 5 seconds and try again
+        //   poll();
+        // }, 3000);
+
+
+      });
 
 		}
 
@@ -120,7 +153,7 @@ module.exports.listen = function(app){
 
 
 
-    return io;
+  return io;
 }
 
 

@@ -21,9 +21,6 @@ function init(){
 
 	socket = io('http://localhost:1337', { 'forceNew': true, 'reconnection': false });
 
-  //always refresh the song on page load
-  socket.emit('reset_track');
-
 	socket.on('connect', function () {
 	  console.log('Client is connected to socket.');
 	});
@@ -63,14 +60,27 @@ function init(){
 			$('.card').css('color', config.font_color);
 			$('.card').css('backgroundColor', config.background_color);
 			$('.card').css('textAlign', config.align_text);
-			$('.card').addClass('config.animation_type');
-			$('.card').show();
 
-			console.log('user preferences set');
-
+      $('.card').addClass(config.template_type);
+			$('.card').addClass(config.animation_type);
 
 
-			socket.emit('start_polling'); // Tell Server to start update track information
+      // Template Types
+      // Single Line: Song Name - Artist Name
+      // Two Lines:
+      //      Song Name
+      //      Artist Name (65% size and opacity)
+      if(config.template_type === 'single_line'){
+        $('.card .artist').hide();
+      }
+
+
+      //setTimeout(function(){
+        $('.card').show();
+        console.log('user preferences set');
+        socket.emit('start_polling'); // Tell Server to start update track information
+      //},500);
+
 
 			// socket.on('first_connection', function(){ // Will run when server has new track info
 			// 	console.log('first connection');
@@ -110,8 +120,16 @@ function updateTrack(track){
 
 	setTimeout(function(){
 
-		$('.name').text(track.name);
-		$('.artist').text(track.artist);
+
+    if(config.template_type === 'single_line'){
+      $('.name').text(track.name +  ' - ' +  track.artist);
+    }else{
+      $('.name').text(track.name);
+      $('.artist').text(track.artist);
+    }
+
+
+
 
 		$('.card').removeClass(config.animation_type);
 
@@ -120,12 +138,12 @@ function updateTrack(track){
 
 			$('.name').checkScrolling();
 
-		  	if(config.auto_hide > 0){
-		  		clearTimeout(autoHideTimer);
-		  		autoHideTimer = setTimeout(function(){
-				  	$( '.card' ).addClass(config.animation_type);
-				 }, config.auto_hide * 1000);
-		  	}
+		  	// if(config.auto_hide > 0){
+		  	// 	clearTimeout(autoHideTimer);
+		  	// 	autoHideTimer = setTimeout(function(){
+				 //  	$( '.card' ).addClass(config.animation_type);
+				 // }, config.auto_hide * 1000);
+		  	// }
 
 
 		}, 800);
@@ -145,8 +163,13 @@ function goOffline(reason){
 
 	setTimeout(function(){
 
-		$('.name').text('Offline');
-		$('.artist').text(reason);
+		  if(config.template_type === 'single_line'){
+      $('.name').text('Offline' +  ' - ' +  reason);
+    }else{
+      $('.name').text('Offline');
+      $('.artist').text(reason);
+    }
+
 		$('.card').removeClass(config.animation_type);
 
 
@@ -158,9 +181,11 @@ function goOffline(reason){
 
 
 			// TODO: Start polling init until it comes back up
-			setTimeout(function(){
-				init();
-			}, 2400);
+      if(reason === 'song2stream not detected'){
+  			setTimeout(function(){
+  				init();
+  			}, 2400);
+      }
 
 		}, 800);
 
