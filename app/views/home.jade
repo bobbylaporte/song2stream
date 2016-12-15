@@ -1,10 +1,16 @@
 extends layout
 block content
 
+  script(src='/javascripts/form.js', type='text/javascript')
 
   h1 song2stream
 
   a(href="http://localhost:1337/", target="_blank", class="overlay-link") View Overlay
+
+  a(href="http://localhost:1337/auth/twitch", class="overlay-link", target="_blank") Auth With Twitch
+
+
+
   form(class="config-form", name="config", method="POST", action="http://localhost:1337/api/user_preferences")
     div.input
       span.label Google Font
