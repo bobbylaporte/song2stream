@@ -37,8 +37,11 @@
     "jade": "^1.11.0",
     "morgan": "^1.7.0",
     "open": "0.0.5",
+    "passport": "^0.3.2",
+    "passport-twitch": "^1.0.3",
     "socket.io": "^1.7.1",
-    "spotify-local-control": "^1.0.0"
+    "spotify-local-control": "^1.0.0",
+    "tmi.js": "^1.1.2"
   },
   "devDependencies": {
     "bower-webpack-plugin": "^0.1.9",

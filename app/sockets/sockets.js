@@ -9,7 +9,7 @@ module.exports.listen = function(app){
 	var isOffline = false;
 
 
-	var currentTrack = { name: '', artist: ''};
+	currentTrack = { name: '', artist: ''};
 
 	var first_connection = true;
 
@@ -35,7 +35,7 @@ module.exports.listen = function(app){
 
       socket.on('start_polling', function(){
       	console.log('start polling');
-      	poll();
+      	//poll();
       });
 
       socket.on('reset_track', function(){
@@ -57,7 +57,7 @@ module.exports.listen = function(app){
           if(response.body.track === undefined && response.body.error !== undefined){
 
             console.log('spotify service returned an error');
-            console.log(response.body);
+            //console.log(response.body);
 
             //response.body.error.type
             // 4107 === Invalid token. Should call client.connect again
@@ -78,7 +78,7 @@ module.exports.listen = function(app){
           }else{
 
             console.log('spotify service returned a track');
-            console.log(response.body.track);
+            //console.log(response.body.track);
 
   	    		// no error, good to go
 
