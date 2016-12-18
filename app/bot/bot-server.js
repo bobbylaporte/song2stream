@@ -1,6 +1,6 @@
 var tmi = require('tmi.js');
 
-module.exports = function(twitchChannel){
+module.exports = function(twitchChannel, io){
 
   console.log('In Bot Server')
   console.log(twitchChannel);
@@ -25,11 +25,15 @@ module.exports = function(twitchChannel){
   client.connect();
 
 
-
   client.on('connected', function (address, port) {
       console.log('connected');
       console.log('address: ' + address);
       console.log('port: ' + port);
+
+       //io.emit('bot_connected');
+       console.log('connecting bot from inside server');
+       io.sockets.emit('bot_connected');
+
   });
 
 
@@ -53,12 +57,18 @@ module.exports = function(twitchChannel){
 
     var text = '';
 
-    console.log(channel);
+    //console.log(channel);
     switch(message){
       case '!song':
-        console.log(currentTrack);
+        //console.log(currentTrack);
 
-        text += currentTrack.name + ' - ' + currentTrack.artist;
+        text += currentTrack.name + ' - ' + currentTrack.artist ;
+        client.action(channel, text);
+      break;
+
+      case '!songlink':
+        //console.log(currentTrack);
+        text += currentTrack.link;
         client.action(channel, text);
       break;
     }
