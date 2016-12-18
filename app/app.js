@@ -1,6 +1,8 @@
 module.exports = () => {
 
   var currentTrack;
+  var spotifyOffline = true;
+  var botServerStarted = false;
 
   var express = require('express');
 
@@ -23,15 +25,29 @@ module.exports = () => {
 
   var fs = require('fs');
 
+
+
+  // Start Polling Spotify
+  var spotifyPollingService = require(path.join(__dirname, '/spotify/pollingService.js'));
+
+
+
+
   var passport = require('passport');
 
 
   app.use(passport.initialize());
   app.use(passport.session());
 
+  // io is our socket server
+
   var io = require(path.join(__dirname, '/sockets/sockets.js')).listen(http);
 
-      // Start The HTTP Server
+
+
+
+
+  // Start The HTTP Server
   http.listen(1337, 'localhost');
 
   // view engine setup
@@ -45,7 +61,7 @@ module.exports = () => {
   // app.use(bodyParser.urlencoded({ extended: false }));
   // app.use(cookieParser());
 
-  app.use(logger('dev'));
+  app.use(logger());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
@@ -61,7 +77,7 @@ module.exports = () => {
   app.use('/home', home(io));
   app.use('/api', api(io));
 
-  app.use('/auth', auth);
+  app.use('/auth', auth(io));
 
   // catch 404 and forward to error handler
   app.use(function(req, res, next) {
@@ -80,15 +96,6 @@ module.exports = () => {
     res.status(err.status || 500);
     res.render('error');
   });
-
-
-
-
-
-
-
-
-
 
 
 
@@ -153,14 +160,10 @@ module.exports = () => {
 
 
 
-      // TODO: HOW DO I PASS PARAM TO REQUIRE!!!!!!!
-
-      console.log('twitchChannel');
-      console.log(twitchChannel);
-
 
       // Start Bot
-      require(path.join(__dirname, '/bot/bot-server.js'))(twitchChannel);
+      //require(path.join(__dirname, '/bot/bot-server.js'))(twitchChannel);
+      //botServerStarted = true;
 
 
       console.log('calling DONE');

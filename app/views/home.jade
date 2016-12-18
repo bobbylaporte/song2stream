@@ -7,11 +7,10 @@ block content
 
   a(href="http://localhost:1337/", target="_blank", class="overlay-link") View Overlay
 
-  a(href="http://localhost:1337/auth/twitch", class="overlay-link", target="_blank") Auth With Twitch
+  div(class="bot-status") Checking Bot Status...
 
 
-
-  form(class="config-form", name="config", method="POST", action="http://localhost:1337/api/user_preferences")
+  form(class="config-form", name="config")
     div.input
       span.label Google Font
       input(type="text", name="font_family", value="#{formData.font_family}")

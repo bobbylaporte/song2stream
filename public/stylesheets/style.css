@@ -63,8 +63,29 @@ h1{
 
 
 
+.bot-status{
+  text-align: center;
+  display: block;
+  margin-bottom: 20px;
 
 
+}
+
+.bot-status .big-twitch-button{
+  background-color: purple;
+  color: #FFF;
+  line-height: 75px;
+  font-size: 20px;
+  padding: 20px;
+
+}
+
+
+.bot-status .big-twitch-button i{
+  display: block;
+  margin: 0 auto;
+  width: 100px;
+}
 
 
 .card{

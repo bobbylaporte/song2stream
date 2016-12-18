@@ -10,11 +10,11 @@ module.exports = function(io){
 
 	/* GET track data. */
 	router.get('/track', function(req, res, next) {
-	  
 
 
 
-	 
+
+
 		// client.play('spotify:track:0JhKJg5ejeQ8jq89UQtnw8')
 		// client.pause()
 		// client.resume()
@@ -38,26 +38,74 @@ module.exports = function(io){
 			var track = { name: track_name, artist: artist_name, album: album_name, playing: playing };
 			res.send(track);
 		});
-		
+
 
 
 	});
 
 	router.get('/user_preferences', function(req, res, next) {
-	  	
-		
+
+
 		var data = fs.readFileSync(path.join(__dirname, '/../../data/user_preferences.json'));
 		res.send(JSON.parse(data));
 
 	});
 
+
+
+
+
+
 	router.post('/user_preferences', function(req, res, next) {
-	  	
+
 		fs.writeFileSync(path.join(__dirname, '/../../data/user_preferences.json'), JSON.stringify(req.body));
 
-		res.redirect('/home');
+    res.send('Saved');
+		//res.redirect('/home');
 
 	});
+
+
+  router.get('/check_auth_file', function(req, res, next) {
+
+
+    try {
+      userFile = fs.readFileSync('./app/twitch-user.json', 'utf8');
+      res.status(200).send('We have a File');
+
+    } catch (err) {
+      res.status(500).send('No File.');
+    }
+
+    var data = fs.readFileSync(path.join(__dirname, '/../../data/user_preferences.json'));
+
+
+  });
+
+
+
+  router.get('/start_bot', function(req, res, next) {
+
+    var userFile = fs.readFileSync('./app/twitch-user.json', 'utf8');
+
+    console.log(userFile);
+    var twitchChannel = JSON.parse(userFile).name;
+
+    try {
+      //if(botServerStarted === false){
+        require(path.join(__dirname, '/../bot/bot-server.js'))(twitchChannel, io);
+        botServerStarted = true;
+      //}
+
+      res.status(200).send('Bot Server Started...');
+
+    } catch (err) {
+      res.status(500).send('Fucked.');
+    }
+
+    //
+
+  });
 
 	return router;
 };
