@@ -1,0 +1,61 @@
+body{
+  background-color: rgba(145, 145, 145, 0.23);
+}
+
+.hero-container{
+  background-image: url('/song2stream/website/images/sayagata-400px.png');
+  background-repeat: repeat;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+
+.hero{
+  height: 500px;
+  width: 100%;
+  background-image: url('/song2stream/website/images/header.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+
+.download-helper{
+  max-width: 330px;
+  margin: 0 auto;
+  margin-top: 30px;
+  display: none;
+}
+
+.download-helper .big-ass-button{
+  display: block;
+  max-width: 330px;
+  height: 100px;
+  margin: 0 auto;
+
+  line-height: 85px;
+  font-size: 40px;
+  text-align: center;
+}
+
+.download-helper .details{
+  font-size: 11px;
+}
+
+
+
+.view-all-downloads{
+  display: block;
+  width: 330px;
+  margin: 20px auto;
+  text-align: center;
+  font-size: 20px;
+}
+
+.how-to-use{
+  display: block;
+  width: 330px;
+  margin: 20px auto;
+  text-align: center;
+  font-size: 30px;
+}
