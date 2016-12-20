@@ -1,119 +1,170 @@
-var connect = require('spotify-local-control');
-var client = connect();
 var pollingTimer;
-var pollingService = {};
+var SpotifySDK = require('spotify-port-scanner-node');
+var client = new SpotifySDK.SpotifyClient({ debug : true });
+var host;
+
+currentTrack = { name: '', artist: ''};
+var spotifyOffline = false;
+
+module.exports = function(io){
 
 
-    currentTrack = { name: '', artist: ''};
-    spotifyOffline = true;
+  function init(){
 
-    //console.log('offline?');
-    //console.log(spotifyOffline);
+    client.connect({
+      lowPort : 4370,
+      highPort : 4379
+    })
+    .then(() => {
+      console.log("client connected to host %s:%s", client.getHost(), client.getPort());
+
+      host = client.getSpotifyHost();
+      spotifyOffline = true;
+      poll();
 
 
-    pollingService.poll = function(){
+    }).catch(error => {
+      console.log("client error", error);
 
-      //console.log('polling spotify service');
+      if(!spotifyOffline){
+        currentTrack = { name: '', artist: ''};
+        spotifyOffline = true;
+        io.emit('go_offline');
+        io.emit('spotify_disconnected');
+      }
 
-      var promise = client.status().then(function(response){
+      connectTimer = setTimeout(function(){
+        init();
+      }, 3000);
 
-        clearTimeout(pollingTimer);
+    });
 
-        if(response.body.track === undefined && response.body.error !== undefined){
+  }
 
-          //console.log('spotify service returned an error');
-          //console.log(response.body);
+  init();
 
-          //response.body.error.type
-          // 4107 === Invalid token. Should call client.connect again
-          // 4110 === no user logged in
-
-          if(response.body.error.type === '4107'){
-            // Try refreshing spotify client connection
-            client = connect();
-          }else if(!isOffline && response.body.error.type === '4110'){
+  function poll(){
+    // get host status
+    // get spotify application host
+    host.getStatus(function (error, status) {
+      if (error) {
+          console.log("host error", error);
+          if(!spotifyOffline){
             currentTrack = { name: '', artist: ''};
-            //console.log('go offline');
-            //io.emit('go_offline');
+            spotifyOffline = true;
+            io.emit('go_offline');
+            io.emit('spotify_disconnected');
+          }
+      }
+      else {
+        console.info("host status:", status);
+
+        console.log('is offline?');
+        console.log(spotifyOffline);
+
+
+        if(status.error !== undefined || status.online === false){
+
+          if(status.online === false){
+
+            if(!spotifyOffline){
+              currentTrack = { name: '', artist: ''};
+              spotifyOffline = true;
+              io.emit('go_offline');
+              io.emit('spotify_disconnected');
+            }
+
+          }else{
+
+            if(status.error.type === '4107'){
+              // Try refreshing spotify client connection
+              console.log('bad bad CRFS Token');
+              init();
+            }else if(status.error.type === '4110'){
+
+              if(!spotifyOffline){
+                currentTrack = { name: '', artist: ''};
+                spotifyOffline = true;
+                io.emit('go_offline');
+                io.emit('spotify_disconnected');
+              }
+
+            }
           }
 
-          spotifyOffline = true;
 
 
-        }else{
 
-          //console.log('spotify service fuck returned a track');
-          //console.log(response.body.track);
+        }else{ // success
 
-          // no error, good to go
 
-          if(spotifyOffline){
-            spotifyOffline = false;
+          if(status.track === undefined || status.track.track_resource === undefined){
+            // Offline
+            if(!spotifyOffline){
+              currentTrack = { name: '', artist: ''};
+              spotifyOffline = true;
+              io.emit('go_offline');
+              io.emit('spotify_disconnected');
+            }
+          }else{
+
+            console.log('SUCESSS');
+            console.log('is offline?');
+            console.log(spotifyOffline);
+
+
+            // SUCCESS
+            if(spotifyOffline){
+              spotifyOffline = false;
+              io.emit('spotify_connected');
+            }
+
+            var track_name = status.track.track_resource.name;
+            var track_link = status.track.track_resource.location.og;
+            var artist_name = status.track.artist_resource.name;
+            var album_name = status.track.album_resource.name;
+            var playing = status.playing;
+
+            var track = { name: track_name, link: track_link, artist: artist_name, album_name: album_name, playing: playing };
+
+            //console.log(track);
+            //console.log(currentTrack);
+
+            if(currentTrack.name !== track.name){
+              //console.log('updating this shit burger');
+              //console.log('update the track');
+              //console.log(track);
+              currentTrack = track;
+              io.emit('update_track', track);
+            }
           }
 
-          var track_name = response.body.track.track_resource.name;
-          var track_link = response.body.track.track_resource.location.og;
-          var artist_name = response.body.track.artist_resource.name;
-          var album_name = response.body.track.album_resource.name;
-          var playing = response.body.playing;
 
-          var track = { name: track_name, link: track_link, artist: artist_name, album_name: album_name, playing: playing };
 
-          //console.log(track);
-          //console.log(currentTrack);
+        } //end sucess
 
-          if(currentTrack.name !== track.name){
-            //console.log('updating this shit burger');
-            currentTrack = track;
-            //io.emit('update_track', track);
-          }
 
-        }
 
+
+
+
+      }
 
       //console.log('setting timeout');
       pollingTimer = setTimeout(function(){
         //wait 5 seconds and try again
         //console.log('Recalling pollingService.poll');
-        pollingService.poll();
-      }, 3000);
-
-
-    }, function(response){
-
-      clearTimeout(pollingTimer);
-
-
-      console.log('spotify service promise failed');
-      console.log(response);
-
-      //client = connect();
-
-      //if(!isOffline){
-        //isOffline = true;
-        currentTrack = { name: '', artist: ''};
-        spotifyOffline = true;
-        console.log('go offline no spotify connection');
-        //io.emit('go_offline');
-      //}
-
-
-
-      pollingTimer = setTimeout(function(){
-        //wait 5 seconds and try again
-        pollingService.poll();
+        poll();
       }, 3000);
 
 
     });
-
-  };
-
-  console.log('start pollingService.poll');
-  pollingService.poll();
-
-  module.exports = pollingService;
+  }
 
 
 
+  return client;
+
+
+};
 

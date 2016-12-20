@@ -1,7 +1,6 @@
 module.exports = () => {
 
   var currentTrack;
-  var spotifyOffline = true;
   var botServerStarted = false;
 
   var express = require('express');
@@ -27,8 +26,7 @@ module.exports = () => {
 
 
 
-  // Start Polling Spotify
-  var spotifyPollingService = require(path.join(__dirname, '/spotify/pollingService.js'));
+
 
 
 
@@ -44,7 +42,8 @@ module.exports = () => {
   var io = require(path.join(__dirname, '/sockets/sockets.js')).listen(http);
 
 
-
+  // Start Polling Spotify
+  var spotifyPollingService = require(path.join(__dirname, '/spotify/pollingService.js'))(io);
 
 
   // Start The HTTP Server
@@ -103,7 +102,7 @@ module.exports = () => {
 
 
   // TWITCH BOT
-  var config = require('./oauth-config.js');
+  var config = require(path.join(__dirname, '/oauth-config.js'));
   var TwitchStrategy = require("passport-twitch").Strategy;
 
 
@@ -122,7 +121,7 @@ module.exports = () => {
       var userFile;
 
       try {
-        userFile = fs.readFileSync('./app/twitch-user.json', 'utf8');
+        userFile = fs.readFileSync(path.join(__dirname, '/twitch-user.json'), 'utf8');
         console.log('found a user profile');
 
 
@@ -144,8 +143,8 @@ module.exports = () => {
           'created': Date.now()
         };
 
-        fs.writeFileSync('./app/twitch-user.json', JSON.stringify(user), 'utf8');
-        userFile = fs.readFileSync('./app/twitch-user.json', 'utf8');
+        fs.writeFileSync(path.join(__dirname, '/twitch-user.json'), JSON.stringify(user), 'utf8');
+        userFile = fs.readFileSync(path.join(__dirname, '/twitch-user.json'), 'utf8');
       }
 
 
@@ -191,7 +190,7 @@ module.exports = () => {
    var userFile;
 
     try {
-      userFile = fs.readFileSync('./app/twitch-user.json', 'utf8');
+      userFile = fs.readFileSync(path.join(__dirname, '/twitch-user.json'), 'utf8');
       console.log('found a user profile');
       done(null, JSON.parse(user).oauthId);
 

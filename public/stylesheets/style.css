@@ -67,9 +67,38 @@ h1{
   text-align: center;
   display: block;
   margin-bottom: 20px;
-
-
+  font-size: 20px;
 }
+
+.spotify-status{
+  text-align: center;
+  display: block;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+
+.bot-status i::before,
+.spotify-status i::before{
+  font-family: 'FontAwesome';
+  content: '\f1db';
+  margin-right: 5px;
+}
+
+.bot-status.disconnected i::before,
+.spotify-status.disconnected i::before{
+  font-family: 'FontAwesome';
+  color: red;
+  content: '\f111';
+}
+
+.bot-status.connected i::before,
+.spotify-status.connected i::before{
+  font-family: 'FontAwesome';
+  color: green;
+  content: '\f111';
+}
+
 
 .bot-status .big-twitch-button{
   background-color: purple;

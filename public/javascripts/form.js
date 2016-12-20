@@ -32,7 +32,23 @@ $(document).ready(function(){
 
 
     socket.on('bot_connected', function(track){ // Will run when server has new track info
-      $('.bot-status').text('Bot is Connected');
+      console.log('BOT HAS STARTED');
+      $('.bot-status').html('<i class="fa"></i><span></span>');
+      $('.bot-status').removeClass('disconnected').addClass('connected').find('span').text('Twitch Bot is Connected');
+      //updateTrack(track);
+    });
+
+
+    socket.on('spotify_connected', function(track){ // Will run when server has new track info
+      console.log('SPOTIFY CONNECTED');
+      $('.spotify-status').removeClass('disconnected').addClass('connected').find('span').text('Spotify is Connected');
+      //updateTrack(track);
+    });
+
+
+    socket.on('spotify_disconnected', function(track){ // Will run when server has new track info
+      console.log('SPOTIFY DIS_CONNECTED');
+      $('.spotify-status').removeClass('connected').addClass('disconnected').find('span').text('Spotify is Disconnected');
       //updateTrack(track);
     });
 
@@ -83,9 +99,9 @@ function startBotServer(){
     method: "GET",
     url: "http://localhost:1337/api/start_bot"
   }).done(function( msg ) {
-    $('.bot-status').text('Starting Bot');
+    $('.bot-status span').text('Starting Bot');
   }).fail(function( jqXHR, textStatus ) {
-    $('.bot-status').text('Bot is Dead. Damn.');
+    $('.bot-status span').text('Bot is Dead. Damn.');
   });
 };
 
