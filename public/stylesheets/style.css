@@ -12,6 +12,8 @@ body {
 
 h1{
 	text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 
@@ -64,36 +66,53 @@ h1{
 
 
 .bot-status{
-  text-align: center;
+  text-align: left;
   display: block;
-  margin-bottom: 20px;
+
   font-size: 20px;
+
+  border: solid 1px #000;
+  border-radius: 8px;
+
+  width: 300px;
+  margin: 0 auto;
+  margin-bottom: 10px;
 }
 
 .spotify-status{
-  text-align: center;
+  text-align: left;
   display: block;
-  margin-bottom: 20px;
+
   font-size: 20px;
+
+  border: solid 1px #000;
+  border-radius: 8px;
+
+  width: 300px;
+  margin: 0 auto;
+  margin-bottom: 10px;
 }
 
 
-.bot-status i::before,
-.spotify-status i::before{
+.bot-status > i::before,
+.spotify-status > i::before{
   font-family: 'FontAwesome';
   content: '\f1db';
-  margin-right: 5px;
+  border-right: solid 1px #000;
+  padding-right: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
-.bot-status.disconnected i::before,
+.bot-status.disconnected > i::before,
 .spotify-status.disconnected i::before{
   font-family: 'FontAwesome';
   color: red;
   content: '\f111';
 }
 
-.bot-status.connected i::before,
-.spotify-status.connected i::before{
+.bot-status.connected > i::before,
+.spotify-status.connected > i::before{
   font-family: 'FontAwesome';
   color: green;
   content: '\f111';
@@ -101,19 +120,18 @@ h1{
 
 
 .bot-status .big-twitch-button{
+  display: block;
   background-color: purple;
   color: #FFF;
-  line-height: 75px;
-  font-size: 20px;
-  padding: 20px;
-
+  font-size: 16px;
+  padding: 10px;
+  width: 175px;
+  margin: 0 auto;
 }
 
 
 .bot-status .big-twitch-button i{
-  display: block;
-  margin: 0 auto;
-  width: 100px;
+  margin-right: 10px;
 }
 
 

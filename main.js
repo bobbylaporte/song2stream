@@ -24,7 +24,7 @@ function createWindow () {
 
 
   // Open the DevTools.
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
 
   win.webContents.on('new-window', function(e, url) {
     e.preventDefault();

@@ -67,7 +67,7 @@ $(document).ready(function(){
 
     }).fail(function( jqXHR, textStatus ) {
 
-      var html = '<a href="http://localhost:1337/auth/twitch" class="big-twitch-button" target="_blank">Connect with Twitch</a>';
+      var html = '<a href="http://localhost:1337/auth/twitch" class="big-twitch-button" target="_blank"><i class="fa fa-twitch"></i>Connect with Twitch</a>';
       $('.bot-status').html(html);
 
     });
