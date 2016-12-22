@@ -25,16 +25,14 @@ $(document).ready(function(){
 
     socket.on('user_just_authed', function(track){
       console.log('User Just Authed with Twitch');
-
       startBotServer();
-
     });
 
 
     socket.on('bot_connected', function(track){ // Will run when server has new track info
       console.log('BOT HAS STARTED');
       $('.bot-status').html('<i class="fa"></i><span></span>');
-      $('.bot-status').removeClass('disconnected').addClass('connected').find('span').text('Twitch Bot is Connected');
+      $('.bot-status').removeClass('disconnected').addClass('connected').find('span').html('Twitch Bot is Connected');
       //updateTrack(track);
     });
 
