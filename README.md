@@ -4,7 +4,7 @@
 
 Hey Streamers, I've been building this small tool and some of you might find it useful. It creates a small webserver on your computer that serves up a page with your currently playing Spotify song. You can change the colors, position, font, etc... You can then put this page into your stream using BrowserSource in OSB.
 
-## [Download Here](https://github.com/bobbylaporte/song2stream/releases/tag/0.0.1)
+## [Download Here](https://github.com/bobbylaporte/song2stream/releases/tag/0.3.0)
 
 [Homepage](https://bobbylaporte.github.io/song2stream/)
 
