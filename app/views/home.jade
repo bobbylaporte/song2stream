@@ -3,9 +3,14 @@ block content
 
   script(src='/javascripts/form.js', type='text/javascript')
 
-  h1 song2stream
+  header
+    div.logo
+      img(src="/images/s2s.png")
+    h2 song2stream
 
-  a(href="http://localhost:1337/", target="_blank", class="overlay-link") View Overlay
+  a(href="http://localhost:1337/", target="_blank", class="overlay-link")
+      span View Overlay Page
+      i.fa.fa-external-link-square
 
   div.spotify-status
     i.icon.fa
@@ -17,19 +22,19 @@ block content
 
 
   form(class="config-form", name="config")
-    div.input
+    div.input-wrap
       span.label Google Font
       input(type="text", name="font_family", value="#{formData.font_family}")
 
-    div.input
+    div.input-wrap
       span.label Font Size
       input(type="text", name="font_size", value="#{formData.font_size}")
 
-    div.input
+    div.input-wrap
       span.label Font Color
       input(type="text", name="font_color", class="color", value="#{formData.font_color}")
 
-    div.input
+    div.input-wrap
       span.label Align Text
       select(name="align_text")
         - formOptions.align_text.forEach(function(option){
@@ -39,11 +44,11 @@ block content
             option(value="#{option}") #{option}
         -});
 
-    div.input
+    div.input-wrap
       span.label Background Color
       input(type="text", name="background_color", class="color", value="#{formData.background_color}")
 
-    div.input
+    div.input-wrap
       span.label Template Type
       select(name="template_type")
         - formOptions.template_type.forEach(function(option){
@@ -53,7 +58,7 @@ block content
             option(value="#{option}") #{option}
         -});
 
-    div.input
+    div.input-wrap
       span.label Animation Type
       select(name="animation_type")
         - formOptions.animation_type.forEach(function(option){
@@ -63,7 +68,7 @@ block content
             option(value="#{option}") #{option}
         -});
 
-    div.input
+    div.input-wrap
       span.label Position X
       select(name="position_x")
         - formOptions.position_x.forEach(function(option){
@@ -74,7 +79,7 @@ block content
         -});
 
 
-    div.input
+    div.input-wrap
       span.label Position Y
       select(name="position_y")
         - formOptions.position_y.forEach(function(option){
@@ -84,10 +89,13 @@ block content
             option(value="#{option}") #{option}
         -});
 
-    div.input
+    div.input-wrap
       span.label Auto Hide after
       input(type="number", name="auto_hide", value="#{formData.auto_hide}", style="width: 30px;")
       span.label.after Seconds (0 will never hide)
 
     div.actions
       button(class="save-button") Save Config
+
+
+    a(href="https://github.com/bobbylaporte/song2stream#song2stream", target="_blank", class="about") about
