@@ -3,7 +3,7 @@ $(document).ready(function(){
 
   var platform;
   var architecture;
-
+  var version = '0.3.0';
 
   var link = '';
 
@@ -13,7 +13,7 @@ $(document).ready(function(){
       // Mac
       platform = 'darwin';
       architecture = 'x64';
-      link = 'https://github.com/bobbylaporte/song2stream/releases/download/0.0.1/song2stream-darwin-x64.zip';
+      link = 'https://github.com/bobbylaporte/song2stream/releases/download/'+ version +'/song2stream-darwin-x64.zip';
 
     break;
     case 'Win32':
@@ -21,35 +21,31 @@ $(document).ready(function(){
       // Windows
       platform = 'win32'
       architecture = 'ia32';
-      link = 'https://github.com/bobbylaporte/song2stream/releases/download/0.0.1/song2stream-win32-ia32.zip';
+      link = 'https://github.com/bobbylaporte/song2stream/releases/download/'+ version +'/song2stream-win32-ia32.zip';
 
 
       if(window.navigator.cpuClass === 'x64'){
         architecture = 'x64';
-        link = 'https://github.com/bobbylaporte/song2stream/releases/download/0.0.1/song2stream-win32-x64.zip';
+        link = 'https://github.com/bobbylaporte/song2stream/releases/download/'+ version +'/song2stream-win32-x64.zip';
       }
 
     break;
     case 'Linux i686':
       platform = 'linux';
       architecture = 'ia32';
-      link = 'https://github.com/bobbylaporte/song2stream/releases/download/0.0.1/song2stream-linux-ia32.zip';
+      link = 'https://github.com/bobbylaporte/song2stream/releases/download/'+ version +'/song2stream-linux-ia32.zip';
 
     case 'Linux x86_64':
       platform = 'linux';
       architecture = 'x64';
-      link = 'https://github.com/bobbylaporte/song2stream/releases/download/0.0.1/song2stream-linux-x64.zip';
+      link = 'https://github.com/bobbylaporte/song2stream/releases/download/'+ version +'/song2stream-linux-x64.zip';
 
     break;
   }
 
 
 
-  var version = '0.0.1';
-
   var output = '';
-
-
 
 
   var base_path = 'http://www.bobbylaporte.com/song2stream/releases/'
@@ -57,33 +53,37 @@ $(document).ready(function(){
 
 
 
-  console.log(version)
-  console.log(platform);
-  console.log(architecture);
-
-
   ga('send', 'event', 'Download', 'view', version + '-' + platform + '-' + architecture);
 
 
+  switch(platform){
+    case 'darwin':
+      $('.big-ass-button i').addClass('fa-apple');
+    break;
+    case 'win32':
+      $('.big-ass-button i').addClass('fa-windows');
+    break;
+    case 'linux':
+      $('.big-ass-button i').addClass('fa-linux');
+    break;
+  }
 
-  output += 'Version: ' + version + '<br>';
-  output += 'Platform: ' + platform + '<br>';
-  output += 'Architecture: ' + architecture + '<br>';
+  $('.download-helper .version span').text(version);
+  $('.download-helper .platform span').text(platform);
+  $('.download-helper .architecture span').text(architecture);
 
-  // For use when use s3 eventually
-  //output += '<a class="download_link" href="' + base_path + version + '/song2stream-' + platform + '-' + architecture + '.zip">Download Here</a>'
-
-  // For Dropbox
-  output += '<a class="download_link" href="' + link + '">Download Here</a>'
+  $('.big-ass-button').attr('href', link);
 
 
-  $('body').html(output);
-
-
-
-  $('.download_link').on('click', function(){
+  $('.download-helper .big-ass-button').on('click', function(){
     console.log('download');
     ga('send', 'event', 'Download', 'download', version + '-' + platform + '-' + architecture);
   });
+
+
+  if(platform && version && architecture){
+    $('.download-helper').show();
+  }
+
 
 });

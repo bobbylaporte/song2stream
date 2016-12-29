@@ -1,6 +1,12 @@
 
 @import url('https://fonts.googleapis.com/css?family=Ubuntu');
 
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
 
 body {
   font: 20px 'Ubuntu';
@@ -12,8 +18,58 @@ body {
 
 h1{
 	text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
+header{
+  width: 300px;
+  margin: 0 auto;
+}
+
+header .logo{
+  height: 65px;
+  width: 80px;
+  float:left;
+}
+
+header .logo img{
+  display: block;
+  float: left;
+  width: 65px;
+  margin: 0 auto;
+}
+
+header h2{
+  float: left;
+  margin-left: 10px;
+}
+
+.overlay-link{
+
+  clear: both;
+  display: block;
+  text-align: center;
+  display: block;
+  line-height: 40px;
+  text-decoration: none;
+  font-size: 16px;
+  border: solid 1px #000;
+  /* padding: 10px; */
+  margin: 10px 0;
+  background-color: #000;
+  color: #FFF;
+
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.overlay-link i {
+  font-size: 30px;
+  margin-left: 10px;
+  position: relative;
+  bottom: -5px;
+}
 
 .save-button{
 	display: block;
@@ -23,13 +79,13 @@ h1{
 }
 
 
-.overlay-link{
-	text-align: center;
-	display: block;
-	margin-bottom: 20px;
+.config-form{
+  width: 333px;
+  margin: 0 auto;
+  clear: both;
 }
 
-.config-form .input{
+.config-form .input-wrap{
 	display: block;
 	clear: left;
 	height: 30px;
@@ -43,7 +99,7 @@ h1{
 	font-size: 13px;
 	display: block;
 	float: left;
-	width: 150px;
+	width: 115px;
 	text-align: right;
 	margin-right: 5px;
 	line-height: 20px;
@@ -63,8 +119,77 @@ h1{
 
 
 
+.bot-status{
+  overflow: hidden;
+  text-align: left;
+  display: block;
+  /*float:left;*/
+  font-size: 14px;
+  font-weight: 300;
+
+  border: solid 1px #666;
+  border-radius: 8px;
+
+  /*width: 50%;*/
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+.spotify-status{
+  overflow: hidden;
+  text-align: left;
+  display: block;
+  /*float:left;*/
+  font-size: 14px;
+  font-weight: 300;
+
+  border: solid 1px #666;
+  border-radius: 8px;
+
+  /*width: 50%;*/
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
 
 
+.bot-status > i::before,
+.spotify-status > i::before{
+  font-family: 'FontAwesome';
+  content: '\f1db';
+  border-right: solid 1px #666;
+  padding-right: 5px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.bot-status.disconnected > i::before,
+.spotify-status.disconnected i::before{
+  font-family: 'FontAwesome';
+  color: red;
+  content: '\f111';
+}
+
+.bot-status.connected > i::before,
+.spotify-status.connected > i::before{
+  font-family: 'FontAwesome';
+  color: green;
+  content: '\f111';
+}
+
+
+.bot-status .big-twitch-button{
+  display: block;
+  background-color: purple;
+  color: #FFF;
+  font-size: 16px;
+  padding: 10px;
+  margin: 0 auto;
+}
+
+
+.bot-status .big-twitch-button i{
+  margin-right: 10px;
+}
 
 
 .card{
@@ -190,3 +315,11 @@ h1{
 	opacity: 0;
 }
 
+
+
+a.about{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+
+}

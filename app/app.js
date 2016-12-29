@@ -1,5 +1,7 @@
 module.exports = () => {
 
+  var currentTrack;
+  var botServerStarted = false;
 
   var express = require('express');
 
@@ -15,15 +17,36 @@ module.exports = () => {
   var index = require(path.join(__dirname, '/routes/index'));
   var api = require(path.join(__dirname, '/routes/api'));
 
+  var auth = require(path.join(__dirname, '/routes/auth'));
+
   var app = express();
   var http = require( "http" ).createServer( app );
 
+  var fs = require('fs');
 
 
+
+
+
+
+
+
+  var passport = require('passport');
+
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  // io is our socket server
 
   var io = require(path.join(__dirname, '/sockets/sockets.js')).listen(http);
 
-      // Start The HTTP Server
+
+  // Start Polling Spotify
+  var spotifyPollingService = require(path.join(__dirname, '/spotify/pollingService.js'))(io);
+
+
+  // Start The HTTP Server
   http.listen(1337, 'localhost');
 
   // view engine setup
@@ -36,7 +59,7 @@ module.exports = () => {
   // app.use(bodyParser.json());
   // app.use(bodyParser.urlencoded({ extended: false }));
   // app.use(cookieParser());
-  
+
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -52,6 +75,8 @@ module.exports = () => {
   app.use('/', index(io));
   app.use('/home', home(io));
   app.use('/api', api(io));
+
+  app.use('/auth', auth(io));
 
   // catch 404 and forward to error handler
   app.use(function(req, res, next) {
@@ -69,10 +94,6 @@ module.exports = () => {
     // render the error page
     res.status(err.status || 500);
     res.render('error');
-  });  
-  
-
-
-
+  });
 
 }

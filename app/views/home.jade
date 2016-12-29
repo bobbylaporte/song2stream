@@ -1,82 +1,101 @@
 extends layout
 block content
 
+  script(src='/javascripts/form.js', type='text/javascript')
 
-  h1 song2stream
+  header
+    div.logo
+      img(src="/images/s2s.png")
+    h2 song2stream
 
-  a(href="http://localhost:1337/", target="_blank", class="overlay-link") View Overlay
-  form(class="config-form", name="config", method="POST", action="http://localhost:1337/api/user_preferences")
-    div.input
+  a(href="http://localhost:1337/", target="_blank", class="overlay-link")
+      span View Overlay Page
+      i.fa.fa-external-link-square
+
+  div.spotify-status
+    i.icon.fa
+    span Checking Spotify Status...
+
+  div.bot-status
+    i.icon.fa
+    span Checking Twitch Bot Status...
+
+
+  form(class="config-form", name="config")
+    div.input-wrap
       span.label Google Font
       input(type="text", name="font_family", value="#{formData.font_family}")
 
-    div.input
+    div.input-wrap
       span.label Font Size
       input(type="text", name="font_size", value="#{formData.font_size}")
 
-    div.input
+    div.input-wrap
       span.label Font Color
       input(type="text", name="font_color", class="color", value="#{formData.font_color}")
 
-    div.input
+    div.input-wrap
       span.label Align Text
       select(name="align_text")
         - formOptions.align_text.forEach(function(option){
-          if option === formData.align_text
-            option(value="#{option}", selected="selected") #{option}
+          if option.value === formData.align_text
+            option(value="#{option.value}", selected="selected") #{option.label}
           else
-            option(value="#{option}") #{option}
+            option(value="#{option.value}") #{option.label}
         -});
 
-    div.input
+    div.input-wrap
       span.label Background Color
       input(type="text", name="background_color", class="color", value="#{formData.background_color}")
 
-    div.input
+    div.input-wrap
       span.label Template Type
       select(name="template_type")
         - formOptions.template_type.forEach(function(option){
-          if option === formData.template_type
-            option(value="#{option}", selected="selected") #{option}
+          if option.value === formData.template_type
+            option(value="#{option.value}", selected="selected") #{option.label}
           else
-            option(value="#{option}") #{option}
+            option(value="#{option.value}") #{option.label}
         -});
 
-    div.input
+    div.input-wrap
       span.label Animation Type
       select(name="animation_type")
         - formOptions.animation_type.forEach(function(option){
-          if option === formData.animation_type
-            option(value="#{option}", selected="selected") #{option}
+          if option.value === formData.animation_type
+            option(value="#{option.value}", selected="selected") #{option.label}
           else
-            option(value="#{option}") #{option}
+            option(value="#{option.value}") #{option.label}
         -});
 
-    div.input
+    div.input-wrap
       span.label Position X
       select(name="position_x")
         - formOptions.position_x.forEach(function(option){
-          if option === formData.position_x
-            option(value="#{option}", selected="selected") #{option}
+          if option.value === formData.position_x
+            option(value="#{option.value}", selected="selected") #{option.label}
           else
-            option(value="#{option}") #{option}
+            option(value="#{option.value}") #{option.label}
         -});
 
 
-    div.input
+    div.input-wrap
       span.label Position Y
       select(name="position_y")
         - formOptions.position_y.forEach(function(option){
-          if option === formData.position_y
-            option(value="#{option}", selected="selected") #{option}
+          if option.value === formData.position_y
+            option(value="#{option.value}", selected="selected") #{option.label}
           else
-            option(value="#{option}") #{option}
+            option(value="#{option.value}") #{option.label}
         -});
 
-    div.input
+    div.input-wrap
       span.label Auto Hide after
       input(type="number", name="auto_hide", value="#{formData.auto_hide}", style="width: 30px;")
       span.label.after Seconds (0 will never hide)
 
     div.actions
       button(class="save-button") Save Config
+
+
+    a(href="https://github.com/bobbylaporte/song2stream#song2stream", target="_blank", class="about") about

@@ -1,6 +1,6 @@
 const {app, BrowserWindow} = require('electron');
 var open = require('open');
-
+var path = require('path');
 // Instantiate Express App
 app.server = require(__dirname + '/app/app')();
 
@@ -13,8 +13,10 @@ function createWindow () {
 
   // Create the browser window.
   win = new BrowserWindow({
-    height: 600,
-    width: 450
+    height: 630,
+    width: 350,
+    title: 'song2stream',
+    icon: path.join(__dirname, 's2s.png')
   });
   // win.maximize();
 

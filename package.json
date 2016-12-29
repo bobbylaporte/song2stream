@@ -31,14 +31,19 @@
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.1",
+    "electron-log": "^1.2.2",
     "express": "^4.14.0",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.14.0",
     "jade": "^1.11.0",
     "morgan": "^1.7.0",
     "open": "0.0.5",
+    "passport": "^0.3.2",
+    "passport-twitch": "^1.0.3",
     "socket.io": "^1.7.1",
-    "spotify-local-control": "^1.0.0"
+    "spotify-local-control": "^1.0.0",
+    "spotify-port-scanner-node": "^1.0.3",
+    "tmi.js": "^1.1.2"
   },
   "devDependencies": {
     "bower-webpack-plugin": "^0.1.9",

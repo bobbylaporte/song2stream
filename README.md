@@ -4,7 +4,7 @@
 
 Hey Streamers, I've been building this small tool and some of you might find it useful. It creates a small webserver on your computer that serves up a page with your currently playing Spotify song. You can change the colors, position, font, etc... You can then put this page into your stream using BrowserSource in OSB.
 
-## [Download Here](https://github.com/bobbylaporte/song2stream/releases/tag/0.0.1)
+## [Download Here](https://github.com/bobbylaporte/song2stream/releases/tag/0.3.0)
 
 [Homepage](https://bobbylaporte.github.io/song2stream/)
 
@@ -35,3 +35,12 @@ Hey Streamers, I've been building this small tool and some of you might find it 
 Create a BrowserSource and paste in the url http://localhost:1337.
 
 Tip: Don't scale the BrowserSource window, but instead adjust it's Height and Width settings. Then adjust the Font Size in song2stream to shrink and grow the text and box.
+
+
+
+### 6. Start the Chat Bot
+
+Authorize the app to get your twitch channel and the 'song2stream' bot will idle in your chat. Viewers may use commands to get your current song information:
+
+- !song - returns 'Track Title - Artist Name'
+- !songlink - returns Link to song in Spotify

@@ -25,6 +25,11 @@ function init(){
 	  console.log('Client is connected to socket.');
 	});
 
+  socket.on('refresh_overlay', function(track){
+    console.log('Refresh That Overlay SON!!!!');
+    location.reload();
+  });
+
 	socket.on('disconnect', function () {
 	  offline = true;
 	  console.log('Client disconnected from socket.');
@@ -78,7 +83,7 @@ function init(){
       //setTimeout(function(){
         $('.card').show();
         console.log('user preferences set');
-        socket.emit('start_polling'); // Tell Server to start update track information
+        //socket.emit('start_polling'); // Tell Server to start update track information
       //},500);
 
 
@@ -91,6 +96,7 @@ function init(){
 
 			socket.on('update_track', function(track){ // Will run when server has new track info
 				console.log('update track');
+        console.log(track);
 				updateTrack(track);
 			});
 
