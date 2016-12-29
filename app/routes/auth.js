@@ -5,25 +5,35 @@ module.exports = function(io){
   // Initialize the Router
   var router = express.Router();
 
-  var passport = require('passport');
-
+  var path = require('path');
+  var fs = require('fs');
 
   // TWITCH
-  router.get('/twitch',
-      passport.authenticate('twitch', { stateless:true })
-  );
+  router.post('/twitch/save_user', function(req, res, next) {
 
-  router.get('/twitch/callback',
-    passport.authenticate('twitch', { stateless:true, failureRedirect: "/fail" }),
-    function(req, res) {
-      //console.log('THIS MOTHERFUCKER IS AUTHENTICATED!!!!!');
-      io.sockets.emit('user_just_authed');
+    fs.writeFileSync(path.join(__dirname, '/../twitch-user.json'), JSON.stringify(req.body));
 
-      res.send('Yeah, we have connected with Twitch! You can close this window.')
+    io.sockets.emit('check_auth_file');
 
-      // TODO: Force the 'Form' page to refresh, showing that the bot is now logged into twitch chat
-    }
-  );
+    res.send('All Good!');
+
+  });
+
+
+    router.post('/twitch/delete_user', function(req, res, next) {
+
+
+    fs.unlink(path.join(__dirname, '/../twitch-user.json'), function(){
+      io.emit('check_auth_file');
+      res.send('All Good!');
+    });
+
+
+
+
+
+  });
+
 
   // Expose the module
   return router;

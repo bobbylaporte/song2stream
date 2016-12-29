@@ -59,7 +59,7 @@ module.exports = function(io){
 	router.post('/user_preferences', function(req, res, next) {
 
 		fs.writeFileSync(path.join(__dirname, '/../../data/user_preferences.json'), JSON.stringify(req.body));
-
+    io.emit('refresh_overlay');
     res.send('Saved');
 		//res.redirect('/home');
 
@@ -93,7 +93,7 @@ module.exports = function(io){
 
     try {
       //if(botServerStarted === false){
-        require(path.join(__dirname, '/../bot/bot-server.js'))(twitchChannel, io);
+        twitchBot = require(path.join(__dirname, '/../bot/bot-server.js'))(twitchChannel, io);
         botServerStarted = true;
       //}
 
@@ -106,6 +106,23 @@ module.exports = function(io){
     //
 
   });
+
+  router.get('/stop_bot', function(req, res, next) {
+
+      console.log('stop the bot!!!!');
+      console.log(twitchBot);
+      twitchBot.disconnect();
+      //maybe close
+
+      io.emit('stop_bot_service');
+      botServerStarted = false;
+
+      res.status(200).send('Bot Server Stopped...');
+
+
+  });
+
+
 
 	return router;
 };

@@ -38,8 +38,6 @@ module.exports.listen = function(app){
         //log.info('Start Polling');
       	currentTrack = { name: '', artist: ''}
       });
-
-
  	});
 
 

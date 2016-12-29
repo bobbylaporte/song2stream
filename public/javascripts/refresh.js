@@ -25,6 +25,11 @@ function init(){
 	  console.log('Client is connected to socket.');
 	});
 
+  socket.on('refresh_overlay', function(track){
+    console.log('Refresh That Overlay SON!!!!');
+    location.reload();
+  });
+
 	socket.on('disconnect', function () {
 	  offline = true;
 	  console.log('Client disconnected from socket.');

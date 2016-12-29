@@ -60,7 +60,7 @@ module.exports = () => {
   // app.use(bodyParser.urlencoded({ extended: false }));
   // app.use(cookieParser());
 
-  app.use(logger());
+  app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
@@ -95,120 +95,5 @@ module.exports = () => {
     res.status(err.status || 500);
     res.render('error');
   });
-
-
-
-
-
-
-  // TWITCH BOT
-  var config = require(path.join(__dirname, '/oauth-config.js'));
-  var TwitchStrategy = require("passport-twitch").Strategy;
-
-
-  // Twitch
-  passport.use(new TwitchStrategy({
-      clientID: config.twitch.clientID,
-      clientSecret: config.twitch.clientSecret,
-      callbackURL: config.twitch.callbackURL,
-      scope: 'user_read'
-    },
-    function(token, refreshToken, profile, done) {
-
-      console.log('twitch profile');
-      console.log(profile);
-
-      var userFile;
-
-      try {
-        userFile = fs.readFileSync(path.join(__dirname, '/twitch-user.json'), 'utf8');
-        console.log('found a user profile');
-
-
-      } catch (err) {
-        console.log('cannot find user file');
-        console.log(err);
-
-        console.log('create new one');
-
-
-        // Save this to the userFile
-        var user = {
-          'oauthId': profile.id,
-          'oauthType': 'twitch',
-          'name': profile.username,
-          'email': profile.email,
-          'profile_image_url': profile._json.logo,
-          'access_token': token,
-          'created': Date.now()
-        };
-
-        fs.writeFileSync(path.join(__dirname, '/twitch-user.json'), JSON.stringify(user), 'utf8');
-        userFile = fs.readFileSync(path.join(__dirname, '/twitch-user.json'), 'utf8');
-      }
-
-
-
-      console.log('userFile');
-      console.log(userFile);
-
-
-
-      // Now set the global variable for twitchChannel
-      twitchChannel = JSON.parse(userFile).name;
-
-
-
-
-      // Start Bot
-      //require(path.join(__dirname, '/bot/bot-server.js'))(twitchChannel);
-      //botServerStarted = true;
-
-
-      console.log('calling DONE');
-
-      done(null, JSON.parse(userFile));
-
-
-    }
-  ));
-
-
-
-
-  // serialize and deserialize
-  passport.serializeUser(function(user, done) {
-
-   console.log('serializeUser: ' + user.oauthId);
-   done(null, user.oauthId);
-
-  });
-
-  passport.deserializeUser(function(id, done) {
-
-
-   var userFile;
-
-    try {
-      userFile = fs.readFileSync(path.join(__dirname, '/twitch-user.json'), 'utf8');
-      console.log('found a user profile');
-      done(null, JSON.parse(user).oauthId);
-
-    } catch (err) {
-      console.log('cannot find user file');
-      done(err, null)
-
-    }
-
-
-
-
-  });
-
-
-
-
-
-
 
 }
