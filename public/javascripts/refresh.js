@@ -144,12 +144,12 @@ function updateTrack(track){
 
 			$('.name').checkScrolling();
 
-		  	// if(config.auto_hide > 0){
-		  	// 	clearTimeout(autoHideTimer);
-		  	// 	autoHideTimer = setTimeout(function(){
-				 //  	$( '.card' ).addClass(config.animation_type);
-				 // }, config.auto_hide * 1000);
-		  	// }
+		  	if(config.auto_hide > 0){
+		  		clearTimeout(autoHideTimer);
+		  		autoHideTimer = setTimeout(function(){
+				  	$( '.card' ).addClass(config.animation_type);
+				 }, config.auto_hide * 1000);
+		  	}
 
 
 		}, 800);
