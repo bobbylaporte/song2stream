@@ -1,10 +1,13 @@
 var tmi = require('tmi.js');
+var fs = require('fs');
+var path = require('path');
 
 module.exports = function(twitchChannel, io){
 
   console.log('In Bot Server')
   console.log(twitchChannel);
 
+  var currentStatus;
 
   var options = {
     options: {
@@ -62,14 +65,37 @@ module.exports = function(twitchChannel, io){
       case '!song':
         //console.log(currentTrack);
 
-        text += currentTrack.name + ' - ' + currentTrack.artist ;
-        client.action(channel, text);
+        try {
+          currentStatus = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/spotify_status.json'), 'utf8'));
+          console.log('currentStatus set');
+          console.log(currentStatus);
+
+          text += currentStatus.track.track_resource.name + ' - ' + currentStatus.track.artist_resource.name ;
+          client.action(channel, text);
+        } catch (err) {
+          console.log('Error Reading Status File');
+          console.log(err);
+        }
+
+
+
       break;
 
       case '!songlink':
-        //console.log(currentTrack);
-        text += currentTrack.link;
-        client.action(channel, text);
+
+        try {
+          currentStatus = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/spotify_status.json'), 'utf8'));
+          console.log('currentStatus set');
+          console.log(currentStatus);
+
+          text += currentStatus.track.track_resource.location.og;
+          client.action(channel, text);
+        } catch (err) {
+          console.log('Error Reading Status File');
+          console.log(err);
+        }
+
+
       break;
     }
 

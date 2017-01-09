@@ -2,46 +2,50 @@
 var socketio = require('socket.io')
 var connect = require('spotify-local-control');
 var client = connect();
-
+var fs = require('fs');
+var path = require('path');
 var log = require('electron-log');
 
 
 module.exports.listen = function(app){
 
 
-	var first_connection = true;
 
     io = socketio.listen(app);
 
     io.on('connection', function (socket) {
 
 
-      currentTrack = { name: '', artist: ''};
+      clearStatus();
 
 
       console.log('client connected');
-
-    	console.log('first connection?');
-    	console.log(first_connection);
 
       // Client has connected
       //console.log('Sockets started up on the server.');
 
       socket.on('disconnect', function (socket) {
       	console.log('client disconnected');
-  	  	first_connection = false;
-  	  	currentTrack = { name: '', artist: ''}
+  	  	//clearStatus();
   	  });
 
       socket.on('reset_track', function(){
-      	console.log('reset track');
-        //log.info('Start Polling');
-      	currentTrack = { name: '', artist: ''}
+      	// Clear the status.json
+        clearStatus();
       });
  	});
 
 
 
+function clearStatus(){
+  try {
+    fs.writeFileSync(path.join(__dirname, '/../../data/spotify_status.json'), JSON.stringify({online: false}));
+    console.log('Spotify Status File Cleared');
+  } catch (err) {
+    console.log('Error Clearing Status File');
+    console.log(err);
+  }
+}
 
 
 

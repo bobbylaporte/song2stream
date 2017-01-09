@@ -233,6 +233,23 @@ header h2{
 
 
 
+
+.card.paused::before{
+  font-family: 'FontAwesome';
+  top: 0;
+  left: 0;
+  text-align: center;
+  content: '\f04c';
+  position: absolute;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #FFF;
+  line-height: 250%;
+}
+
+
 .name{
 	font-size: 1em;
 

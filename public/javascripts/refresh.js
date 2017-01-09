@@ -122,10 +122,9 @@ function init(){
 
 
 function updateTrack(track){
-	$( '.card' ).addClass(config.animation_type);
+	$( '.card' ).addClass(config.animation_type).removeClass('playing');
 
 	setTimeout(function(){
-
 
     if(config.template_type === 'single_line'){
       $('.name').text(track.name +  ' - ' +  track.artist);
@@ -137,7 +136,22 @@ function updateTrack(track){
 
 
 
-		$('.card').removeClass(config.animation_type);
+		$('.card').removeClass('playing').removeClass('paused');
+
+    if(track.playing === true){
+      $( '.card' ).addClass('playing');
+    }
+
+    if(track.playing === false){
+      $( '.card' ).addClass('paused');
+    }
+
+
+    // TODO: Only Animate back in if Playing, or user want 'paused' state
+    //if(track.playing){
+      $('.card').removeClass(config.animation_type);
+    //}
+
 
 
 		setTimeout(function(){
