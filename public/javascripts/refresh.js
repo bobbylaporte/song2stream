@@ -100,6 +100,18 @@ function init(){
 				updateTrack(track);
 			});
 
+
+      socket.on('play_track', function(){ // Will run when server has new track info
+        console.log('play track');
+        playTrack();
+      });
+
+      socket.on('pause_track', function(){ // Will run when server has new track info
+        console.log('pause track');
+        pauseTrack();
+      });
+
+
 			socket.on('go_offline', function(){ // Will run when server cannot connect to spotify
 				console.log('go offline');
 				goOffline('Spotify Not Detected');
@@ -122,7 +134,7 @@ function init(){
 
 
 function updateTrack(track){
-	$( '.card' ).addClass(config.animation_type).removeClass('playing');
+	$( '.card' ).addClass(config.animation_type);
 
 	setTimeout(function(){
 
@@ -174,7 +186,13 @@ function updateTrack(track){
 };
 
 
+function playTrack(){
+  $( '.card' ).removeClass('paused').addClass('playing');
+};
 
+function pauseTrack(){
+  $( '.card' ).removeClass('playing').addClass('paused');
+};
 
 
 function goOffline(reason){

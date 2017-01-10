@@ -26,6 +26,7 @@
   "license": "MIT",
   "homepage": "https://github.com/bobbylaporte/song2stream#readme",
   "dependencies": {
+    "@jonny/spotify-web-helper": "^1.6.0",
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.2",
     "connect-flash": "^0.1.1",
