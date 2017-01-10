@@ -101,9 +101,9 @@ module.exports = function(io){
 
 
           // SUCCESS
-          if(!existingStatus.online || !existingStatus.running){
+          //if(!existingStatus.online || !existingStatus.running){
             io.emit('spotify_connected');
-          }
+          //}
 
 
           if(!existingStatus.track || existingStatus.track.track_resource.name !== status.track.track_resource.name){
