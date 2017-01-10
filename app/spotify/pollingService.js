@@ -21,19 +21,24 @@ module.exports = function(io){
       }, 5000);
     }
   });
+
+
+  helper.player.on('play', () => {
+    console.log('PLAY');
+    io.emit('play_track');
+  });
+  helper.player.on('pause', () => {
+    console.log('PAUSE');
+    io.emit('pause_track');
+  });
+
+
   helper.player.on('ready', () => {
 
     console.log('BOOYAH WE HAVE SPOTIFY');
 
     // Playback events
-    helper.player.on('play', () => {
-      console.log('PLAY');
-      io.emit('play_track');
-    });
-    helper.player.on('pause', () => {
-      console.log('PAUSE');
-      io.emit('pause_track');
-    });
+
     // helper.player.on('end', () => {
     //   console.log('END');
     // });

@@ -197,7 +197,7 @@ function pauseTrack(){
 
 function goOffline(reason){
 	// Animate Card out and then
-	$( '.card' ).addClass(config.animation_type);
+	$( '.card' ).addClass(config.animation_type).removeClass('paused').removeClass('playing');
 
 	setTimeout(function(){
 

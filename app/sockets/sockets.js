@@ -16,36 +16,46 @@ module.exports.listen = function(app){
     io.on('connection', function (socket) {
 
 
-      clearStatus();
-
-
       console.log('client connected');
 
-      // Client has connected
-      //console.log('Sockets started up on the server.');
 
       socket.on('disconnect', function (socket) {
       	console.log('client disconnected');
   	  	//clearStatus();
   	  });
 
-      socket.on('reset_track', function(){
-      	// Clear the status.json
-        clearStatus();
-      });
+
+
+      // Update the overlay when it first connects
+
+
+      try {
+        var status = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/spotify_status.json'), 'utf8'));
+
+        console.log('Read Status File');
+        console.log('Initial Update for Overlay.');
+
+        var track_name = status.track.track_resource.name;
+        var track_link = status.track.track_resource.location.og;
+        var artist_name = status.track.artist_resource.name;
+        var album_name = status.track.album_resource.name;
+        var playing = status.playing;
+
+        var track = { name: track_name, link: track_link, artist: artist_name, album_name: album_name, playing: playing };
+
+        io.emit('update_track', track);
+
+      } catch (err) {
+        console.log('Error Reading Status File');
+        console.log(err);
+      }
+
+
+
+
+
  	});
 
-
-
-function clearStatus(){
-  try {
-    fs.writeFileSync(path.join(__dirname, '/../../data/spotify_status.json'), JSON.stringify({online: false}));
-    console.log('Spotify Status File Cleared');
-  } catch (err) {
-    console.log('Error Clearing Status File');
-    console.log(err);
-  }
-}
 
 
 
