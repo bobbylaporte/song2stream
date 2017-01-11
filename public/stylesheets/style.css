@@ -233,12 +233,29 @@ header h2{
 
 
 
+
+.card.paused::before{
+  font-family: 'FontAwesome';
+  top: 0;
+  left: 0;
+  text-align: center;
+  content: '\f04c';
+  position: absolute;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: #FFF;
+  line-height: 250%;
+}
+
+
 .name{
 	font-size: 1em;
 
 	/*width: 100%;*/
 	margin-left: 20px;
-	margin-right: 30px;
+	margin-right: 20px;
 	margin-top: 10px;
 
 	overflow: hidden;
@@ -252,13 +269,13 @@ header h2{
 	opacity: 0.65;
 	/*width: 100%;*/
 	margin-left: 20px;
-	margin-right: 30px;
+	margin-right: 20px;
 	margin-bottom: 10px;
 
 	overflow: hidden;
-    position: relative;
-  	white-space: nowrap;
-  	/*text-overflow: ellipsis;*/
+  position: relative;
+  white-space: nowrap;
+  /*text-overflow: ellipsis;*/
 }
 
 

@@ -70,7 +70,7 @@ module.exports = function(io){
 
 
     try {
-      userFile = fs.readFileSync(path.join(__dirname, '/../twitch-user.json'), 'utf8');
+      userFile = fs.readFileSync(path.join(__dirname, '/../../data/twitch_user.json'), 'utf8');
       res.status(200).send('We have a File');
 
     } catch (err) {
@@ -86,7 +86,7 @@ module.exports = function(io){
 
   router.get('/start_bot', function(req, res, next) {
 
-    var userFile = fs.readFileSync(path.join(__dirname, '/../twitch-user.json'), 'utf8');
+    var userFile = fs.readFileSync(path.join(__dirname, '/../../data/twitch_user.json'), 'utf8');
 
     console.log(userFile);
     var twitchChannel = JSON.parse(userFile).name;
