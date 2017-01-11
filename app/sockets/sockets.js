@@ -29,11 +29,11 @@ module.exports.listen = function(app){
       // Update the overlay when it first connects
 
 
-      try {
-        var status = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/spotify_status.json'), 'utf8'));
+      var status;
 
+      try {
+        status = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/spotify_status.json'), 'utf8'));
         console.log('Read Status File');
-        console.log('Initial Update for Overlay.');
 
         var track_name = status.track.track_resource.name;
         var track_link = status.track.track_resource.location.og;
@@ -46,13 +46,13 @@ module.exports.listen = function(app){
         io.emit('update_track', track);
 
       } catch (err) {
-        console.log('Error Reading Status File');
+        console.log('Error Reading Status File... Writing New File');
         console.log(err);
+
+
+        console.log('Writing New File');
+        fs.writeFileSync(path.join(__dirname, '/../../data/spotify_status.json'), JSON.stringify({}));
       }
-
-
-
-
 
  	});
 
@@ -63,6 +63,5 @@ module.exports.listen = function(app){
 
   return io;
 }
-
 
 
