@@ -6,6 +6,7 @@ module.exports = function(io){
 	var router = express.Router();
 	var connect = require('spotify-local-control');
 	var client = connect();
+  var request = require('request');
 
 
 	/* GET track data. */
@@ -51,6 +52,38 @@ module.exports = function(io){
 
 	});
 
+
+  router.get('/add_tracks_to_playlist', function(req, res, next) {
+
+
+    var tracks = encodeURI("spotify:track:4iV5W9uYEdYUVa79Axb7Rh,spotify:track:1301WleyT98MSxVHPZCA6M");
+
+
+    var options = {
+      url: 'https://api.spotify.com/v1/users/ominoustoad/playlists/5hWjRuejrECK9Cb7B6V9QN/tracks?uris='+ tracks,
+      headers: { 'Authorization': 'Bearer BQBWcfWuQWSFIKhYlLSfWe3MjHJsxSHR9odVq5SqzEZKw7UeqgcDjQ1cDTLCwFdRZN5kPtpBzSyiMhx9dfL9cbE4h0sFQGx5z_R12LleHEftCwBMPfugArZfDJMJOHfpSTtVdGfiudftNljbmZwSqQzntYQm-xBP-xgHOcu-YrIgxPBQECQYhtpoMuGUd7OHawLvxYEDARyR9KLzq_9OcHCYwQaV5SpDb1QmgdDx83-E7iDo21ompC_hU9ZW58waWVLvZ6TgMhwC', 'Content-Type': 'application/json' }
+    };
+
+    request.post(options, function(err,response,body){
+      if(err){
+        console.log('error adding to playlist');
+        console.log(err);
+      }
+      if(!err){
+        // Success! We have a track.
+        console.log('res');
+        console.log(body);
+
+        // if(body.error.status === '401'){
+        //   // Refresh this token. then try the call again.
+        // }
+
+        res.send('success added to playlist');
+      }
+    });
+
+
+  });
 
 
 

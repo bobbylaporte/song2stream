@@ -28,9 +28,17 @@ module.exports = function(io){
       res.send('All Good!');
     });
 
+  });
 
 
+  //SPOTIFY
+  router.post('/spotify/save_user', function(req, res, next) {
 
+    fs.writeFileSync(path.join(__dirname, '/../spotify-user.json'), JSON.stringify(req.body));
+
+    io.sockets.emit('spotify_auth');
+
+    res.send('All Good!');
 
   });
 

@@ -1,6 +1,7 @@
 var tmi = require('tmi.js');
 var fs = require('fs');
 var path = require('path');
+var request=require('request');
 
 module.exports = function(twitchChannel, io){
 
@@ -60,8 +61,36 @@ module.exports = function(twitchChannel, io){
 
     var text = '';
 
+    console.log('twitch user');
+    console.log(user);
+
+    // twitch user
+    // { badges: { broadcaster: '1', premium: '1' },
+    //   color: '#0000FF',
+    //   'display-name': 'ominoustoad',
+    //   emotes: null,
+    //   id: 'ccdcfe16-1326-4ce6-be21-76af99227885',
+    //   mod: false,
+    //   'room-id': '84465033',
+    //   'sent-ts': '1483724950506',
+    //   subscriber: false,
+    //   'tmi-sent-ts': '1483724950654',
+    //   turbo: false,
+    //   'user-id': '84465033',
+    //   'user-type': null,
+    //   'emotes-raw': null,
+    //   'badges-raw': 'broadcaster/1,premium/1',
+    //   username: 'ominoustoad',
+    //   'message-type': 'chat' }
+
     //console.log(channel);
     switch(message){
+      case '!song2stream':
+        // Return Help Text about song2stream
+        //text += currentTrack.link;
+        //client.action(channel, text);
+      break;
+
       case '!song':
         //console.log(currentTrack);
 
@@ -96,6 +125,49 @@ module.exports = function(twitchChannel, io){
         }
 
 
+      break;
+
+
+      default:
+        // Check if message contains '!songrequest'
+        if(message.includes('!songrequest')){
+          // Check if this user is a sub.
+          if(user.subscriber || user['badges-raw'].includes('broadcaster/1')){
+
+            var spotifyUri = message.replace('!songrequest', '').replace(' ', '');
+            var spotifyTrackId = spotifyUri.replace('spotify:track:', '');
+
+            //TODO: What is the track name of this
+            /// GET reeust for
+
+            request.get('https://api.spotify.com/v1/tracks/'+ spotifyTrackId, options, function(err,res,body){
+
+              if(err){
+                console.log('error finding requested spotify song details');
+                console.log(err);
+                text += '@' + user.username + ', I didn\'t recognize that Spotify URI. Get more info here: link';
+                client.action(channel, text);
+              }
+
+              if(!err){
+                // Success! We have a track.
+
+                var json = JSON.parse(body);
+
+                text += '@' + user.username + ' has requested: ' + json.name + ' - ' + json.artists[0].name;
+                client.action(channel, text);
+
+                // TODO: Write this track info into the requested_tracks.json
+                var new_track = { name: json.name, artist: json.artists[0].name, id: spotifyTrackId, uri: spotifyUri, requested_by: user.username};
+
+              }
+            });
+
+          }else{
+            text += '@' + user.username + ', only subscribers can request songs.'
+            client.action(channel, text);
+          }
+        }
       break;
     }
 
