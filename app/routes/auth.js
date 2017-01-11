@@ -11,7 +11,7 @@ module.exports = function(io){
   // TWITCH
   router.post('/twitch/save_user', function(req, res, next) {
 
-    fs.writeFileSync(path.join(__dirname, '/../twitch-user.json'), JSON.stringify(req.body));
+    fs.writeFileSync(path.join(__dirname, '/../../data/twitch_user.json'), JSON.stringify(req.body));
 
     io.sockets.emit('check_auth_file');
 
@@ -23,7 +23,7 @@ module.exports = function(io){
     router.post('/twitch/delete_user', function(req, res, next) {
 
 
-    fs.unlink(path.join(__dirname, '/../twitch-user.json'), function(){
+    fs.unlink(path.join(__dirname, '/../../data/twitch_user.json'), function(){
       io.emit('check_auth_file');
       res.send('All Good!');
     });

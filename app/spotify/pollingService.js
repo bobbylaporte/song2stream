@@ -1,123 +1,125 @@
-var pollingTimer;
-var SpotifySDK = require('spotify-port-scanner-node');
-var client = new SpotifySDK.SpotifyClient({ debug : true });
-var host;
+const SpotifyWebHelper = require('@jonny/spotify-web-helper');
+const fs = require('fs');
+const path = require('path');
 
-currentTrack = { name: '', artist: ''};
-var spotifyOffline = false;
+let helper = SpotifyWebHelper();
+let pollingTimer;
 
 module.exports = function(io){
 
-
-  function init(){
-
-    client.connect({
-      lowPort : 4370,
-      highPort : 4379
-    })
-    .then(() => {
-      console.log("client connected to host %s:%s", client.getHost(), client.getPort());
-
-      host = client.getSpotifyHost();
-      spotifyOffline = true;
-      poll();
+  helper.connect();
 
 
-    }).catch(error => {
-      console.log("client error", error);
+  helper.player.on('error', err => {
+    console.log('SPOTIFY ERROR');
+    console.log(err);
+    if(err.type === '4110'){
+      console.log('User Not Logged in');
+      // Call init again in 5 seconds
+      pollingTimer = setTimeout(function(){
+        helper.connect();
+      }, 5000);
+    }
+  });
 
-      if(!spotifyOffline){
-        currentTrack = { name: '', artist: ''};
-        spotifyOffline = true;
-        io.emit('go_offline');
-        io.emit('spotify_disconnected');
+
+  helper.player.on('play', () => {
+    console.log('PLAY');
+    io.emit('play_track');
+  });
+  helper.player.on('pause', () => {
+    console.log('PAUSE');
+    io.emit('pause_track');
+  });
+
+
+  helper.player.on('ready', () => {
+
+    console.log('BOOYAH WE HAVE SPOTIFY');
+
+    // Playback events
+
+    // helper.player.on('end', () => {
+    //   console.log('END');
+    // });
+    // helper.player.on('track-will-change', track => {
+    //   console.log('TRACK WILL CHANGE');
+    //   console.log(track);
+    // });
+    helper.player.on('status-will-change', status => {
+      console.log('STATUS WILL CHANGE');
+      console.log(status);
+
+
+
+      try {
+        existingStatus = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/spotify_status.json'), 'utf8'));
+        console.log('existingStatus set');
+        console.log(existingStatus);
+      } catch (err) {
+        console.log('Error Reading Status File');
+        console.log(err);
       }
 
-      connectTimer = setTimeout(function(){
-        init();
-      }, 3000);
+      if(status.error !== undefined){
 
-    });
+        if(status.online === false || status.running === false){
 
-  }
-
-  init();
-
-  function poll(){
-    // get host status
-    // get spotify application host
-    host.getStatus(function (error, status) {
-      if (error) {
-          console.log("host error", error);
-          if(!spotifyOffline){
-            currentTrack = { name: '', artist: ''};
-            spotifyOffline = true;
-            io.emit('go_offline');
-            io.emit('spotify_disconnected');
-          }
-      }
-      else {
-        console.info("host status:", status);
-
-        console.log('is offline?');
-        console.log(spotifyOffline);
-
-
-        if(status.error !== undefined || status.online === false){
-
-          if(status.online === false){
-
-            if(!spotifyOffline){
-              currentTrack = { name: '', artist: ''};
-              spotifyOffline = true;
-              io.emit('go_offline');
-              io.emit('spotify_disconnected');
-            }
-
-          }else{
-
-            if(status.error.type === '4107'){
-              // Try refreshing spotify client connection
-              console.log('bad bad CRFS Token');
-              init();
-            }else if(status.error.type === '4110'){
-
-              if(!spotifyOffline){
-                currentTrack = { name: '', artist: ''};
-                spotifyOffline = true;
-                io.emit('go_offline');
-                io.emit('spotify_disconnected');
-              }
-
-            }
+          if(existingStatus.online){
+            goOffline(status);
           }
 
+        }else{
 
+          if(status.error.type === '4107'){
+            // Try refreshing spotify client connection
+            console.log('bad bad CRFS Token');
+            init();
+          }else if(status.error.type === '4110'){
 
-
-        }else{ // success
-
-
-          if(status.track === undefined || status.track.track_resource === undefined){
-            // Offline
-            if(!spotifyOffline){
-              currentTrack = { name: '', artist: ''};
-              spotifyOffline = true;
-              io.emit('go_offline');
-              io.emit('spotify_disconnected');
+            if(existingStatus.online){
+              goOffline(status);
             }
-          }else{
 
-            console.log('SUCESSS');
-            console.log('is offline?');
-            console.log(spotifyOffline);
+          }
+        }
 
 
-            // SUCCESS
-            if(spotifyOffline){
-              spotifyOffline = false;
-              io.emit('spotify_connected');
+
+
+      }else{ // no error object
+
+
+        if(status.track === undefined || status.track.track_resource === undefined){
+          // Offline
+          if(existingStatus.online){
+            goOffline(status);
+          }
+        }else{
+
+          console.log('Current Track:' + status.track.track_resource.name);
+
+
+          // SUCCESS
+          //if(!existingStatus.online || !existingStatus.running){
+            io.emit('spotify_connected');
+          //}
+
+
+          if(!existingStatus.track || existingStatus.track.track_resource.name !== status.track.track_resource.name){
+            //console.log('updating this shit burger');
+            //console.log('update the track');
+            //console.log(track);
+            // currentTrack = track;
+            try {
+              fs.writeFileSync(path.join(__dirname, '/../../data/spotify_status.json'), JSON.stringify(status));
+              console.log('Spotify Status File Updated');
+            } catch (err) {
+              console.log('Error Updating Status File');
+              console.log(err);
             }
+
+
 
             var track_name = status.track.track_resource.name;
             var track_link = status.track.track_resource.location.og;
@@ -127,44 +129,41 @@ module.exports = function(io){
 
             var track = { name: track_name, link: track_link, artist: artist_name, album_name: album_name, playing: playing };
 
-            //console.log(track);
-            //console.log(currentTrack);
+            io.emit('update_track', track);
 
-            if(currentTrack.name !== track.name){
-              //console.log('updating this shit burger');
-              //console.log('update the track');
-              //console.log(track);
-              currentTrack = track;
-              io.emit('update_track', track);
-            }
           }
+        }
 
 
 
-        } //end sucess
-
-
-
-
-
-
-      }
-
-      //console.log('setting timeout');
-      pollingTimer = setTimeout(function(){
-        //wait 5 seconds and try again
-        //console.log('Recalling pollingService.poll');
-        poll();
-      }, 3000);
-
+      } //end no error object
 
     });
+
+
+  });
+
+
+  function goOffline(status){
+    console.log('Going Offline')
+    try {
+      fs.writeFileSync(path.join(__dirname, '/../../data/spotify_status.json'), JSON.stringify(status));
+      console.log('Spotify Status File Updated');
+    } catch (err) {
+      console.log('Error Updating Status File');
+      console.log(err);
+    }
+
+    io.emit('go_offline');
+    io.emit('spotify_disconnected');
+
+
+    helper.connect();
   }
-
-
-
-  return client;
-
 
 };
 
+
+
+
+return helper;

@@ -100,6 +100,18 @@ function init(){
 				updateTrack(track);
 			});
 
+
+      socket.on('play_track', function(){ // Will run when server has new track info
+        console.log('play track');
+        playTrack();
+      });
+
+      socket.on('pause_track', function(){ // Will run when server has new track info
+        console.log('pause track');
+        pauseTrack();
+      });
+
+
 			socket.on('go_offline', function(){ // Will run when server cannot connect to spotify
 				console.log('go offline');
 				goOffline('Spotify Not Detected');
@@ -126,7 +138,6 @@ function updateTrack(track){
 
 	setTimeout(function(){
 
-
     if(config.template_type === 'single_line'){
       $('.name').text(track.name +  ' - ' +  track.artist);
     }else{
@@ -137,7 +148,22 @@ function updateTrack(track){
 
 
 
-		$('.card').removeClass(config.animation_type);
+		$('.card').removeClass('playing').removeClass('paused');
+
+    if(track.playing === true){
+      $( '.card' ).addClass('playing');
+    }
+
+    if(track.playing === false){
+      $( '.card' ).addClass('paused');
+    }
+
+
+    // TODO: Only Animate back in if Playing, or user want 'paused' state
+    //if(track.playing){
+      $('.card').removeClass(config.animation_type);
+    //}
+
 
 
 		setTimeout(function(){
@@ -160,12 +186,18 @@ function updateTrack(track){
 };
 
 
+function playTrack(){
+  $( '.card' ).removeClass('paused').addClass('playing');
+};
 
+function pauseTrack(){
+  $( '.card' ).removeClass('playing').addClass('paused');
+};
 
 
 function goOffline(reason){
 	// Animate Card out and then
-	$( '.card' ).addClass(config.animation_type);
+	$( '.card' ).addClass(config.animation_type).removeClass('paused').removeClass('playing');
 
 	setTimeout(function(){
 

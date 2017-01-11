@@ -23,7 +23,7 @@ module.exports = () => {
   var http = require( "http" ).createServer( app );
 
   var fs = require('fs');
-
+  var util = require('util');
 
 
 
@@ -60,7 +60,18 @@ module.exports = () => {
   // app.use(bodyParser.urlencoded({ extended: false }));
   // app.use(cookieParser());
 
-  app.use(logger('dev'));
+
+  var logFile = fs.createWriteStream(path.join(__dirname, '/logs/debug.log'), { flags: 'w' });
+    // Or 'w' to truncate the file every time the process starts.
+  var logStdout = process.stdout;
+
+  console.log = function () {
+    logFile.write(util.format.apply(null, arguments) + '\n');
+    logStdout.write(util.format.apply(null, arguments) + '\n');
+  }
+  console.error = console.log;
+  console.info = console.log;
+
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
