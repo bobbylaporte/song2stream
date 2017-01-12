@@ -106,6 +106,65 @@ $(document).ready(function(){
     });
 
 
+    $('.tab').on('click', function(e){
+      if($(this).hasClass('form')){
+        $('ul.song-requests').hide();
+        $('form').show();
+
+        $('.tab').removeClass('active');
+        $(this).addClass('active');
+      }
+
+      if($(this).hasClass('requests')){
+
+        getSongRequests();
+
+        $('ul.song-requests').show();
+        $('form').hide();
+
+        $('.tab').removeClass('active');
+        $(this).addClass('active');
+      }
+    });
+
+
+
+    $('body').on('click', '.add-track', function(e){
+      var $track = $(this);
+      $.ajax({
+        method: "POST",
+        url: "http://localhost:1337/api/add_track_to_playlist",
+        data: {'track': $track.data('trackuri')}
+      }).done(function( msg ) {
+
+        console.log(msg);
+        switch(msg){
+          case 'success':
+            console.log('added track to playlist. Now clear it away.');
+            // Remove item from song request file at index $track.data('index')
+            removeSongRequest($track);
+          break;
+          case 'try_again':
+            console.log('was not added. try again.');
+          break;
+          case 'error':
+          case 'failed':
+            console.log('error requesting new token');
+          break;
+        }
+
+
+      }).fail(function( jqXHR, textStatus ) {
+        alert( "Error Deleting: " + textStatus);
+      });
+    });
+
+
+    $('body').on('click', '.remove-track', function(e){
+      var $track = $(this);
+      removeSongRequest($track);
+    });
+
 });
 
 
@@ -123,6 +182,55 @@ function checkForAuthFile(){
 
     var html = '<a href="http://twitch-toad.rhcloud.com/auth/twitch" class="big-twitch-button" target="_blank"><i class="fa fa-twitch"></i>Connect with Twitch</a>';
     $('.bot-status').html(html);
+
+  });
+}
+
+
+function getSongRequests(){
+  // Check for exiting twitch auth data
+  $.ajax({
+    method: "GET",
+    url: "http://localhost:1337/api/get_song_requests"
+  }).done(function( data ) {
+
+    console.log('song requests');
+    console.log(data);
+    var array = JSON.parse(data);
+
+    $('ul.song-requests').html('');
+
+    array.forEach(function(track){
+      var html =  '<li>';
+            html += '<span class="track-detail">'+ track.name +' - '+ track.artist +'</span>';
+            html += '<span class="requested-by">Requested by '+ track.requested_by +'</span>';
+            html += '<a class="add-track" data-trackuri="'+ track.uri +'">ADD</a>';
+            html += '<a class="remove-track" data-trackuri="'+ track.uri +'">REMOVE</a>';
+          html += '</li>';
+
+      $('ul.song-requests').append(html);
+    });
+
+  }).fail(function( jqXHR, textStatus ) {
+
+
+
+  });
+}
+
+function removeSongRequest($track){
+  // Check for exiting twitch auth data
+  $.ajax({
+    method: "POST",
+    url: "http://localhost:1337/api/remove_song_request",
+    data: {'index': $track.data('index') }
+  }).done(function( data ) {
+
+    console.log('song deleted');
+    $track.parent().slideUp().remove();
+
+  }).fail(function( jqXHR, textStatus ) {
+    console.log('song not deleted');
 
   });
 }

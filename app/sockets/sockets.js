@@ -24,8 +24,6 @@ module.exports.listen = function(app){
   	  	//clearStatus();
   	  });
 
-
-
       // Update the overlay when it first connects
 
 

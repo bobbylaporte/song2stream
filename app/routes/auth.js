@@ -34,7 +34,7 @@ module.exports = function(io){
   //SPOTIFY
   router.post('/spotify/save_user', function(req, res, next) {
 
-    fs.writeFileSync(path.join(__dirname, '/../spotify-user.json'), JSON.stringify(req.body));
+    fs.writeFileSync(path.join(__dirname, '/../../data/spotify_user.json'), JSON.stringify(req.body));
 
     io.sockets.emit('spotify_auth');
 

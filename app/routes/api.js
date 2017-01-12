@@ -1,12 +1,14 @@
-module.exports = function(io){
+var express = require('express');
+var path = require('path');
+var fs = require('fs');
+var router = express.Router();
+var connect = require('spotify-local-control');
+var client = connect();
+var request = require('request');
 
-	var express = require('express');
-	var path = require('path');
-	var fs = require('fs');
-	var router = express.Router();
-	var connect = require('spotify-local-control');
-	var client = connect();
-  var request = require('request');
+
+
+module.exports = function(io){
 
 
 	/* GET track data. */
@@ -53,34 +55,71 @@ module.exports = function(io){
 	});
 
 
-  router.get('/add_tracks_to_playlist', function(req, res, next) {
+  router.post('/add_track_to_playlist', function(req, res, next) {
 
+    console.log('request body');
+    console.log(req.body);
 
-    var tracks = encodeURI("spotify:track:4iV5W9uYEdYUVa79Axb7Rh,spotify:track:1301WleyT98MSxVHPZCA6M");
+    var userFile = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/spotify_user.json'), 'utf8'));
 
+    //var tracks = encodeURI("spotify:track:4iV5W9uYEdYUVa79Axb7Rh,spotify:track:1301WleyT98MSxVHPZCA6M");
+    var tracks = encodeURI(req.body.track);
 
     var options = {
       url: 'https://api.spotify.com/v1/users/ominoustoad/playlists/5hWjRuejrECK9Cb7B6V9QN/tracks?uris='+ tracks,
-      headers: { 'Authorization': 'Bearer BQBWcfWuQWSFIKhYlLSfWe3MjHJsxSHR9odVq5SqzEZKw7UeqgcDjQ1cDTLCwFdRZN5kPtpBzSyiMhx9dfL9cbE4h0sFQGx5z_R12LleHEftCwBMPfugArZfDJMJOHfpSTtVdGfiudftNljbmZwSqQzntYQm-xBP-xgHOcu-YrIgxPBQECQYhtpoMuGUd7OHawLvxYEDARyR9KLzq_9OcHCYwQaV5SpDb1QmgdDx83-E7iDo21ompC_hU9ZW58waWVLvZ6TgMhwC', 'Content-Type': 'application/json' }
+      headers: { 'Authorization': 'Bearer ' + userFile.access_token, 'Content-Type': 'application/json' }
     };
 
     request.post(options, function(err,response,body){
       if(err){
-        console.log('error adding to playlist');
+        console.log('error');
         console.log(err);
+        //res.send('error');
       }
       if(!err){
         // Success! We have a track.
         console.log('res');
         console.log(body);
 
-        // if(body.error.status === '401'){
-        //   // Refresh this token. then try the call again.
-        // }
+        var json = JSON.parse(body);
 
-        res.send('success added to playlist');
+
+        if(json.error){
+          // Refresh this token. then try the call again.
+          if(json.error.status === 401){
+            console.log('EXPIRED!!!!');
+            getRefreshToken(res);
+          }
+
+
+        }else{
+          res.send('success');
+        }
+
+
       }
     });
+
+
+  });
+
+
+
+    router.post('/remove_song_request', function(req, res, next) {
+
+    console.log('request body');
+    console.log(req.body);
+
+    var songArray = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/requested_tracks.json'), 'utf8'));
+
+    songArray.splice(req.body.index, 1);
+
+    fs.writeFileSync(path.join(__dirname, '/../../data/requested_tracks.json'), JSON.stringify(songArray));
+
+
+    res.send('OK');
+
+
 
 
   });
@@ -103,18 +142,27 @@ module.exports = function(io){
 
 
     try {
-      userFile = fs.readFileSync(path.join(__dirname, '/../../data/twitch_user.json'), 'utf8');
+      var userFile = fs.readFileSync(path.join(__dirname, '/../../data/twitch_user.json'), 'utf8');
       res.status(200).send('We have a File');
 
     } catch (err) {
       res.status(500).send('No File.');
     }
 
-    var data = fs.readFileSync(path.join(__dirname, '/../../data/user_preferences.json'));
-
-
   });
 
+
+  router.get('/get_song_requests', function(req, res, next) {
+
+
+    try {
+      var songs = fs.readFileSync(path.join(__dirname, '/../../data/requested_tracks.json'), 'utf8');
+      res.status(200).send(songs);
+
+    } catch (err) {
+      res.status(500).send('No File.');
+    }
+  });
 
 
   router.get('/start_bot', function(req, res, next) {
@@ -159,3 +207,37 @@ module.exports = function(io){
 
 	return router;
 };
+
+
+function getRefreshToken(res){
+
+
+  var userFile = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/spotify_user.json'), 'utf8'));
+
+  console.log('userFile');
+  console.log(userFile);
+
+  var refresh_token = userFile.refresh_token;
+  var oauthId = userFile.oauthId;
+
+  var options = {
+    url: 'http://twitch-toad.rhcloud.com/auth/spotify/refresh_token?oauthId='+ oauthId + '&refresh_token=' + refresh_token
+  };
+
+  console.log(options);
+
+  request.get(options, function(err,response,body){
+    if(err){
+      console.log('error refreshing token');
+      console.log(err);
+      res.send('failed');
+    }
+    if(!err){
+      // Success! We have a track.
+      console.log('we refreshed the token!!!!');
+      console.log(body);
+      fs.writeFileSync(path.join(__dirname, '/../../data/spotify_user.json'), body);
+      res.send('try_again');
+    }
+  });
+}

@@ -106,7 +106,7 @@ module.exports = function(io){
           //}
 
 
-          if(!existingStatus.track || existingStatus.track.track_resource.name !== status.track.track_resource.name){
+          if(!existingStatus.track || !existingStatus.track.track_resource || existingStatus.track.track_resource.name !== status.track.track_resource.name){
             //console.log('updating this shit burger');
             //console.log('update the track');
             //console.log(track);

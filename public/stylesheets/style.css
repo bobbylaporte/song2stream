@@ -340,3 +340,37 @@ a.about{
   right: 5px;
 
 }
+
+
+
+
+
+.tabs{
+  border-bottom: solid 1px #000;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.tabs .tab{
+  display: block;
+  float:left;
+  width: 50%;
+  font-size: 15px;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  font-weight: 200;
+}
+
+.tabs .tab.active{
+  font-weight: bold;
+}
+
+
+
+ul.song-requests{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+}
