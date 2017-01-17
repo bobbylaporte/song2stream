@@ -1,0 +1,266 @@
+<div layout="row" class="outer-most-wrapper">
+  <div class="column-wrapper" layout="column" flex>
+    <div class="primary-view-wrapper dashboard" layout="column" flex>
+      <md-tabs md-border-bottom md-stretch-tabs="always">
+        <md-tab label="Appearance">
+          <md-content class="md-padding">
+            <div layout="row">
+              <div class="form-type-header" flex>
+                {{dashboardCtrl.config.config_type}} Formatting
+              </div>
+
+              <md-button ng-if="dashboardCtrl.config.config_type === 'basic'" ng-click="dashboardCtrl.config.config_type = 'advanced'" class="md-secondary md-raised form-type-toggle">
+                <md-icon>code</md-icon> Show Advanced
+              </md-button>
+
+              <md-button ng-if="dashboardCtrl.config.config_type === 'advanced'" ng-click="dashboardCtrl.config.config_type = 'basic'" class="md-secondary md-raised form-type-toggle">
+                <md-icon>format_paint</md-icon> Show Basic
+              </md-button>
+            </div>
+
+            <div class="form basic-form" ng-if="dashboardCtrl.config.config_type === 'basic'">
+
+              <div layout="row" class="font-row">
+                <md-input-container class="md-block" flex>
+                  <label>Google Font</label>
+                  <input ng-model="dashboardCtrl.config.font_family">
+                </md-input-container>
+
+                <md-input-container class="md-block font-size">
+                  <label>Font Size</label>
+                  <input min="0" step="1" type="number" ng-model="dashboardCtrl.config.font_size">
+                </md-input-container>
+                <div class="pixels"> pixels</div>
+              </div>
+
+  <!--             <div
+                md-color-picker
+                ng-model="config.font_color"
+                label="Font Color"></div>
+
+              <div
+                md-color-picker
+                ng-model="config.background_color"
+                label="Background Color"></div> -->
+
+              <div layout="row" class="second-row">
+                <md-input-container class="md-block" flex>
+                  <label>Template Type</label>
+                  <md-select ng-model="dashboardCtrl.config.template_type">
+                    <md-option ng-repeat="option in dashboardCtrl.selectOptions.templateType" value="{{option.value}}">{{option.label}}</md-option>
+                  </md-select>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex>
+                  <label>Auto Hide</label>
+                  <input type="number" min="0" step="1" ng-model="dashboardCtrl.config.auto_hide">
+                  <div ng-if="dashboardCtrl.config.auto_hide !== 0" class="hint">Auto hide after {{dashboardCtrl.config.auto_hide}} seconds.</div>
+                  <div ng-if="dashboardCtrl.config.auto_hide === 0" class="hint">Never Auto Hide</div>
+                </md-input-container>
+              </div>
+
+
+              <div layout="row" class="second-row">
+
+                <md-input-container class="md-block" flex>
+                  <label>Position X</label>
+                  <md-select ng-model="dashboardCtrl.config.position_x">
+                    <md-option ng-repeat="option in dashboardCtrl.selectOptions.positionX" value="{{option.value}}">{{option.label}}</md-option>
+                  </md-select>
+                </md-input-container>
+
+
+                <md-input-container class="md-block" flex>
+                  <label>Position Y</label>
+                  <md-select ng-model="dashboardCtrl.config.position_y">
+                    <md-option ng-repeat="option in dashboardCtrl.selectOptions.positionY" value="{{option.value}}">{{option.label}}</md-option>
+                  </md-select>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex>
+                  <label>Align Text</label>
+                  <md-select ng-model="dashboardCtrl.config.align_text">
+                    <md-option ng-repeat="option in dashboardCtrl.selectOptions.alignText" value="{{option.value}}">{{option.label}}</md-option>
+                  </md-select>
+                </md-input-container>
+
+              </div>
+
+              <md-input-container class="md-block">
+                <label>Animation Type</label>
+                <md-select ng-model="dashboardCtrl.config.animation_type">
+                  <md-option ng-repeat="option in dashboardCtrl.selectOptions.animationType" value="{{option.value}}">{{option.label}}</md-option>
+                </md-select>
+              </md-input-container>
+
+            </div>
+
+            <div class="form advanced-form" ng-if="dashboardCtrl.config.config_type === 'advanced'">
+
+              <!-- <strong class="md-warn">Only Override the CSS if you know what you are doing.</strong> -->
+
+              HTML
+              <div class="code html" ui-ace="{
+                useWrapMode : true,
+                showGutter: false,
+                theme:'monokai',
+                mode: 'html',
+                firstLineNumber: 1
+              }"></div>
+
+              CSS
+              <div class="code css" ui-ace="{
+                useWrapMode : true,
+                showGutter: false,
+                theme:'monokai',
+                mode: 'css',
+                firstLineNumber: 1
+              }"></div>
+
+            </div>
+
+
+            <div layout="row">
+              <md-button class="md-secondary md-raised" target="_blank" ng-href="http://localhost:1337" flex>
+                <md-icon>featured_video</md-icon> Open Overlay
+              </md-button>
+              <md-button class="md-primary md-raised" ng-click="dashboardCtrl.save($event)" aria-label="Save" flex>
+                <md-icon>save</md-icon> Save Settings
+              </md-button>
+            </div>
+
+
+
+          </md-content>
+        </md-tab>
+        <md-tab label="Song Requests">
+          <md-content class="md-padding">
+
+
+            <div class="settings-bar" layout="row">
+              <div flex>
+                <md-switch class="request-switch md-warn" ng-model="requestsEnabled" aria-label="Enable Song Requests">
+                  Requests are <span ng-if="!requestsEnabled">OFF</span> <strong ng-if="requestsEnabled">ON</strong>
+                </md-switch>
+              </div>
+
+              <div flex>
+                <md-button class="request-settings-button">
+                  <md-icon>settings</md-icon> Settings
+                </md-button>
+
+                <!-- OPEN MODAL WITH SETTINGS INSIDE -->
+              </div>
+            </div>
+
+
+            <div class="settings-bar" layout="row">
+              <div flex>
+                <md-button class="refresh-button" ng-click="dashboardCtrl.refreshList()">
+                  <md-icon>refresh</md-icon> Refresh List
+                </md-button>
+              </div>
+              <div class="last-updated" flex>
+              Last Updated: ####
+              </div>
+            </div>
+
+
+            <div ng-if="dashboardCtrl.songs.length === 0">
+              No Song Requests to Display. Let your viewers know when Requests are open!
+            </div>
+
+
+
+            <md-list ng-if="dashboardCtrl.songs.length > 0">
+
+              <md-list-item ng-repeat="song in dashboardCtrl.songs track by $index" class="song-request-list-item" layout="row">
+                <div class="text-holder">
+                  <h3>
+<!--                     <md-tooltip md-direction="top">
+                      Helena (So Long &amp; Goodnight)
+                    </md-tooltip> -->
+                    {{song.name}}
+                  </h3>
+
+                  <h4>
+<!--                     <md-tooltip md-direction="top">
+                      My Chemical Romance
+                    </md-tooltip> -->
+                    {{song.artist}}
+                  </h4>
+
+                  <p>Requested by <a href="#">{{song.requested_by}}</a></p>
+                </div>
+
+                <div class="buttons" layout="row">
+                  <md-button class="md-warn md-raised" ng-click="dashboardCtrl.removeSong($index, song.uri)" aria-label="Chat" flex>
+                    <md-icon>delete</md-icon>
+                  </md-button>
+
+                  <md-button class="md-primary md-raised" ng-click="dashboardCtrl.addSong($index, song.uri)" aria-label="Chat" flex>
+                    <md-icon>playlist_add</md-icon>
+                  </md-button>
+                </div>
+
+                <span class="notice-text">
+                  {{dashboardCtrl.noticeText[$index]}}
+                </span>
+              </md-list-item>
+
+            </md-list>
+
+
+
+
+          </md-content>
+        </md-tab>
+      </md-tabs>
+
+
+
+
+    </div>
+
+    <div class="status-bottom-bar" layout="row">
+      <div class="local-spotify" flex>
+        <div class="status">
+          <md-icon>fiber_manual_record</md-icon>
+          <div class="text">
+            <strong>Spotify Client</strong>
+            <span>Offline</span>
+          </div>
+        </div>
+      </div>
+      <div class="spotify-api" flex>
+        <div class="status" ng-if="dashboardCtrl.loggedIntoSpotify">
+          <md-icon>fiber_manual_record</md-icon>
+          <div class="text">
+            <strong>Spotify API</strong>
+            <span>Offline</span>
+          </div>
+        </div>
+        <div ng-if="!dashboardCtrl.loggedIntoSpotify" class="connect-link">
+        <i class="fa fa-spotify fa-2x social-icon"></i>
+        Connect
+        </div>
+      </div>
+      <div class="twitch-api" flex>
+        <div class="status" ng-if="dashboardCtrl.loggedIntoTwitch">
+          <md-icon>fiber_manual_record</md-icon>
+          <div class="text">
+            <strong>Twitch API</strong>
+            <span>Connected</span>
+          </div>
+        </div>
+        <div ng-if="!dashboardCtrl.loggedIntoTwitch" class="connect-link">
+          <i class="fa fa-twitch fa-2x"></i>
+          Connect
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>

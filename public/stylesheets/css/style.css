@@ -1,0 +1,284 @@
+@import url("https://fonts.googleapis.com/css?family=Ubuntu");
+html {
+  box-sizing: border-box; }
+
+*, *:before, *:after {
+  box-sizing: inherit; }
+
+body {
+  font: 20px 'Ubuntu';
+  overflow: hidden;
+  /*  background-color: #1c1c1d;
+  color: #FFF;*/ }
+
+h1 {
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px; }
+
+header {
+  width: 300px;
+  margin: 0 auto; }
+
+header .logo {
+  height: 65px;
+  width: 80px;
+  float: left; }
+
+header .logo img {
+  display: block;
+  float: left;
+  width: 65px;
+  margin: 0 auto; }
+
+header h2 {
+  float: left;
+  margin-left: 10px; }
+
+.overlay-link {
+  clear: both;
+  display: block;
+  text-align: center;
+  display: block;
+  line-height: 40px;
+  text-decoration: none;
+  font-size: 16px;
+  border: solid 1px #000;
+  /* padding: 10px; */
+  margin: 10px 0;
+  background-color: #000;
+  color: #FFF;
+  overflow: hidden;
+  border-radius: 8px; }
+
+.overlay-link i {
+  font-size: 30px;
+  margin-left: 10px;
+  position: relative;
+  bottom: -5px; }
+
+.save-button {
+  display: block;
+  width: 100px;
+  height: 30px;
+  margin: 10px auto; }
+
+.config-form {
+  width: 333px;
+  margin: 0 auto;
+  clear: both; }
+
+.config-form .input-wrap {
+  display: block;
+  clear: left;
+  height: 30px; }
+
+.config-form span {
+  font-size: 13px;
+  line-height: 20px; }
+
+.config-form .label {
+  font-size: 13px;
+  display: block;
+  float: left;
+  width: 115px;
+  text-align: right;
+  margin-right: 5px;
+  line-height: 20px; }
+
+.config-form .label.after {
+  text-align: left;
+  width: 165px;
+  margin-left: 5px; }
+
+.config-form input,
+.config-form select {
+  display: block;
+  float: left; }
+
+.bot-status {
+  overflow: hidden;
+  text-align: left;
+  display: block;
+  /*float:left;*/
+  font-size: 14px;
+  font-weight: 300;
+  border: solid 1px #666;
+  border-radius: 8px;
+  /*width: 50%;*/
+  margin: 0 auto;
+  margin-bottom: 10px; }
+
+.spotify-status {
+  overflow: hidden;
+  text-align: left;
+  display: block;
+  /*float:left;*/
+  font-size: 14px;
+  font-weight: 300;
+  border: solid 1px #666;
+  border-radius: 8px;
+  /*width: 50%;*/
+  margin: 0 auto;
+  margin-bottom: 10px; }
+
+.bot-status > i::before,
+.spotify-status > i::before {
+  font-family: 'FontAwesome';
+  content: '\f1db';
+  border-right: solid 1px #666;
+  padding-right: 5px;
+  margin-right: 5px;
+  margin-left: 5px; }
+
+.bot-status.disconnected > i::before,
+.spotify-status.disconnected i::before {
+  font-family: 'FontAwesome';
+  color: red;
+  content: '\f111'; }
+
+.bot-status.connected > i::before,
+.spotify-status.connected > i::before {
+  font-family: 'FontAwesome';
+  color: green;
+  content: '\f111'; }
+
+.bot-status .big-twitch-button {
+  display: block;
+  background-color: purple;
+  color: #FFF;
+  font-size: 16px;
+  padding: 10px;
+  margin: 0 auto; }
+
+.bot-status .big-twitch-button i {
+  margin-right: 10px; }
+
+.card {
+  font-family: 'Ubuntu';
+  font-size: 40px;
+  position: absolute;
+  opacity: 1;
+  display: none;
+  margin-right: -10px;
+  background-color: #FFF;
+  width: auto;
+  max-width: 100%;
+  /*-webkit-box-shadow: -3px 3px 2px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: -3px 3px 2px 0px rgba(0,0,0,0.75);
+	box-shadow: -3px 3px 2px 0px rgba(0,0,0,0.75);*/
+  /*border: solid 1px #000;*/
+  transition: 0.8s all ease-in-out;
+  transform-style: preserve-3d; }
+
+.card.top {
+  top: 0px; }
+
+.card.bottom {
+  bottom: 0px; }
+
+.card.left {
+  left: 0px; }
+
+.card.right {
+  right: 0px; }
+
+.card.paused::before {
+  font-family: 'FontAwesome';
+  top: 0;
+  left: 0;
+  text-align: center;
+  content: '\f04c';
+  position: absolute;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: #FFF;
+  line-height: 250%; }
+
+.name {
+  font-size: 1em;
+  /*width: 100%;*/
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 10px;
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+  /*text-overflow: ellipsis;*/ }
+
+.artist {
+  font-size: 0.65em;
+  opacity: 0.65;
+  /*width: 100%;*/
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+  /*text-overflow: ellipsis;*/ }
+
+.card.single_line .name {
+  margin-bottom: 10px; }
+
+.offline {
+  font-style: italic;
+  font-size: 0.85em;
+  opacity: 0.75;
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 30px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap; }
+
+.status {
+  font-size: 0.5em;
+  display: none; }
+
+.slide-right {
+  transform: translate(100%); }
+
+.slide-left {
+  transform: translate(-100%); }
+
+.slide-up {
+  transform: translate(0, -100%); }
+
+.slide-down {
+  transform: translate(0, 100%); }
+
+.fade-out {
+  opacity: 0; }
+
+a.about {
+  position: absolute;
+  top: 5px;
+  right: 5px; }
+
+.tabs {
+  border-bottom: solid 1px #000;
+  overflow: hidden;
+  margin-bottom: 10px; }
+
+.tabs .tab {
+  display: block;
+  float: left;
+  width: 50%;
+  font-size: 15px;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  font-weight: 200; }
+
+.tabs .tab.active {
+  font-weight: bold; }
+
+ul.song-requests {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12px; }

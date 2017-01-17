@@ -5,7 +5,7 @@ var client = connect();
 var fs = require('fs');
 var path = require('path');
 var log = require('electron-log');
-
+var _ = require('lodash');
 
 module.exports.listen = function(app){
 
@@ -33,14 +33,17 @@ module.exports.listen = function(app){
         status = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/spotify_status.json'), 'utf8'));
         console.log('Read Status File');
 
-        var track_name = status.track.track_resource.name;
-        var track_link = status.track.track_resource.location.og;
-        var artist_name = status.track.artist_resource.name;
-        var album_name = status.track.album_resource.name;
-        var playing = status.playing;
+        if(_.isEmpty(status.track)){
+          var track = { name: 'No Song to Play', link: 'No Track URI', artist: 'Try Another Playlist', album_name: '', playing: true };
+          }else{
+          var track_name = status.track.track_resource.name;
+          var track_link = status.track.track_resource.location.og;
+          var artist_name = status.track.artist_resource.name;
+          var album_name = status.track.album_resource.name;
+          var playing = status.playing;
 
-        var track = { name: track_name, link: track_link, artist: artist_name, album_name: album_name, playing: playing };
-
+          var track = { name: track_name, link: track_link, artist: artist_name, album_name: album_name, playing: playing };
+        }
         io.emit('update_track', track);
 
       } catch (err) {

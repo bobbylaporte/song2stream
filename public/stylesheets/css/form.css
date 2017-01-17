@@ -1,0 +1,174 @@
+.outer-most-wrapper {
+  height: 100vh;
+  background-color: #2d9d51; }
+
+md-tabs {
+  height: 100vh; }
+
+md-tabs md-content {
+  background-color: #2d9d51; }
+
+md-list-item.song-request-list-item {
+  margin-top: 10px;
+  height: 64px;
+  background-color: #44a965; }
+
+md-list-item.song-request-list-item .text-holder {
+  color: #FFF;
+  flex: 1;
+  padding-left: 15px;
+  overflow: hidden; }
+
+md-list-item.song-request-list-item .text-holder h3 {
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  line-height: 22px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%; }
+
+md-list-item.song-request-list-item .text-holder h4 {
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  line-height: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%; }
+
+md-list-item.song-request-list-item .text-holder p {
+  margin: 0;
+  padding: 0;
+  font-size: 11px;
+  line-height: 16px; }
+
+md-list-item.song-request-list-item .buttons {
+  position: relative;
+  top: -5px;
+  flex: 0 0 100px; }
+
+md-list-item.song-request-list-item .notice-text {
+  position: absolute;
+  bottom: 4px;
+  right: 10px;
+  font-size: 11px;
+  color: #FFF; }
+
+md-content {
+  color: #FFF; }
+
+md-select-menu md-content {
+  color: #000; }
+
+.font-row {
+  height: 64px; }
+  .font-row .font-size {
+    flex: 0 0 66px; }
+    .font-row .font-size input {
+      text-align: right; }
+      .font-row .font-size input::-webkit-outer-spin-button, .font-row .font-size input::-webkit-inner-spin-button {
+        /* display: none; <- Crashes Chrome on hover */
+        -webkit-appearance: none;
+        margin: 0;
+        /* <-- Apparently some margin are still there even though it's hidden */ }
+  .font-row .pixels {
+    flex: 0 0 44px;
+    line-height: 70px; }
+
+.request-switch {
+  margin-top: 3px;
+  margin-bottom: 0;
+  color: #FFF; }
+
+.hint {
+  font-size: 12px; }
+
+.last-updated {
+  font-size: 12px;
+  line-height: 36px; }
+
+.request-settings-button {
+  margin: 0;
+  float: right;
+  color: #FFF; }
+  .request-settings-button md-icon {
+    color: #FFF; }
+
+.refresh-button {
+  margin: 0;
+  color: #FFF; }
+  .refresh-button md-icon {
+    color: #FFF; }
+
+.status-bottom-bar {
+  height: 40px;
+  text-align: center;
+  background-color: #FFF; }
+  .status-bottom-bar md-icon {
+    float: left; }
+  .status-bottom-bar .spotify-api,
+  .status-bottom-bar .twitch-api {
+    flex: 0 0 125px; }
+  .status-bottom-bar .status {
+    position: relative;
+    top: 3px; }
+  .status-bottom-bar .local-spotify .status {
+    padding-left: 5px; }
+  .status-bottom-bar .text {
+    float: left;
+    height: 40px;
+    text-align: left; }
+    .status-bottom-bar .text strong {
+      display: block;
+      height: 20px;
+      line-height: 20px;
+      font-size: 16px; }
+    .status-bottom-bar .text span {
+      display: block;
+      font-size: 11px;
+      line-height: 11px; }
+
+.form-type-toggle {
+  margin: 0 auto;
+  height: 35px;
+  min-height: 35px;
+  margin-bottom: 10px; }
+  .form-type-toggle md-icon {
+    color: #FFF; }
+
+.form-type-header {
+  font-weight: bold;
+  text-transform: capitalize;
+  line-height: 40px; }
+
+.form {
+  padding: 15px;
+  background-color: #44a965; }
+
+.code.html {
+  height: 80px; }
+
+.code.css {
+  height: 200px; }
+
+.connect-link {
+  text-align: center;
+  line-height: 25px; }
+  .connect-link i {
+    position: relative;
+    top: 6px; }
+
+.twitch-api {
+  color: #FFF;
+  background-color: #6441a4; }
+
+.spotify-api {
+  background-color: #2EBD59;
+  color: #FFF; }
+  .spotify-api .connect-link i {
+    top: 4px; }

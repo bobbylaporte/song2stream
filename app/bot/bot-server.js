@@ -189,6 +189,7 @@ module.exports = function(twitchChannel, io){
                 try {
                   fs.writeFileSync(path.join(__dirname, '/../../data/requested_tracks.json'), JSON.stringify(requests_array));
                   console.log('Wrote new Request to File');
+                  io.emit('song_request_added');
                 } catch (err) {
                   console.log('Error writing request to file');
                   console.log(err);

@@ -1,0 +1,75 @@
+<md-sidenav class="md-sidenav-left main-sidenav" md-component-id="left" md-is-locked-open="$mdMedia('min-width: 720px')" layout="column">
+
+  <div class="sidebar-profile" flex>
+    <img ng-src="/images/bracket_logo.png" alt="blah" />
+  </div>
+
+  <md-content layout="column" layout-padding flex>
+    <md-list flex layout="column">
+
+      <md-list-item ng-click="navigateTo('tournaments/featured', $event)">
+        <md-icon>star</md-icon>
+        <p>Featured</p>
+      </md-list-item>
+
+      <md-list-item ng-click="navigateTo('tournaments/find', $event)">
+        <md-icon md-font-set="fa" class="fa-search"></md-icon>
+        <p>Find</p>
+      </md-list-item>
+
+
+      <hr>
+
+
+      <md-list-item ng-if="!isLoggedIn" ng-click="login('twitch')">
+        <i class="fa fa-twitch fa-2x social-icon"></i> Login with Twitch
+      </md-list-item>
+      <!-- Use:  ng-click="navigateTo(setting.extraScreen, $event)" -->
+
+      <div ng-if="isLoggedIn" class="user-buttons" layout="column">
+        <div class="user-buttons-inner">
+          <md-list-item ng-click="navigateTo('/user/dashboard', $event)">
+            <md-icon>dashboard</md-icon>
+            <p>My Dashboard</p>
+          </md-list-item>
+
+          <md-list-item ng-click="navigateTo('/user/matches', $event)">
+            <md-icon>videogame_asset</md-icon>
+            <p>My Matches</p>
+          </md-list-item>
+
+          <md-list-item ng-click="navigateTo('/user/tournaments', $event)">
+            <md-icon md-font-set="fa" class="fa-trophy"></md-icon>
+
+            <p>My Tournaments</p>
+          </md-list-item>
+
+          <md-list-item ng-click="navigateTo('user/teams', $event)">
+            <md-icon>recent_actors</md-icon>
+            <p>My Teams</p>
+          </md-list-item>
+
+          <md-list-item ng-click="navigateTo('/user/organizations', $event)">
+            <md-icon>group</md-icon>
+            <p>My Organizations</p>
+          </md-list-item>
+
+          <md-list-item ng-click="navigateTo('/user/invites', $event)">
+            <md-icon>mail_outline</md-icon>
+            <p>My Invites</p>
+          </md-list-item>
+
+          <md-list-item ng-click="navigateTo(userProfilePath)">
+            <md-icon>face</md-icon>
+            <p>{{userName}}</p>
+          </md-list-item>
+
+          <md-list-item class="md-warn" ng-click="logout()">
+            <md-icon>exit_to_app</md-icon>
+            <p>Logout</p>
+          </md-list-item>
+        </div>
+      </div>
+    </md-list>
+  </md-content>
+</md-sidenav>

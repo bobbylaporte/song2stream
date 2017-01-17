@@ -1,0 +1,46 @@
+<md-dialog aria-label="Create Tournament" class="create-modal">
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Create Tournament</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="modalCtrl.cancel()">
+          <md-icon aria-label="Close dialog">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content layout-padding>
+
+      <form novalidate name="tournamentForm" id="tournamentForm" layout="column" flex>
+        <md-input-container class="md-block">
+          <label>Tournament Name</label>
+          <input ng-model="modalCtrl.tournament.name" name="name" required>
+          <div ng-messages="tournamentForm.name.$error" role="alert">
+            <div ng-message="required">You need to provide a name</div>
+          </div>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label>Game</label>
+          <!-- <input ng-model="formCtrl.tournament.game" name="game" ng-disabled="formCtrl.tournament.state !== 'draft'"> -->
+          <md-select ng-model="modalCtrl.tournament.game" name="game" required>
+            <md-option ng-value="'Rocket League'">Rocket League</md-option>
+          </md-select>
+          <!-- <div>What game are you playing?</div> -->
+          <div ng-messages="tournamentForm.game.$error" role="alert">
+            <div ng-message="required">You need to have a Game selected</div>
+          </div>
+        </md-input-container>
+      </form>
+
+
+
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button class="md-primary md-raised" ng-click="modalCtrl.save()">
+        Create Tournament
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

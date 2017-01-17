@@ -79,7 +79,14 @@ module.exports = () => {
   app.use(express.static(path.join(__dirname, '/../public/')));
 
   app.use('/', index(io));
-  app.use('/home', home(io));
+
+  //app.use('/home', home(io));
+
+  app.get('/home', function(req, res) {
+    res.sendfile('./public/interface.html'); // load the single view file (angular will handle the page changes on the front-end)
+  });
+
+
   app.use('/api', api(io));
 
   app.use('/auth', auth(io));

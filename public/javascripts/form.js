@@ -227,7 +227,9 @@ function removeSongRequest($track){
   }).done(function( data ) {
 
     console.log('song deleted');
-    $track.parent().slideUp().remove();
+    $track.parent().slideUp(400, function() {
+      $(this).remove();
+    });
 
   }).fail(function( jqXHR, textStatus ) {
     console.log('song not deleted');

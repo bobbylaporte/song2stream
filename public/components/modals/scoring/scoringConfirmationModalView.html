@@ -1,0 +1,51 @@
+<md-dialog aria-label="Confirm Match Score" class="scoring-modal confirmation">
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Confirm Match Score</h2>
+      </div>
+    </md-toolbar>
+    <md-dialog-content layout-padding flex layout="row">
+      <div class="team left" ng-class="{ 'winner': winner === 'one', 'loser': loser === 'one' }" flex layout="row">
+        <div layout="column" flex>
+          <img ng-src="/images/default_individual.jpg" class="md-avatar" alt="blah" />
+          <h3>{{ match.participants[0].name }}</h3>
+          <h4 ng-if="winner === 'one'">Winner</h4>
+          <h4 ng-if="winner === 'two'">Loser</h4>
+        </div>
+        <div layout="column" class="game-scores" flex>
+          <div ng-repeat="game in match.games track by $index" class="game" layout="row">
+            <div class="win-loss" ng-class="{ 'winner': game.score_two < game.score_one, 'loser': game.score_two > game.score_one }">{{game.score_one}}</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="vs">
+        vs.
+      </div>
+      <div class="team right" ng-class="{ 'winner': winner === 'two', 'loser': loser === 'two' }" flex layout="row">
+        <div layout="column" class="game-scores" flex>
+          <div ng-repeat="game in match.games track by $index" class="game" layout="row">
+            <div class="win-loss" ng-class="{ 'winner': game.score_two > game.score_one, 'loser': game.score_two < game.score_one }">{{game.score_two}}</div>
+          </div>
+        </div>
+        <div layout="column" flex>
+          <img ng-src="/images/default_individual.jpg" class="md-avatar" alt="blah" />
+          <h3>{{ match.participants[1].name }}</h3>
+          <h4 ng-if="winner === 'two'">Winner</h4>
+          <h4 ng-if="winner === 'one'">Loser</h4>
+        </div>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <p class="small">Confirming will complete and lock this match.</p>
+      <span flex></span>
+      <md-button ng-click="modalCtrl.cancel()">
+        Cancel
+      </md-button>
+      <md-button class="md-primary md-raised"ng-click="modalCtrl.saveMatchData()">
+        Confirm
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

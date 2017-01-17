@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "bower-webpack-plugin": "^0.1.9",
+    "browser-sync": "^2.18.6",
     "electron": "^1.4.10",
     "electron-installer-windows": "^0.2.0",
     "electron-packager": "^8.4.0",

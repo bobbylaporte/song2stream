@@ -1,6 +1,7 @@
 const SpotifyWebHelper = require('@jonny/spotify-web-helper');
 const fs = require('fs');
 const path = require('path');
+const _ = require('lodash');
 
 let helper = SpotifyWebHelper();
 let pollingTimer;
@@ -66,6 +67,7 @@ module.exports = function(io){
         if(status.online === false || status.running === false){
 
           if(existingStatus.online){
+            console.log('going offline one');
             goOffline(status);
           }
 
@@ -78,6 +80,7 @@ module.exports = function(io){
           }else if(status.error.type === '4110'){
 
             if(existingStatus.online){
+              console.log('going offline two');
               goOffline(status);
             }
 
@@ -94,7 +97,12 @@ module.exports = function(io){
           // Offline
           if(existingStatus.online){
             goOffline(status);
+            console.log('going offline three');
           }
+        }else if(_.isEmpty(status.track)){
+
+          console.log('NO SONG TO PLAY, IDIOTS!!!!!!');
+
         }else{
 
           console.log('Current Track:' + status.track.track_resource.name);

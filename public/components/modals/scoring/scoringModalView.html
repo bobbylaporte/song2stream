@@ -1,0 +1,77 @@
+<md-dialog aria-label="Score Match" class="scoring-modal">
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Score Match</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="modalCtrl.cancel()">
+          <md-icon aria-label="Close dialog">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content layout-padding flex layout="row">
+
+      <div class="team left" flex layout="row">
+        <div layout="column" flex>
+          <!-- <img ng-src="{{ match.participants[0].picture }}" class="md-avatar" alt="blah" /> -->
+          <img ng-src="/images/default_individual.jpg" class="md-avatar" alt="blah" />
+          <h3>{{ match.participants[0].name }}</h3>
+        </div>
+
+        <div layout="column" class="game-scores" flex>
+          <div ng-repeat="game in match.games track by $index" class="game" layout="row">
+
+            <md-input-container md-no-float flex>
+              <input ng-disabled="modalCtrl.disabledInput($index)" placeholder="Game {{$index+1}}" ng-model="game.score_one" type="number" step="1">
+            </md-input-container>
+
+            <button class="win-loss" ng-click="modalCtrl.quickScore($index, 0);" ng-disabled="modalCtrl.disabledInput($index)" ng-class="{ 'winner': (match.games[$index].score_two < match.games[$index].score_one) && (match.games[$index].score_one !== null && match.games[$index].score_two !== null), 'loser': (match.games[$index].score_two > match.games[$index].score_one) && (match.games[$index].score_one !== null && match.games[$index].score_two !== null) }"></button>
+          </div>
+        </div>
+
+      </div>
+      <div class="vs">
+        <div>vs.</div>
+      </div>
+      <div class="team right" flex layout="row">
+        <div layout="column" class="game-scores" flex>
+          <div ng-repeat="game in match.games track by $index" class="game" layout="row">
+
+            <button class="win-loss" ng-click="modalCtrl.quickScore($index, 1);" ng-disabled="modalCtrl.disabledInput($index)" ng-class="{ 'winner': (match.games[$index].score_two > match.games[$index].score_one) && (match.games[$index].score_one !== null && match.games[$index].score_two !== null), 'loser': (match.games[$index].score_two < match.games[$index].score_one) && (match.games[$index].score_one !== null && match.games[$index].score_two !== null) }"></button>
+
+            <md-input-container md-no-float flex>
+              <input ng-disabled="modalCtrl.disabledInput($index)" placeholder="Game {{$index+1}}" ng-model="game.score_two" type="number" step="1">
+            </md-input-container>
+          </div>
+        </div>
+
+        <div layout="column" flex>
+          <!-- <img ng-src="{{ match.participants[1].picture }}" class="md-avatar" alt="blah" /> -->
+          <img ng-src="/images/default_individual.jpg" class="md-avatar" alt="blah" />
+
+          <h3>{{ match.participants[1].name }}</h3>
+        </div>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <!-- <md-checkbox ng-model="modalCtrl.advancedScoring" aria-label="Advanced Scoring">
+        Advanced Scoring
+      </md-checkbox> -->
+      <div ng-if="!modalCtrl.valid">
+        <strong>Cannot complete match yet because:</strong>
+        <p ng-repeat="error in modalCtrl.errors">{{error}}</p>
+      </div>
+
+      <div ng-if="modalCtrl.valid">
+        <strong>This match is valid and can be completed.</strong>
+      </div>
+      <span flex></span>
+      <md-button class="md-secondary" ng-click="modalCtrl.save()">
+        Save Scores
+      </md-button>
+      <md-button class="md-primary md-raised" ng-disabled="!modalCtrl.valid" ng-click="modalCtrl.confirmScore()">
+        Complete Match
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

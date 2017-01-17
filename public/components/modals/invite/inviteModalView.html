@@ -1,0 +1,68 @@
+<md-dialog aria-label="Create Team" class="create-modal">
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{ modalCtrl.title }}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="modalCtrl.cancel()">
+          <md-icon aria-label="Close dialog">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content layout-padding flex layout="row" class="add-player-modal">
+
+      <!-- <md-autocomplete flex
+          md-selected-item="modalCtrl.selectedItem"
+          md-search-text="modalCtrl.searchText"
+          md-items="item in modalCtrl.querySearch(modalCtrl.searchText)"
+          md-item-text="modalCtrl.name"
+          md-floating-label="Search Players">
+        <span md-highlight-text="modalCtrl.searchText">{{modalCtrl.name}}</span>
+      </md-autocomplete> -->
+
+
+
+      <md-autocomplete ng-if="!modalCtrl.userSelected" style="width:100%;"
+          ng-disabled="modalCtrl.isDisabled"
+          md-no-cache="modalCtrl.noCache"
+          md-selected-item="modalCtrl.selectedUser"
+          md-search-text="modalCtrl.searchText"
+          md-selected-item-change="modalCtrl.selectUser(item)"
+          md-items="item in modalCtrl.querySearch(modalCtrl.searchText)"
+          md-item-text="item.display"
+          md-min-length="0"
+          placeholder="Search User's Twitch Handle..."
+          md-menu-class="autocomplete-player-template">
+        <md-item-template>
+          <img ng-if="item.profile_image_url" ng-src="{{item.profile_image_url}}" alt="blah" />
+          <img ng-if="!item.profile_image_url" ng-src="/images/default_individual.jpg" alt="blah" />
+          <span md-highlight-text="modalCtrl.searchText" md-highlight-flags="^i">{{item.name}}</span> |
+          <span>{{item.oauthType}}</span> |
+          <span>{{item.created}}</span> |
+          <span>{{item._id}}</span>
+        </md-item-template>
+        <md-not-found>
+          No players matching "{{modalCtrl.searchText}}" were found.
+          <!-- <a ng-click="ctrl.newState(modalCtrl.searchText)">Create a new one!</a> -->
+        </md-not-found>
+      </md-autocomplete>
+
+
+
+      <div ng-if="modalCtrl.selectedUser" layout="row">
+        <div>{{modalCtrl.selectedUser.name}} AS: </div>
+        <md-select ng-model="modalCtrl.selectedRole" placeholder="Select Role" ng-required="true">
+          <md-option ng-repeat="option in modalCtrl.roles track by $index" value="{{option}}">{{option}}</md-option>
+        </md-select>
+      </div>
+
+
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-disabled="!modalCtrl.selectedUser || !modalCtrl.selectedRole" class="md-primary md-raised" ng-click="modalCtrl.save($event)">
+        Send Invite
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
