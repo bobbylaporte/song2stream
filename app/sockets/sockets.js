@@ -16,11 +16,11 @@ module.exports.listen = function(app){
     io.on('connection', function (socket) {
 
 
-      console.log('client connected');
+      console.log('socket client connected');
 
 
       socket.on('disconnect', function (socket) {
-      	console.log('client disconnected');
+      	console.log('socket client disconnected');
   	  	//clearStatus();
   	  });
 

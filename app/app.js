@@ -83,7 +83,7 @@ module.exports = () => {
   //app.use('/home', home(io));
 
   app.get('/home', function(req, res) {
-    res.sendfile('./public/interface.html'); // load the single view file (angular will handle the page changes on the front-end)
+    res.sendFile(path.join(__dirname, '/../public/interface.html')); // load the single view file (angular will handle the page changes on the front-end)
   });
 
 

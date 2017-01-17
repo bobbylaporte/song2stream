@@ -1,1 +1,1 @@
-{"config_type":"basic","font_family":"Amatic SC","font_size":30,"font_color":"rgb(255, 255, 255)","align_text":"right","background_color":"rgb(0, 0, 0)","template_type":"two_lines","animation_type":"slide-left","position_x":"left","position_y":"top","auto_hide":0}
+{"config_type":"basic","font_family":"Amatic SC","font_size":30,"font_color":"rgb(255, 255, 255)","align_text":"right","background_color":"rgb(0, 0, 0)","template_type":"two_lines","animation_type":"fade-out","position_x":"left","position_y":"top","auto_hide":0}

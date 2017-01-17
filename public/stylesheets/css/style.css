@@ -1,4 +1,7 @@
-@import url("https://fonts.googleapis.com/css?family=Ubuntu");
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+button, select, html, textarea, input {
+  font-family: 'Montserrat', 'Arial,', sans-serif !important; }
+
 html {
   box-sizing: border-box; }
 
@@ -6,10 +9,7 @@ html {
   box-sizing: inherit; }
 
 body {
-  font: 20px 'Ubuntu';
-  overflow: hidden;
-  /*  background-color: #1c1c1d;
-  color: #FFF;*/ }
+  overflow: hidden; }
 
 h1 {
   text-align: center;

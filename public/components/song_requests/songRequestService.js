@@ -14,7 +14,12 @@
       getUserPreferences: getUserPreferences,
       saveUserPreferences: saveUserPreferences,
 
-      checkForAuthFile: checkForAuthFile,
+      checkForTwitchAuthFile: checkForTwitchAuthFile,
+      checkForSpotifyAuthFile: checkForSpotifyAuthFile,
+
+      getTrack: getTrack,
+
+      logout: logout,
 
     };
 
@@ -164,14 +169,67 @@
 
 
 
-    function checkForAuthFile(){
+    function checkForTwitchAuthFile(){
       return $q(function (resolve, reject) {
-        $http.get('http://localhost:1337/api/check_auth_file').then(function (response) {
+        $http.get('http://localhost:1337/api/check_twitch_auth_file').then(function (response) {
           resolve(response.data);
         }).catch(function (err) {
           reject(err);
         });
       });
+    }
+
+
+    function checkForSpotifyAuthFile(){
+      return $q(function (resolve, reject) {
+        $http.get('http://localhost:1337/api/check_spotify_auth_file').then(function (response) {
+          resolve(response.data);
+        }).catch(function (err) {
+          reject(err);
+        });
+      });
+    }
+
+    function getTrack(){
+      return $q(function (resolve, reject) {
+        $http.get('http://localhost:1337/api/track').then(function (response) {
+          resolve(response.data);
+        }).catch(function (err) {
+          reject(err);
+        });
+      });
+    }
+
+    function logout(service) {
+
+      return $q(function (resolve, reject) {
+        switch(service){
+          case 'twitch':
+            $http.post('http://localhost:1337/auth/twitch/delete_user').then(function (response) {
+              resolve(response.data);
+            }).catch(function (err) {
+              reject(err);
+            });
+          break;
+          case 'spotify':
+            $http.post('http://localhost:1337/auth/spotify/delete_user').then(function (response) {
+              resolve(response.data);
+            }).catch(function (err) {
+              reject(err);
+            });
+          break;
+        }
+
+
+
+
+
+
+      });
+
+
+
+
     }
 
 

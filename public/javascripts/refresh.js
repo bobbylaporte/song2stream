@@ -250,7 +250,7 @@ $.fn.checkScrolling = function() {
 		if( el[0].scrollWidth > Math.ceil(el.innerWidth()) ) {
 			el.marquee({
 			    //speed in milliseconds of the marquee
-			    duration: 10000,
+			    duration: 20000,
 			    //gap in pixels between the tickers
 			    gap: 100,
 			    //time in milliseconds before the marquee will start animating

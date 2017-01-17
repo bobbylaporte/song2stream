@@ -224,39 +224,47 @@
 
     <div class="status-bottom-bar" layout="row">
       <div class="local-spotify" flex>
-        <div class="status">
+        <div class="status {{dashboardCtrl.localSpotifyStatus}}">
           <md-icon>fiber_manual_record</md-icon>
           <div class="text">
             <strong>Spotify Client</strong>
-            <span>Offline</span>
+            <span>{{dashboardCtrl.localSpotifyStatusText}}</span>
           </div>
         </div>
       </div>
       <div class="spotify-api" flex>
         <div class="status" ng-if="dashboardCtrl.loggedIntoSpotify">
-          <md-icon>fiber_manual_record</md-icon>
+          <i class="fa fa-spotify"></i>
           <div class="text">
             <strong>Spotify API</strong>
-            <span>Offline</span>
+            <span>Connected</span>
+            <span class="logout-link" ng-click="dashboardCtrl.logout('spotify')">
+              <md-tooltip>Logout of Spotify</md-tooltip>
+              <md-icon>exit_to_app</md-icon>
+            </span>
           </div>
         </div>
-        <div ng-if="!dashboardCtrl.loggedIntoSpotify" class="connect-link">
-        <i class="fa fa-spotify fa-2x social-icon"></i>
+        <a ng-if="!dashboardCtrl.loggedIntoSpotify" ng-click="dashboardCtrl.openAuthWindow('spotify')" class="connect-link">
+        <i class="fa fa-spotify fa-2x"></i>
         Connect
-        </div>
+        </a>
       </div>
       <div class="twitch-api" flex>
         <div class="status" ng-if="dashboardCtrl.loggedIntoTwitch">
-          <md-icon>fiber_manual_record</md-icon>
+          <i class="fa fa-twitch"></i>
           <div class="text">
             <strong>Twitch API</strong>
             <span>Connected</span>
+            <span class="logout-link" ng-click="dashboardCtrl.logout('twitch')">
+              <md-tooltip>Logout of Twitch</md-tooltip>
+              <md-icon>exit_to_app</md-icon>
+            </span>
           </div>
         </div>
-        <div ng-if="!dashboardCtrl.loggedIntoTwitch" class="connect-link">
+        <a ng-if="!dashboardCtrl.loggedIntoTwitch" ng-click="dashboardCtrl.openAuthWindow('twitch')" class="connect-link">
           <i class="fa fa-twitch fa-2x"></i>
           Connect
-        </div>
+        </a>
       </div>
     </div>
 

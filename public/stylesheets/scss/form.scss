@@ -1,6 +1,29 @@
+
+@import url(https://fonts.googleapis.com/css?family=Ubuntu);
+
+button, select, html, textarea, input{
+  font-family: 'Ubuntu', 'Arial,', sans-serif !important;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  overflow: hidden;
+}
+
+
+
+
 .outer-most-wrapper{
   height: 100vh;
   background-color: #2d9d51;
+  overflow: hidden;
 }
 
 
@@ -85,7 +108,7 @@ md-select-menu md-content{
   height: 64px;
 
   .font-size{
-    flex: 0 0 66px;
+    flex: 0 0 70px;
     input{
       text-align: right;
       &::-webkit-outer-spin-button,
@@ -98,7 +121,8 @@ md-select-menu md-content{
   }
 
   .pixels{
-    flex: 0 0 44px;
+    font-size: 13px;
+    flex: 0 0 40px;
     line-height: 70px;
   }
 }
@@ -146,25 +170,68 @@ md-select-menu md-content{
 .status-bottom-bar{
   height: 40px;
   text-align: center;
-  background-color: #FFF;
+  background-color: #666;
 
 
-  md-icon{
+  md-icon, i{
     float: left;
+    margin: auto;
+    background-repeat: no-repeat no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+    fill: currentColor;
+    height: 24px;
+    width: 24px;
   }
 
   .spotify-api,
   .twitch-api{
     flex: 0 0 125px;
+    position: relative;
+  }
+
+  .spotify-api{
+    padding-left: 3px;
+    i{
+      position: relative;
+      top: 2px;
+    }
+  }
+
+  .twitch-api{
+    padding-left: 5px;
+    i{
+      position: relative;
+      top: 3px;
+    }
   }
 
   .status{
     position: relative;
     top: 3px;
+    overflow: hidden;
+    color: #FFF;
+
   }
 
   .local-spotify .status{
     padding-left: 5px;
+
+    md-icon{
+      -webkit-text-stroke: 1px #FFF;
+    }
+
+    &.disconnected{
+      md-icon{
+        color: red;
+      }
+    }
+
+    &.connected{
+      md-icon{
+        color: #2EBD59;
+      }
+    }
   }
 
   .text{
@@ -222,17 +289,29 @@ md-select-menu md-content{
 
 
 .connect-link{
+  display: block;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
   text-align: center;
-  line-height: 25px;
-  i{
-    position: relative;
-    top: 6px;
+  line-height: 40px;
+  opacity: 0.85;
+  background-color: transparent;
+  &:hover{
+    opacity: 1;
   }
 }
 
 .twitch-api{
   color: #FFF;
   background-color: #6441a4;
+  .connect-link{
+    i{
+      position: relative;
+      top: 6px;
+      left: 3px;
+    }
+  }
 }
 
 .spotify-api{
@@ -240,7 +319,22 @@ md-select-menu md-content{
   color: #FFF;
   .connect-link{
     i{
+      position: relative;
       top: 4px;
+      left: 5px;
     }
+  }
+}
+
+
+.logout-link{
+  display: block;
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  md-icon{
+    font-size: 15px;
+    color: #FFF;
+    font-weight: bold;
   }
 }

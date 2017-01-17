@@ -138,11 +138,25 @@ module.exports = function(io){
 	});
 
 
-  router.get('/check_auth_file', function(req, res, next) {
+  router.get('/check_twitch_auth_file', function(req, res, next) {
 
 
     try {
       var userFile = fs.readFileSync(path.join(__dirname, '/../../data/twitch_user.json'), 'utf8');
+      res.status(200).send('We have a File');
+
+    } catch (err) {
+      res.status(500).send('No File.');
+    }
+
+  });
+
+
+  router.get('/check_spotify_auth_file', function(req, res, next) {
+
+
+    try {
+      var userFile = fs.readFileSync(path.join(__dirname, '/../../data/spotify_user.json'), 'utf8');
       res.status(200).send('We have a File');
 
     } catch (err) {

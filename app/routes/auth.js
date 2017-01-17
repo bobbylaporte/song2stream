@@ -13,18 +13,18 @@ module.exports = function(io){
 
     fs.writeFileSync(path.join(__dirname, '/../../data/twitch_user.json'), JSON.stringify(req.body));
 
-    io.sockets.emit('check_auth_file');
+    io.sockets.emit('check_twitch_auth_file');
 
     res.send('All Good!');
 
   });
 
 
-    router.post('/twitch/delete_user', function(req, res, next) {
+  router.post('/twitch/delete_user', function(req, res, next) {
 
 
     fs.unlink(path.join(__dirname, '/../../data/twitch_user.json'), function(){
-      io.emit('check_auth_file');
+      io.emit('check_twitch_auth_file');
       res.send('All Good!');
     });
 
@@ -36,9 +36,20 @@ module.exports = function(io){
 
     fs.writeFileSync(path.join(__dirname, '/../../data/spotify_user.json'), JSON.stringify(req.body));
 
-    io.sockets.emit('spotify_auth');
+    io.sockets.emit('check_spotify_auth_file');
 
     res.send('All Good!');
+
+  });
+
+
+  router.post('/spotify/delete_user', function(req, res, next) {
+
+
+    fs.unlink(path.join(__dirname, '/../../data/spotify_user.json'), function(){
+      io.emit('check_spotify_auth_file');
+      res.send('All Good!');
+    });
 
   });
 

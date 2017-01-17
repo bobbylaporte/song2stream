@@ -13,7 +13,11 @@
     var vm = this;
         vm.noticeText = [];
 
+        vm.loggedIntoSpotify = false;
+        vm.loggedIntoTwitch = false;
 
+        vm.localSpotifyStatus = '';
+        vm.localSpotifyStatusText = 'Detecting...';
 
         // vm.loggedIntoTwitch = true;
         // vm.loggedIntoSpotify = true;
@@ -73,12 +77,6 @@
       console.log('Form is connected to socket.');
     });
 
-
-    socket.on('check_auth_file', function () {
-      console.log('check_auth_file');
-      vm.checkAuthFile();
-    });
-
     socket.on('disconnect', function () {
       offline = true;
       console.log('Form disconnected from socket.');
@@ -86,9 +84,24 @@
     });
 
 
-    socket.on('user_just_authed', function(track){
+    socket.on('check_twitch_auth_file', function () {
+      console.log('check_twitch_auth_file');
+      vm.checkTwitchAuthFile();
+    });
+
+    socket.on('twitch_user_just_authed', function(track){
       console.log('User Just Authed with Twitch');
-      vm.startBotServer();
+      vm.checkTwitchAuthFile()
+    });
+
+
+    socket.on('check_spotify_auth_file', function () {
+      console.log('check_spotify_auth_file');
+      vm.checkSpotifyAuthFile();
+    });
+
+    socket.on('spotify_user_just_authed', function(track){
+      console.log('User Just Authed with Spotify');
     });
 
 
@@ -106,14 +119,18 @@
     });
 
     socket.on('spotify_connected', function(track){ // Will run when server has new track info
-      console.log('SPOTIFY CONNECTED');
+      console.log('LOCAL SPOTIFY CONNECTED');
+      vm.localSpotifyStatus = 'connected';
+      vm.localSpotifyStatusText = 'Connected';
       //$('.spotify-status').removeClass('disconnected').addClass('connected').find('span').text('Spotify is Connected');
       //updateTrack(track);
     });
 
 
     socket.on('spotify_disconnected', function(track){ // Will run when server has new track info
-      console.log('SPOTIFY DIS_CONNECTED');
+      console.log('LOCAL SPOTIFY DIS_CONNECTED');
+      vm.localSpotifyStatus = 'disconnected';
+      vm.localSpotifyStatusText = 'Disconnected';
       //$('.spotify-status').removeClass('connected').addClass('disconnected').find('span').text('Spotify is Disconnected');
       //updateTrack(track);
     });
@@ -130,23 +147,47 @@
 
 
 
-    vm.checkAuthFile = function(){
-      console.log('check auth file function');
+    vm.checkTwitchAuthFile = function(){
+      console.log('check twitch auth file function');
       songRequestService
-        .checkForAuthFile()
+        .checkForTwitchAuthFile()
         .then(function() {
-          console.log('we have an auth file, start the bot');
+          console.log('we have a twich auth file, start the bot');
+          vm.loggedIntoTwitch = true;
           vm.startBotServer();
         })
         .catch(function(err) {
-          //vm.saving = false;
           console.log('error in auth service');
-          //errorService.showError('There was an error getting the songs', err, { title: 'Cannot get Songs' });
+          vm.loggedIntoTwitch = false;
         });
     }
 
-    vm.checkAuthFile();
+    vm.checkTwitchAuthFile();
 
+
+
+    vm.checkSpotifyAuthFile = function(){
+      console.log('check spotify auth file function');
+      songRequestService
+        .checkForSpotifyAuthFile()
+        .then(function() {
+          console.log('we have a spotify auth file');
+          vm.loggedIntoSpotify = true;
+        })
+        .catch(function(err) {
+          console.log('error in spotify auth service');
+          vm.loggedIntoSpotify = false;
+        });
+    }
+
+    vm.checkSpotifyAuthFile();
+
+
+
+
+    vm.openAuthWindow = function(service){
+      window.open('http://twitch-toad.rhcloud.com/auth/' + service, 'Log In', 'width=300,height=600,resizable,scrollbars=no,status=0');
+    }
 
 
 
@@ -208,7 +249,17 @@
       });
 
 
-
+    // Test Initial Connection
+    songRequestService
+      .getTrack()
+      .then(function() {
+        vm.localSpotifyStatus = 'connected';
+        vm.localSpotifyStatusText = 'Connected';
+      })
+      .catch(function(err) {
+        vm.localSpotifyStatus = 'disconnected';
+        vm.localSpotifyStatusText = 'Disconnected';
+      });
 
 
 
@@ -249,6 +300,29 @@
 
           console.log('error');
           //errorService.showError('There was an error getting the songs', err, { title: 'Cannot get Songs' });
+        });
+    }
+
+
+    vm.logout = function(service){
+      // $.ajax({
+      //   method: "POST",
+      //   url: "http://localhost:1337/auth/twitch/delete_user"
+      // }).done(function( msg ) {
+      //   var html = '<a href="http://twitch-toad.rhcloud.com/auth/twitch" class="big-twitch-button" target="_blank"><i class="fa fa-twitch"></i>Connect with Twitch</a>';
+      //   $('.bot-status').html(html);
+      // }).fail(function( jqXHR, textStatus ) {
+      //   alert( "Error Deleting: " + textStatus);
+      // });
+
+
+      songRequestService
+        .logout(service)
+        .then(function() {
+          console.log('logged out');
+        })
+        .catch(function(err) {
+          console.log('error loggin out');
         });
     }
 
