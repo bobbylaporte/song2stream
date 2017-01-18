@@ -6,9 +6,17 @@ var connect = require('spotify-local-control');
 var client = connect();
 var request = require('request');
 
+const SpotifyWebHelper = require('@jonny/spotify-web-helper');
+var helper = SpotifyWebHelper();
 
 
 module.exports = function(io){
+
+  router.get('/connect', function(req, res, next) {
+
+    helper.connect();
+
+  });
 
 
 	/* GET track data. */

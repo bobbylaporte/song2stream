@@ -140,7 +140,17 @@
 
 
 
-
+    vm.connect = function(){
+      console.log('check twitch auth file function');
+      songRequestService
+        .connect()
+        .then(function() {
+          console.log('we called connect');
+        })
+        .catch(function(err) {
+          console.log('failed to call connect');
+        });
+    }
 
 
 

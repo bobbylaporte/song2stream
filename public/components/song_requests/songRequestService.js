@@ -20,6 +20,7 @@
       getTrack: getTrack,
 
       logout: logout,
+      connect: connect,
 
     };
 
@@ -232,6 +233,17 @@
 
     }
 
+
+    function connect() {
+      return $q(function (resolve, reject) {
+
+        $http.get('http://localhost:1337/api/connect').then(function(response) {
+          resolve(response.data);
+        }).catch(function(err) {
+          reject(err);
+        });
+      });
+    }
 
   }
 
