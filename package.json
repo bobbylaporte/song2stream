@@ -37,6 +37,7 @@
     "express-handlebars": "^3.0.0",
     "express-session": "^1.14.0",
     "jade": "^1.11.0",
+    "lodash": "^4.17.4",
     "morgan": "^1.7.0",
     "open": "0.0.5",
     "passport": "^0.3.2",

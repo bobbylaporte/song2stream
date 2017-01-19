@@ -201,11 +201,24 @@ function goOffline(reason){
 
 	setTimeout(function(){
 
-		  if(config.template_type === 'single_line'){
-      $('.name').text('Offline' +  ' - ' +  reason);
+    var subline = '';
+
+    switch(reason){
+      case 'song2stream not detected':
+        subline = 'Relaunch song2stream';
+      break;
+      case 'Spotify Not Detected':
+        subline = 'Checking again in 5 seconds...';
+      break;
+    }
+
+
+
+		if(config.template_type === 'single_line'){
+      $('.name').text(reason +  ' - ' +  subline);
     }else{
-      $('.name').text('Offline');
-      $('.artist').text(reason);
+      $('.name').text(reason);
+      $('.artist').text(subline);
     }
 
 		$('.card').removeClass(config.animation_type);
