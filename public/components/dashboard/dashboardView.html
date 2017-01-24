@@ -136,6 +136,18 @@
         <md-tab label="Song Requests">
           <md-content class="md-padding">
 
+            <div class="song-requests-setup-overlay" ng-if="!dashboardCtrl.loggedIntoSpotify || !dashboardCtrl.loggedIntoTwitch">
+
+              <h3>To use Song Requests you must connect both Spotify and Twitch</h3>
+
+              <div class="spotify" ng-if="!dashboardCtrl.loggedIntoSpotify">
+                Connect with<br> Spotify
+              </div>
+              <div class="twitch" ng-if="!dashboardCtrl.loggedIntoTwitch">
+                Connect with<br> Twitch
+              </div>
+            </div>
+
 
             <div class="settings-bar" layout="row">
               <div flex>

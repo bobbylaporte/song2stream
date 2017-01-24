@@ -117,6 +117,11 @@ function init(){
 				goOffline('Spotify Not Detected');
 			});
 
+      socket.on('no_song', function(){ // Will run when server cannot connect to spotify
+        console.log('go offline');
+        goOffline('No Song to Play');
+      });
+
 
 
 		}).fail(function( jqXHR, textStatus ) {

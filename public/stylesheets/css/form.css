@@ -20,7 +20,8 @@ md-tabs {
   height: 100vh; }
 
 md-tabs md-content {
-  background-color: #2d9d51; }
+  background-color: #2d9d51;
+  height: 500px; }
 
 md-list-item.song-request-list-item {
   margin-top: 10px;
@@ -158,6 +159,8 @@ md-select-menu md-content {
       -webkit-text-stroke: 1px #FFF; }
     .status-bottom-bar .local-spotify .status.disconnected md-icon {
       color: red; }
+    .status-bottom-bar .local-spotify .status.warning md-icon {
+      color: yellow; }
     .status-bottom-bar .local-spotify .status.connected md-icon {
       color: #2EBD59; }
   .status-bottom-bar .text {
@@ -234,3 +237,28 @@ md-select-menu md-content {
     font-size: 15px;
     color: #FFF;
     font-weight: bold; }
+
+.song-requests-setup-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  color: #FFF;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 5; }
+  .song-requests-setup-overlay h3 {
+    position: relative;
+    top: 150px;
+    width: 250px;
+    margin: 0 auto;
+    text-align: center; }
+  .song-requests-setup-overlay .twitch, .song-requests-setup-overlay .spotify {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 125px;
+    height: 100px;
+    text-align: center; }
+  .song-requests-setup-overlay .spotify {
+    right: 125px; }

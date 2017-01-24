@@ -78,11 +78,9 @@
     });
 
     socket.on('disconnect', function () {
-      offline = true;
       console.log('Form disconnected from socket.');
       //goOffline('song2stream not detected');
     });
-
 
     socket.on('check_twitch_auth_file', function () {
       console.log('check_twitch_auth_file');
@@ -133,6 +131,13 @@
       vm.localSpotifyStatusText = 'Disconnected';
       //$('.spotify-status').removeClass('connected').addClass('disconnected').find('span').text('Spotify is Disconnected');
       //updateTrack(track);
+    });
+
+
+    socket.on('no_song', function () {
+      console.log('NO SONG');
+      vm.localSpotifyStatus = 'warning';
+      vm.localSpotifyStatusText = 'No Song to Play';
     });
 
 

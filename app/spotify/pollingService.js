@@ -16,7 +16,7 @@ module.exports = function(io){
     console.log(err);
     if(err.type === '4110'){
       console.log('User Not Logged in');
-      
+
       goOffline(err);
 
       // Call init again in 5 seconds
@@ -56,7 +56,7 @@ module.exports = function(io){
       console.log(status);
 
 
-
+      // READ THE EXISTING STATUS FILE
       try {
         existingStatus = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/spotify_status.json'), 'utf8'));
         console.log('existingStatus set');
@@ -66,56 +66,58 @@ module.exports = function(io){
         console.log(err);
       }
 
-      if(status.error !== undefined){
+      if(status.error !== undefined){ // we have en error object
 
-        if(status.online === false || status.running === false){
+        // WE HAVE A ERROR, BUT WHAT TYPE?
+        // 4110 === Bad CRFS Token
+        // 4170 === No User Logged In
+
+        if(status.error.type === '4107'){
+          // Try refreshing spotify client connection
+          console.log('bad bad CRFS Token');
+          helper.connect();
+        }else if(status.error.type === '4110'){
 
           if(existingStatus.online){
-            console.log('going offline one');
+            console.log('going offline two');
+            // Not Logged In
             goOffline(status);
           }
-
-        }else{
-
-          if(status.error.type === '4107'){
-            // Try refreshing spotify client connection
-            console.log('bad bad CRFS Token');
-            init();
-          }else if(status.error.type === '4110'){
-
-            if(existingStatus.online){
-              console.log('going offline two');
-              goOffline(status);
-            }
-
-          }
         }
-
-
 
 
       }else{ // no error object
 
 
-        if(status.track === undefined || status.track.track_resource === undefined){
-          // Offline
-          if(existingStatus.online){
-            goOffline(status);
-            console.log('going offline three');
-          }
-        }else if(_.isEmpty(status.track)){
 
-          console.log('NO SONG TO PLAY, IDIOTS!!!!!!');
+        if(_.isEmpty(status.track) || status.track === undefined || status.track.track_resource === undefined){
+
+
+          console.log('CALLING NO SONG FROM POLLING SERVICE');
+
+          io.emit('no_song');
+
+          // TODO: Clear the spotify_status.json track variable
+          try {
+            fs.writeFileSync(path.join(__dirname, '/../../data/spotify_status.json'), JSON.stringify(status));
+            console.log('Spotify Status File Updated');
+
+
+          } catch (err) {
+            console.log('Error Updating Status File');
+            console.log(err);
+          }
 
         }else{
 
           console.log('Current Track:' + status.track.track_resource.name);
 
 
-          // SUCCESS
-          //if(!existingStatus.online || !existingStatus.running){
+          // If we we were offline before, let's send to connected event
+
+          if(!existingStatus.online || !existingStatus.running || _.isEmpty(existingStatus.track)){
             io.emit('spotify_connected');
-          //}
+          }
 
 
           if(!existingStatus.track || !existingStatus.track.track_resource || existingStatus.track.track_resource.name !== status.track.track_resource.name){
@@ -166,7 +168,7 @@ module.exports = function(io){
       console.log(err);
     }
 
-    io.emit('go_offline');
+    //io.emit('go_offline');
     io.emit('spotify_disconnected');
 
 

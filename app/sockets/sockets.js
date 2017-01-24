@@ -34,8 +34,9 @@ module.exports.listen = function(app){
         console.log('Read Status File');
 
         if(_.isEmpty(status.track)){
-          var track = { name: 'No Song to Play', link: 'No Track URI', artist: 'Try Another Playlist', album_name: '', playing: true };
-          }else{
+          console.log('CALLING NO SONG FROM SOCKET CONNECTION');
+          io.emit('no_song');
+        }else{
           var track_name = status.track.track_resource.name;
           var track_link = status.track.track_resource.location.og;
           var artist_name = status.track.artist_resource.name;
@@ -43,8 +44,8 @@ module.exports.listen = function(app){
           var playing = status.playing;
 
           var track = { name: track_name, link: track_link, artist: artist_name, album_name: album_name, playing: playing };
+          io.emit('update_track', track);
         }
-        io.emit('update_track', track);
 
       } catch (err) {
         console.log('Error Reading Status File... Writing New File');

@@ -13,8 +13,11 @@ function createWindow () {
 
   // Create the browser window.
   win = new BrowserWindow({
-    height: 630,
-    width: 350,
+    height: 620,
+    maxHeight: 610,
+    minHeight: 610,
+    width: 425,
+    minWidth: 425,
     title: 'song2stream',
     icon: path.join(__dirname, 's2s.png')
   });
