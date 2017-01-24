@@ -151,13 +151,13 @@
 
             <div class="settings-bar" layout="row">
               <div flex>
-                <md-switch class="request-switch md-warn" ng-model="requestsEnabled" aria-label="Enable Song Requests">
-                  Requests are <span ng-if="!requestsEnabled">OFF</span> <strong ng-if="requestsEnabled">ON</strong>
+                <md-switch class="bot-switch md-warn" ng-model="botEnabled" aria-label="Enable Twitch Bot">
+                  Twitch Bot <span ng-if="!botEnabled">OFF</span> <strong ng-if="botEnabled">ON</strong>
                 </md-switch>
               </div>
 
               <div flex>
-                <md-button class="request-settings-button">
+                <md-button class="request-settings-button" ng-click="dashboardCtrl.openSettings()">
                   <md-icon>settings</md-icon> Settings
                 </md-button>
 
@@ -167,19 +167,21 @@
 
 
             <div class="settings-bar" layout="row">
-              <div flex>
-                <md-button class="refresh-button" ng-click="dashboardCtrl.refreshList()">
-                  <md-icon>refresh</md-icon> Refresh List
-                </md-button>
+              <div class="" flex>
+                <md-switch class="request-switch md-warn" ng-model="requestsEnabled" aria-label="Enable Song Requests">
+                  Requests are <span ng-if="!requestsEnabled">OFF</span> <strong ng-if="requestsEnabled">ON</strong>
+                </md-switch>
               </div>
-              <div class="last-updated" flex>
-              Last Updated: ####
+              <div flex>
+  <!--               <md-button class="refresh-button" ng-click="dashboardCtrl.refreshList()">
+                  <md-icon>refresh</md-icon> Refresh List
+                </md-button> -->
               </div>
             </div>
 
 
-            <div ng-if="dashboardCtrl.songs.length === 0">
-              No Song Requests to Display. Let your viewers know when Requests are open!
+            <div class="no-requests" ng-if="dashboardCtrl.songs.length === 0">
+              No Song Requests
             </div>
 
 

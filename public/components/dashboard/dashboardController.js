@@ -9,7 +9,7 @@
 (function() {
   'use strict';
 
-  function DashboardController(_, $q, $timeout, $location, songRequestService, errorService, socket) {
+  function DashboardController(_, $q, $timeout, $mdDialog, $location, songRequestService, errorService, socket) {
     var vm = this;
         vm.noticeText = [];
 
@@ -42,6 +42,9 @@
       'positionY': [{label: 'Align Top', value: 'top'}, {label: 'Align Bottom', value: 'bottom'}],
       'templateType': [{label: 'Single Line', value: 'single_line'}, {label: 'Two Lines', value: 'two_lines'}]
     };
+
+
+
 
 
 
@@ -142,6 +145,25 @@
 
 
 
+
+
+
+      vm.openSettings = function(ev) {
+        $mdDialog.show({
+          controller: 'TournamentCreateModalController as modalCtrl',
+          templateUrl: '/components/modals/tournament/tournamentCreateModalView.html',
+          parent: angular.element(document.body),
+          targetEvent: ev,
+          fullscreen: true
+          //clickOutsideToClose:true
+        })
+            .then(function(answer) {
+              $scope.status = 'You said the information was "' + answer + '".';
+            }, function() {
+              $scope.status = 'You cancelled the dialog.';
+            });
+      }
+    
 
 
 
@@ -343,7 +365,7 @@
 
 
   }
-  DashboardController.$inject = ['_', '$q', '$timeout', '$location', 'songRequestService', 'errorService', 'socket'];
+  DashboardController.$inject = ['_', '$q', '$timeout', '$mdDialog', '$location', 'songRequestService', 'errorService', 'socket'];
 
   angular
     .module('uiApp')

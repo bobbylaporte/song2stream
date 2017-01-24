@@ -21,7 +21,7 @@ md-tabs {
 
 md-tabs md-content {
   background-color: #2d9d51;
-  height: 500px; }
+  height: 462px; }
 
 md-list-item.song-request-list-item {
   margin-top: 10px;
@@ -96,7 +96,7 @@ md-select-menu md-content {
     flex: 0 0 40px;
     line-height: 70px; }
 
-.request-switch {
+.request-switch, .bot-switch {
   margin-top: 3px;
   margin-bottom: 0;
   color: #FFF; }
@@ -108,11 +108,13 @@ md-select-menu md-content {
   font-size: 12px;
   line-height: 36px; }
 
-.request-settings-button {
+.request-settings-button,
+.refresh-button {
   margin: 0;
   float: right;
   color: #FFF; }
-  .request-settings-button md-icon {
+  .request-settings-button md-icon,
+  .refresh-button md-icon {
     color: #FFF; }
 
 .refresh-button {
@@ -120,6 +122,14 @@ md-select-menu md-content {
   color: #FFF; }
   .refresh-button md-icon {
     color: #FFF; }
+
+.no-requests {
+  background-color: #44a965;
+  padding: 15px;
+  text-align: center;
+  height: 90px;
+  line-height: 60px;
+  color: rgba(0, 0, 0, 0.75); }
 
 .status-bottom-bar {
   height: 40px;
@@ -192,7 +202,8 @@ md-select-menu md-content {
 
 .form {
   padding: 15px;
-  background-color: #44a965; }
+  background-color: #44a965;
+  height: 350px; }
 
 .code.html {
   height: 80px; }
@@ -249,7 +260,7 @@ md-select-menu md-content {
   z-index: 5; }
   .song-requests-setup-overlay h3 {
     position: relative;
-    top: 150px;
+    top: 200px;
     width: 250px;
     margin: 0 auto;
     text-align: center; }
@@ -258,7 +269,12 @@ md-select-menu md-content {
     bottom: 0;
     right: 0;
     width: 125px;
-    height: 100px;
-    text-align: center; }
+    height: 75px;
+    text-align: center;
+    background-image: url("/images/arrow.png");
+    background-repeat: no-repeat;
+    background-size: 21%;
+    background-position-y: 39px;
+    background-position-x: 39px; }
   .song-requests-setup-overlay .spotify {
     right: 125px; }

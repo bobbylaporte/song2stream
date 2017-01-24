@@ -77,9 +77,10 @@ module.exports = function(io){
           console.log('bad bad CRFS Token');
           helper.connect();
         }else if(status.error.type === '4110'){
-
-          if(existingStatus.online){
+          console.log('User Not Logged in 2');
+          if(existingStatus.running){
             console.log('going offline two');
+
             // Not Logged In
             goOffline(status);
           }

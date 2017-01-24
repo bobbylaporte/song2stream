@@ -33,7 +33,7 @@ md-tabs{
 
 md-tabs md-content{
   background-color: #2d9d51;
-  height: 500px;
+  height: 462px;
 }
 
 md-list-item.song-request-list-item{
@@ -129,7 +129,7 @@ md-select-menu md-content{
 }
 
 
-.request-switch{
+.request-switch, .bot-switch{
   margin-top: 3px;
   margin-bottom: 0;
   color: #FFF;
@@ -146,7 +146,8 @@ md-select-menu md-content{
 }
 
 
-.request-settings-button{
+.request-settings-button,
+.refresh-button{
   margin: 0;
   float: right;
   color: #FFF;
@@ -164,7 +165,14 @@ md-select-menu md-content{
   }
 }
 
-
+.no-requests{
+  background-color: #44a965;
+  padding: 15px;
+  text-align: center;
+  height: 90px;
+  line-height: 60px;
+  color: rgba(0, 0, 0, 0.75);
+}
 
 
 
@@ -282,6 +290,7 @@ md-select-menu md-content{
 .form{
   padding: 15px;
   background-color: #44a965;
+  height: 350px;
 }
 
 
@@ -360,7 +369,7 @@ md-select-menu md-content{
 
   h3{
     position: relative;
-    top: 150px;
+    top: 200px;
     width: 250px;
     margin: 0 auto;
     text-align: center;
@@ -372,8 +381,14 @@ md-select-menu md-content{
     bottom: 0;
     right: 0;
     width: 125px;
-    height: 100px;
+    height: 75px;
     text-align: center;
+
+    background-image: url('/images/arrow.png');
+    background-repeat: no-repeat;
+    background-size: 21%;
+    background-position-y: 39px;
+    background-position-x: 39px;
   }
 
 
