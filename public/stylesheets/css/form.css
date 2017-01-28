@@ -16,12 +16,24 @@ body {
   background-color: #2d9d51;
   overflow: hidden; }
 
-md-tabs {
+md-tabs.primary-tabs {
   height: 100vh; }
 
-md-tabs md-content {
+md-tabs.primary-tabs md-content {
   background-color: #2d9d51;
   height: 462px; }
+
+md-tabs.settings-tabs {
+  height: 532px; }
+
+md-tabs.settings-tabs md-content {
+  background-color: #2d9d51;
+  padding: 15px;
+  height: 482px; }
+
+md-tabs.settings-tabs md-tab-content,
+md-tabs.settings-tabs md-tabs-content-wrapper {
+  height: 482px; }
 
 md-list-item.song-request-list-item {
   margin-top: 10px;
@@ -132,7 +144,7 @@ md-select-menu md-content {
   color: rgba(0, 0, 0, 0.75); }
 
 .status-bottom-bar {
-  height: 40px;
+  flex: 0 0 40px;
   text-align: center;
   background-color: #666; }
   .status-bottom-bar md-icon, .status-bottom-bar i {
@@ -275,6 +287,72 @@ md-select-menu md-content {
     background-repeat: no-repeat;
     background-size: 21%;
     background-position-y: 39px;
-    background-position-x: 39px; }
+    background-position-x: 49px; }
   .song-requests-setup-overlay .spotify {
     right: 125px; }
+
+.settings-modal {
+  background-color: #2d9d51; }
+  .settings-modal md-toolbar.md-default-theme:not(.md-menu-toolbar), .settings-modal md-toolbar:not(.md-menu-toolbar) {
+    background-color: #2d9d51; }
+
+.settings-modal form {
+  background-color: #44a965;
+  color: #FFF; }
+  .settings-modal form .playlist-uri {
+    flex: 1 1 215px; }
+  .settings-modal form .playlist-status {
+    margin-top: 26px;
+    margin-left: 10px;
+    flex: 1 1 180px; }
+  .settings-modal form .playlist-status-valid md-icon {
+    flex: 0 0 28px; }
+  .settings-modal form .playlist-status-valid .playlist-name {
+    flex: 1 0 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+    white-space: nowrap;
+    line-height: 37px;
+    font-weight: bold; }
+  .settings-modal form .playlist-status-valid .md-button {
+    flex: 0 0 40px; }
+  .settings-modal form .song-uri {
+    flex: 1 1 215px; }
+  .settings-modal form .song-status {
+    margin-top: 26px;
+    margin-left: 10px;
+    flex: 1 1 180px; }
+    .settings-modal form .song-status.valid md-icon {
+      flex: 0 0 28px; }
+  .settings-modal form .viewer-type {
+    flex: 0 0 124px; }
+  .settings-modal form .up-to {
+    flex: 0 0 30px;
+    line-height: 75px;
+    margin-left: 4px;
+    opacity: .3;
+    color: rgba(0, 0, 0, 0.87); }
+  .settings-modal form .number-of-requests {
+    flex: 0 0 30px; }
+    .settings-modal form .number-of-requests input {
+      padding-top: 6px;
+      text-align: right; }
+      .settings-modal form .number-of-requests input::-webkit-outer-spin-button, .settings-modal form .number-of-requests input::-webkit-inner-spin-button {
+        /* display: none; <- Crashes Chrome on hover */
+        -webkit-appearance: none;
+        margin: 0;
+        /* <-- Apparently some margin are still there even though it's hidden */ }
+  .settings-modal form .requests-per {
+    opacity: .3;
+    color: rgba(0, 0, 0, 0.87);
+    flex: 0 0 104px;
+    line-height: 75px;
+    margin-left: 4px; }
+  .settings-modal form .request-interval {
+    flex: 0 0 81px; }
+
+.blacklist-wrapper {
+  height: 100%; }
+  .blacklist-wrapper .add-to-blacklist {
+    flex: 0 0 70px; }

@@ -1,46 +1,169 @@
-<md-dialog aria-label="Create Tournament" class="create-modal">
+<md-dialog aria-label="Twitch Bot Settings" class="settings-modal">
   <form>
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>Create Tournament</h2>
+        <h2>Twitch Bot Settings</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="modalCtrl.cancel()">
           <md-icon aria-label="Close dialog">close</md-icon>
         </md-button>
       </div>
     </md-toolbar>
-    <md-dialog-content layout-padding>
+    <md-dialog-content>
 
-      <form novalidate name="tournamentForm" id="tournamentForm" layout="column" flex>
-        <md-input-container class="md-block">
-          <label>Tournament Name</label>
-          <input ng-model="modalCtrl.tournament.name" name="name" required>
-          <div ng-messages="tournamentForm.name.$error" role="alert">
-            <div ng-message="required">You need to provide a name</div>
-          </div>
-        </md-input-container>
 
-        <md-input-container class="md-block">
-          <label>Game</label>
-          <!-- <input ng-model="formCtrl.tournament.game" name="game" ng-disabled="formCtrl.tournament.state !== 'draft'"> -->
-          <md-select ng-model="modalCtrl.tournament.game" name="game" required>
-            <md-option ng-value="'Rocket League'">Rocket League</md-option>
-          </md-select>
-          <!-- <div>What game are you playing?</div> -->
-          <div ng-messages="tournamentForm.game.$error" role="alert">
-            <div ng-message="required">You need to have a Game selected</div>
-          </div>
-        </md-input-container>
-      </form>
+
+
+      <md-tabs class="settings-tabs" md-border-bottom md-stretch-tabs="always">
+        <md-tab label="Song Requests">
+          <md-content>
+            <form novalidate name="settingsForm" id="settingsForm" layout="column" flex>
+              <div layout="row">
+                <md-input-container ng-if="modalCtrl.playlistStatus !== 'valid'" class="md-block playlist-uri" flex>
+                  <label>Paste Spotify Playlist URI Here</label>
+                  <input ng-change="modalCtrl.checkPlaylist()" ng-model="modalCtrl.settings.playlistURI" name="playlistURI" required>
+                  <div ng-messages="settingsForm.playlistURI.$error" role="alert">
+                    <div ng-message="required">You need to provide a Playlist URI</div>
+                  </div>
+                  <small><a href="#" target="_blank">WTF? What is a Spotify URI?</a></small>
+                </md-input-container>
+
+
+                <div ng-if="modalCtrl.playlistStatus === 'valid'" class="playlist-status-valid" flex>
+                  <div><small>Playlist is Connected</small></div>
+                  <div layout="row">
+                    <md-icon>check_circle</md-icon>
+                    <div class="playlist-name">
+                      {{modalCtrl.settings.playlistName}}
+                    </div>
+                    <md-button class="md-icon-button md-warn" ng-click="modalCtrl.disconnectPlaylist()">
+                        <md-tooltip md-direction="left">Disconnect Playlist</md-tooltip>
+                        <md-icon aria-label="Disconnect">remove_circle</md-icon>
+                    </md-button>
+                  </div>
+                  <div><small><em>Approved Song Requests will go to the connected playlist</em></small></div>
+                </div>
+
+
+                <div ng-if="modalCtrl.playlistStatus === 'invalid'" class="playlist-status" flex>
+                  <md-icon>error</md-icon>
+                  <span>Invalid Playlist URI</span>
+                </div>
+              </div>
+
+              <div layout="row">
+
+                <md-input-container class="md-block viewer-type" flex>
+                  <md-select ng-disabled="true" ng-model="modalCtrl.settings.viewerType" name="viewerType" required>
+                    <md-option ng-value="'subscriber'">Subscribers</md-option>
+                    <md-option ng-value="'follower'">Followers</md-option>
+                    <!-- <md-option ng-value="'threeMonths'" disabled>3mo+ Subscribers</md-option> -->
+                  </md-select>
+                </md-input-container>
+
+                <div class="up-to">get</div>
+
+                <md-input-container class="md-block number-of-requests" flex>
+                  <input min="1" ng-disabled="true" max="10" step="1" type="number" ng-model="modalCtrl.settings.numberOfRequests" name="numberOfRequests" required>
+                  <div ng-messages="settingsForm.numberOfRequests.$error" role="alert">
+                    <div ng-message="required">You need to provide a Number</div>
+                  </div>
+                </md-input-container>
+
+                <div class="requests-per">request(s) per</div>
+
+                <md-input-container class="md-block request-interval" flex>
+                  <md-select ng-disabled="true" ng-model="modalCtrl.settings.requestInterval" name="requestInterval" required>
+                    <md-option ng-value="'hour'">Hour</md-option>
+                    <md-option ng-value="'day'">Day</md-option>
+                    <md-option ng-value="'week'">Week</md-option>
+                  </md-select>
+                </md-input-container>
+
+              </div>
+
+
+              <div layout="row">
+                <md-button class="md-primary md-raised" ng-click="modalCtrl.saveBotSettings($event)" aria-label="Save" flex>
+                  <md-icon>save</md-icon> Save Settings
+                </md-button>
+              </div>
+            </form>
+          </md-content>
+        </md-tab>
+        <md-tab label="Song Blacklist">
+          <md-content>
+            <div class="blacklist-wrapper" layout="column">
+              <md-list flex>
+                <md-list-item ng-repeat="song in modalCtrl.blacklist track by $index" class="song-request-list-item" layout="row">
+                  <div class="text-holder">
+                    <h3>
+                      {{song.name}}
+                    </h3>
+                    <h4>
+                      {{song.artist}}
+                    </h4>
+                  </div>
+
+                  <div class="buttons" layout="row">
+                    <md-button class="md-warn md-raised" ng-click="modalCtrl.removeSongFromBlacklist($index, song.uri)" aria-label="Remove" flex>
+                      <md-icon>delete</md-icon>
+                    </md-button>
+                  </div>
+
+                </md-list-item>
+              </md-list>
+
+              <div layout="row" class="add-to-blacklist" flex>
+                <md-input-container class="md-block song-uri" flex>
+                  <label>Paste Spotify Song URI</label>
+                  <input ng-change="modalCtrl.checkSong()" ng-model="modalCtrl.blacklistSong" name="blacklistSong">
+                  <small><a href="#" target="_blank">WTF? What is a Spotify URI?</a></small>
+                </md-input-container>
+
+                <div ng-if="modalCtrl.blacklistSongStatus === 'valid'" class="song-status valid" flex>
+                  <md-icon>check_circle</md-icon>
+                  <span>Added to Blacklist</span>
+                </div>
+
+                <div ng-if="modalCtrl.blacklistSongStatus === 'invalid'" class="song-status invalid" flex>
+                  <md-icon>error</md-icon>
+                  <span>Invalid Song URI</span>
+                </div>
+              </div>
+            </div>
+
+
+
+
+          </md-content>
+        </md-tab>
+
+<!--         <md-tab label="Commands">
+          <md-content>
+
+          </md-content>
+        </md-tab> -->
+      </md-tabs>
+
+
+
+
+
+
+
+
+
+
 
 
 
     </md-dialog-content>
-    <md-dialog-actions layout="row">
+<!--     <md-dialog-actions layout="row">
       <span flex></span>
       <md-button class="md-primary md-raised" ng-click="modalCtrl.save()">
         Create Tournament
       </md-button>
-    </md-dialog-actions>
+    </md-dialog-actions> -->
   </form>
 </md-dialog>

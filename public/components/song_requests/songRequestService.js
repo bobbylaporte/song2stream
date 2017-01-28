@@ -10,6 +10,12 @@
       removeSongRequest: removeSongRequest,
 
       startBotServer: startBotServer,
+      stopBotServer: stopBotServer,
+
+
+      startSongRequests: startSongRequests,
+      stopSongRequests: stopSongRequests,
+
 
       getUserPreferences: getUserPreferences,
       saveUserPreferences: saveUserPreferences,
@@ -18,6 +24,17 @@
       checkForSpotifyAuthFile: checkForSpotifyAuthFile,
 
       getTrack: getTrack,
+
+      getPlaylist: getPlaylist,
+      getSong: getSong,
+
+      getBotSettings: getBotSettings,
+      saveBotSettings: saveBotSettings,
+
+      getBlacklist: getBlacklist,
+      saveBlacklist: saveBlacklist,
+
+      removeSongFromBlacklist: removeSongFromBlacklist,
 
       logout: logout,
       connect: connect,
@@ -99,10 +116,23 @@
       });
     }
 
-    function removeSongRequest(uri) {
+    function removeSongRequest(index) {
       return $q(function (resolve, reject) {
 
-        $http.post('http://localhost:1337/api/remove_song_request', { 'track': uri }).then(function(response) {
+        $http.post('http://localhost:1337/api/remove_song_request', { 'track': index }).then(function(response) {
+          resolve(response.data);
+        }).catch(function(err) {
+          reject(err);
+        });
+
+      });
+    }
+
+
+    function removeSongFromBlacklist(index) {
+      return $q(function (resolve, reject) {
+
+        $http.post('http://localhost:1337/api/remove_song_from_blacklist', { 'track': index }).then(function(response) {
           resolve(response.data);
         }).catch(function(err) {
           reject(err);
@@ -124,6 +154,44 @@
       });
     }
 
+
+    function stopBotServer() {
+      return $q(function (resolve, reject) {
+
+        $http.get('http://localhost:1337/api/stop_bot').then(function(response) {
+          resolve(response.data);
+        }).catch(function(err) {
+          reject(err);
+        });
+      });
+    }
+
+
+
+
+
+    function startSongRequests() {
+      return $q(function (resolve, reject) {
+
+        $http.get('http://localhost:1337/api/start_song_requests').then(function(response) {
+          resolve(response.data);
+        }).catch(function(err) {
+          reject(err);
+        });
+      });
+    }
+
+
+    function stopSongRequests() {
+      return $q(function (resolve, reject) {
+
+        $http.get('http://localhost:1337/api/stop_song_requests').then(function(response) {
+          resolve(response.data);
+        }).catch(function(err) {
+          reject(err);
+        });
+      });
+    }
 
 
 
@@ -168,6 +236,121 @@
       });
     }
 
+
+    function getPlaylist(playlistID){
+      var id = playlistID;
+
+      return $q(function (resolve, reject) {
+        $http.post('http://localhost:1337/api/get_playlist', { 'playlistID': playlistID }).then(function (response) {
+          var message = response.data;
+
+          //console.log(message);
+          switch(message){
+            case 'success':
+              console.log('got our playlist.');
+              // Remove item from song request file at index $track.data('index')
+              //removeSongRequest($track);
+            break;
+            case 'try_again':
+              console.log('didnt get playlist. try again.');
+              getPlaylist(id);
+            break;
+            case 'error':
+            case 'failed':
+              console.log('error requesting new token');
+            break;
+          }
+
+
+          resolve(message);
+
+        }).catch(function (err) {
+          reject(err);
+        });
+      });
+    }
+
+
+
+    function getSong(songID){
+      var id = songID;
+
+      return $q(function (resolve, reject) {
+        $http.post('http://localhost:1337/api/get_song', { 'songID': songID }).then(function (response) {
+          var message = response.data;
+
+          //console.log(message);
+          switch(message){
+            case 'success':
+              console.log('got our song.');
+              // Remove item from song request file at index $track.data('index')
+              //removeSongRequest($track);
+            break;
+            case 'try_again':
+              console.log('didnt get song. try again.');
+              getSong(id);
+            break;
+            case 'error':
+            case 'failed':
+              console.log('error requesting new token');
+            break;
+          }
+
+
+          resolve(message);
+
+        }).catch(function (err) {
+          reject(err);
+        });
+      });
+    }
+
+
+    function getBotSettings(){
+      return $q(function (resolve, reject) {
+        $http.get('http://localhost:1337/api/bot_settings').then(function (response) {
+          resolve(response.data);
+        }).catch(function (err) {
+          reject(err);
+        });
+      });
+    }
+
+
+    function saveBotSettings(formData) {
+      return $q(function (resolve, reject) {
+        $http.post('http://localhost:1337/api/bot_settings', formData ).then(function (response) {
+          console.log('saved bot settings');
+          resolve(response);
+        }).catch(function (err) {
+          reject(err);
+        });
+      });
+    }
+
+
+
+    function getBlacklist(){
+      return $q(function (resolve, reject) {
+        $http.get('http://localhost:1337/api/blacklist').then(function (response) {
+          resolve(response.data);
+        }).catch(function (err) {
+          reject(err);
+        });
+      });
+    }
+
+
+    function saveBlacklist(formData) {
+      return $q(function (resolve, reject) {
+        $http.post('http://localhost:1337/api/blacklist', formData ).then(function (response) {
+          console.log('saved blacklist');
+          resolve(response);
+        }).catch(function (err) {
+          reject(err);
+        });
+      });
+    }
 
 
     function checkForTwitchAuthFile(){

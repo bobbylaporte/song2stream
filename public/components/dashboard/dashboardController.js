@@ -9,7 +9,7 @@
 (function() {
   'use strict';
 
-  function DashboardController(_, $q, $timeout, $mdDialog, $location, songRequestService, errorService, socket) {
+  function DashboardController(_, $q, $scope, $timeout, $mdDialog, $location, songRequestService, errorService, socket) {
     var vm = this;
         vm.noticeText = [];
 
@@ -18,6 +18,37 @@
 
         vm.localSpotifyStatus = '';
         vm.localSpotifyStatusText = 'Detecting...';
+
+
+        vm.checkPlaylist = function(){
+
+          console.log('check playlist');
+          songRequestService
+            .getBotSettings()
+            .then(function(response) {
+              console.log('got Initial settings');
+              console.log(response);
+              if(angular.isDefined(response.playlistURI)){
+                vm.playlistConnected = true;
+              }else{
+                vm.playlistConnected = false;
+                vm.botEnabled = false;
+              }
+            })
+            .catch(function(err) {
+              console.log('initial settings error');
+              vm.playlistConnected = false;
+              vm.botEnabled = false;
+            });
+        }
+
+
+        vm.checkPlaylist();
+
+
+
+
+
 
         // vm.loggedIntoTwitch = true;
         // vm.loggedIntoSpotify = true;
@@ -148,22 +179,24 @@
 
 
 
-      vm.openSettings = function(ev) {
-        $mdDialog.show({
-          controller: 'TournamentCreateModalController as modalCtrl',
-          templateUrl: '/components/modals/tournament/tournamentCreateModalView.html',
-          parent: angular.element(document.body),
-          targetEvent: ev,
-          fullscreen: true
-          //clickOutsideToClose:true
-        })
-            .then(function(answer) {
-              $scope.status = 'You said the information was "' + answer + '".';
-            }, function() {
-              $scope.status = 'You cancelled the dialog.';
-            });
-      }
-    
+    vm.openSettings = function(ev) {
+      $mdDialog.show({
+        controller: 'TournamentCreateModalController as modalCtrl',
+        templateUrl: '/components/modals/tournament/tournamentCreateModalView.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        fullscreen: true
+      })
+      .then(function(answer) {
+        // console.log('closed!!!!!!!!');
+        // vm.checkPlaylist();
+
+      }, function() {
+        vm.status = 'You closed the dialog.';
+        vm.checkPlaylist();
+      });
+    }
+
 
 
 
@@ -180,10 +213,6 @@
     }
 
 
-
-
-
-
     vm.checkTwitchAuthFile = function(){
       console.log('check twitch auth file function');
       songRequestService
@@ -191,7 +220,6 @@
         .then(function() {
           console.log('we have a twich auth file, start the bot');
           vm.loggedIntoTwitch = true;
-          vm.startBotServer();
         })
         .catch(function(err) {
           console.log('error in auth service');
@@ -248,8 +276,56 @@
     vm.startBotServer = function(){
       songRequestService
         .startBotServer()
-        .then(function() {
+        .then(function(settings) {
           console.log('bot started');
+          console.log(settings);
+        })
+        .catch(function(err) {
+          //vm.saving = false;
+          console.log('error');
+          //errorService.showError('There was an error getting the songs', err, { title: 'Cannot get Songs' });
+        });
+    }
+
+
+
+    vm.stopBotServer = function(){
+      songRequestService
+        .stopBotServer()
+        .then(function(settings) {
+          console.log('bot stopped');
+          console.log(settings);
+        })
+        .catch(function(err) {
+          //vm.saving = false;
+          console.log('error');
+          //errorService.showError('There was an error getting the songs', err, { title: 'Cannot get Songs' });
+        });
+    }
+
+
+    vm.startSongRequests = function(){
+      songRequestService
+        .startSongRequests()
+        .then(function(settings) {
+          console.log('requests started');
+          console.log(settings);
+        })
+        .catch(function(err) {
+          //vm.saving = false;
+          console.log('error');
+          //errorService.showError('There was an error getting the songs', err, { title: 'Cannot get Songs' });
+        });
+    }
+
+
+
+    vm.stopSongRequests = function(){
+      songRequestService
+        .stopSongRequests()
+        .then(function(settings) {
+          console.log('requests stopped');
+          console.log(settings);
         })
         .catch(function(err) {
           //vm.saving = false;
@@ -263,7 +339,7 @@
       songRequestService
         .saveUserPreferences(vm.config)
         .then(function() {
-          console.log('bot started');
+          console.log('saved user prefs');
         })
         .catch(function(err) {
           //vm.saving = false;
@@ -364,8 +440,44 @@
     }
 
 
+    $scope.$watch('dashboardCtrl.botEnabled', function(newValue, oldValue) {
+
+      if(newValue === true){
+        vm.startBotServer();
+      }
+
+
+      if(newValue === false){
+        vm.stopBotServer();
+
+
+        // AND STOP REQUESTS SINCE THE BOT IS STOPPED
+        if(vm.requestsEnabled){
+          vm.requestsEnabled = false;
+          vm.stopSongRequests();
+        }
+
+      }
+
+    }, true);
+
+
+    $scope.$watch('dashboardCtrl.requestsEnabled', function(newValue, oldValue) {
+
+      if(newValue === true){
+        vm.startSongRequests();
+      }
+
+
+      if(newValue === false){
+        vm.stopSongRequests();
+      }
+
+    }, true);
+
+
   }
-  DashboardController.$inject = ['_', '$q', '$timeout', '$mdDialog', '$location', 'songRequestService', 'errorService', 'socket'];
+  DashboardController.$inject = ['_', '$q', '$scope', '$timeout', '$mdDialog', '$location', 'songRequestService', 'errorService', 'socket'];
 
   angular
     .module('uiApp')

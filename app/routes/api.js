@@ -113,7 +113,7 @@ module.exports = function(io){
 
 
 
-    router.post('/remove_song_request', function(req, res, next) {
+  router.post('/remove_song_request', function(req, res, next) {
 
     console.log('request body');
     console.log(req.body);
@@ -128,9 +128,115 @@ module.exports = function(io){
     res.send('OK');
 
 
+  });
+
+
+
+  router.post('/get_playlist', function(req, res, next) {
+
+    console.log('request body');
+    console.log(req.body);
+
+    var userFile = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/spotify_user.json'), 'utf8'));
+
+    var playlistID = encodeURI(req.body.playlistID);
+
+    var options = {
+      url: 'https://api.spotify.com/v1/users/ominoustoad/playlists/' + playlistID,
+      headers: { 'Authorization': 'Bearer ' + userFile.access_token, 'Content-Type': 'application/json' }
+    };
+
+    request.get(options, function(err,response,body){
+      if(err){
+        console.log('error');
+        console.log(err);
+        //res.send('error');
+      }
+      if(!err){
+        // Success! We have a track.
+        console.log('res');
+        console.log(body);
+
+        var json = JSON.parse(body);
+
+
+        if(json.error){
+          // Refresh this token. then try the call again.
+          if(json.error.status === 401){
+            getRefreshToken(res);
+          }
+
+          if(json.error.status === 404){
+            res.status(404).send('not_valid')
+          }
+
+        }else{
+          res.send(json);
+        }
+
+
+      }
+    });
 
 
   });
+
+
+
+
+
+
+  router.post('/get_song', function(req, res, next) {
+
+    console.log('request body');
+    console.log(req.body);
+
+    var userFile = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/spotify_user.json'), 'utf8'));
+
+    var songID = encodeURI(req.body.songID);
+
+    var options = {
+      url: 'https://api.spotify.com/v1/tracks/' + songID,
+      headers: { 'Authorization': 'Bearer ' + userFile.access_token, 'Content-Type': 'application/json' }
+    };
+
+    request.get(options, function(err,response,body){
+      if(err){
+        console.log('error');
+        console.log(err);
+        //res.send('error');
+      }
+      if(!err){
+        // Success! We have a track.
+        console.log('res');
+        console.log(body);
+
+        var json = JSON.parse(body);
+
+
+        if(json.error){
+          // Refresh this token. then try the call again.
+          if(json.error.status === 401){
+            getRefreshToken(res);
+          }
+
+          if(json.error.status === 404){
+            res.status(404).send('not_valid')
+          }
+
+        }else{
+          res.send(json);
+        }
+
+
+      }
+    });
+
+
+  });
+
+
+
 
 
 
@@ -200,7 +306,19 @@ module.exports = function(io){
         botServerStarted = true;
       //}
 
-      res.status(200).send('Bot Server Started...');
+
+      try {
+        var settings = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/twitch_bot_settings.json'), 'utf8'));
+
+        settings.botEnabled = true;
+
+        fs.writeFileSync(path.join(__dirname, '/../../data/twitch_bot_settings.json'), JSON.stringify(settings));
+
+        res.status(200).send(settings);
+      } catch (err) {
+        res.status(500).send('Fucked.');
+      }
+
 
     } catch (err) {
       res.status(500).send('Fucked.');
@@ -220,10 +338,145 @@ module.exports = function(io){
       io.emit('stop_bot_service');
       botServerStarted = false;
 
-      res.status(200).send('Bot Server Stopped...');
+
+      var settings = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/twitch_bot_settings.json'), 'utf8'));
+
+      settings.botEnabled = false;
+
+      fs.writeFileSync(path.join(__dirname, '/../../data/twitch_bot_settings.json'), JSON.stringify(settings));
+
+
+      res.status(200).send(settings);
 
 
   });
+
+
+  router.get('/bot_settings', function(req, res, next) {
+    try {
+      var settings = fs.readFileSync(path.join(__dirname, '/../../data/twitch_bot_settings.json'), 'utf8');
+      res.status(200).send(settings);
+
+    } catch (err) {
+      res.status(500).send('No File.');
+    }
+  });
+
+
+  router.post('/bot_settings', function(req, res, next) {
+
+    var settings = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/twitch_bot_settings.json'), 'utf8'));
+
+    settings.playlistName = req.body.playlistName;
+    settings.playlistURI = req.body.playlistURI;
+
+
+    settings.viewerType = req.body.viewerType;
+    settings.numberOfRequests = req.body.numberOfRequests;
+    settings.requestsInterval = req.body.requestsInterval;
+
+
+    fs.writeFileSync(path.join(__dirname, '/../../data/twitch_bot_settings.json'), JSON.stringify(settings));
+    res.send('Saved');
+    //res.redirect('/home');
+
+  });
+
+
+
+
+
+  router.get('/blacklist', function(req, res, next) {
+    try {
+      var settings = fs.readFileSync(path.join(__dirname, '/../../data/song_blacklist.json'), 'utf8');
+      res.status(200).send(settings);
+
+    } catch (err) {
+      res.status(500).send('No File.');
+    }
+  });
+
+
+  router.post('/blacklist', function(req, res, next) {
+
+    fs.writeFileSync(path.join(__dirname, '/../../data/song_blacklist.json'), JSON.stringify(req.body));
+    res.send('Saved');
+    //res.redirect('/home');
+
+  });
+
+
+
+  router.post('/remove_song_from_blacklist', function(req, res, next) {
+
+    console.log('request body');
+    console.log(req.body);
+
+    var songArray = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/song_blacklist.json'), 'utf8'));
+
+    songArray.splice(req.body.index, 1);
+
+    fs.writeFileSync(path.join(__dirname, '/../../data/song_blacklist.json'), JSON.stringify(songArray));
+
+
+    res.send('OK');
+
+
+  });
+
+
+
+
+
+
+
+  router.get('/start_song_requests', function(req, res, next) {
+
+    var userFile = fs.readFileSync(path.join(__dirname, '/../../data/twitch_user.json'), 'utf8');
+
+    console.log(userFile);
+    var twitchChannel = JSON.parse(userFile).name;
+
+    try {
+
+      try {
+        var settings = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/twitch_bot_settings.json'), 'utf8'));
+
+        settings.requestsEnabled = true;
+
+        fs.writeFileSync(path.join(__dirname, '/../../data/twitch_bot_settings.json'), JSON.stringify(settings));
+
+        res.status(200).send(settings);
+      } catch (err) {
+        res.status(500).send('Fucked.');
+      }
+
+
+    } catch (err) {
+      res.status(500).send('Fucked.');
+    }
+
+    //
+
+  });
+
+  router.get('/stop_song_requests', function(req, res, next) {
+
+      //maybe close
+
+      var settings = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/twitch_bot_settings.json'), 'utf8'));
+
+      settings.requestsEnabled = false;
+
+      fs.writeFileSync(path.join(__dirname, '/../../data/twitch_bot_settings.json'), JSON.stringify(settings));
+
+
+      res.status(200).send(settings);
+
+
+  });
+
+
 
 
 

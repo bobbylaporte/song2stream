@@ -1,7 +1,7 @@
 <div layout="row" class="outer-most-wrapper">
   <div class="column-wrapper" layout="column" flex>
     <div class="primary-view-wrapper dashboard" layout="column" flex>
-      <md-tabs md-border-bottom md-stretch-tabs="always">
+      <md-tabs class="primary-tabs" md-border-bottom md-stretch-tabs="always">
         <md-tab label="Appearance">
           <md-content class="md-padding">
             <div layout="row">
@@ -133,7 +133,7 @@
 
           </md-content>
         </md-tab>
-        <md-tab label="Song Requests">
+        <md-tab label="Twitch Chat Bot">
           <md-content class="md-padding">
 
             <div class="song-requests-setup-overlay" ng-if="!dashboardCtrl.loggedIntoSpotify || !dashboardCtrl.loggedIntoTwitch">
@@ -151,13 +151,13 @@
 
             <div class="settings-bar" layout="row">
               <div flex>
-                <md-switch class="bot-switch md-warn" ng-model="botEnabled" aria-label="Enable Twitch Bot">
-                  Twitch Bot <span ng-if="!botEnabled">OFF</span> <strong ng-if="botEnabled">ON</strong>
+                <md-switch class="bot-switch md-warn" ng-model="dashboardCtrl.botEnabled" aria-label="Enable Twitch Bot">
+                  Twitch Bot <span ng-if="!dashboardCtrl.botEnabled">OFF</span> <strong ng-if="dashboardCtrl.botEnabled">ON</strong>
                 </md-switch>
               </div>
 
               <div flex>
-                <md-button class="request-settings-button" ng-click="dashboardCtrl.openSettings()">
+                <md-button class="request-settings-button" ng-click="dashboardCtrl.openSettings($event)">
                   <md-icon>settings</md-icon> Settings
                 </md-button>
 
@@ -168,19 +168,26 @@
 
             <div class="settings-bar" layout="row">
               <div class="" flex>
-                <md-switch class="request-switch md-warn" ng-model="requestsEnabled" aria-label="Enable Song Requests">
-                  Requests are <span ng-if="!requestsEnabled">OFF</span> <strong ng-if="requestsEnabled">ON</strong>
+                <md-switch class="request-switch md-warn" ng-disabled="!dashboardCtrl.botEnabled || !dashboardCtrl.playlistConnected" ng-model="dashboardCtrl.requestsEnabled" aria-label="Enable Song Requests">
+                  Requests are <span ng-if="!dashboardCtrl.requestsEnabled">OFF</span> <strong ng-if="dashboardCtrl.requestsEnabled">ON</strong>
                 </md-switch>
               </div>
               <div flex>
   <!--               <md-button class="refresh-button" ng-click="dashboardCtrl.refreshList()">
                   <md-icon>refresh</md-icon> Refresh List
                 </md-button> -->
+
+
               </div>
             </div>
 
 
-            <div class="no-requests" ng-if="dashboardCtrl.songs.length === 0">
+            <div class="no-requests no-playlist" ng-if="!dashboardCtrl.playlistConnected">
+              <md-icon>warning</md-icon> Link a Playlist in Settings to enable Requests.
+            </div>
+
+
+            <div class="no-requests" ng-if="dashboardCtrl.playlistConnected && dashboardCtrl.songs.length === 0">
               No Song Requests
             </div>
 

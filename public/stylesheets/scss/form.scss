@@ -27,14 +27,36 @@ body {
 }
 
 
-md-tabs{
+md-tabs.primary-tabs{
   height: 100vh;
 }
 
-md-tabs md-content{
+md-tabs.primary-tabs md-content{
   background-color: #2d9d51;
   height: 462px;
 }
+
+
+
+md-tabs.settings-tabs{
+  height: 532px;
+}
+
+md-tabs.settings-tabs md-content{
+  background-color: #2d9d51;
+  padding: 15px;
+  height: 482px;
+}
+
+md-tabs.settings-tabs md-tab-content,
+md-tabs.settings-tabs md-tabs-content-wrapper{
+  height: 482px;
+}
+
+
+
+
+
 
 md-list-item.song-request-list-item{
   margin-top: 10px;
@@ -177,7 +199,7 @@ md-select-menu md-content{
 
 
 .status-bottom-bar{
-  height: 40px;
+  flex: 0 0 40px;
   text-align: center;
   background-color: #666;
 
@@ -388,7 +410,7 @@ md-select-menu md-content{
     background-repeat: no-repeat;
     background-size: 21%;
     background-position-y: 39px;
-    background-position-x: 39px;
+    background-position-x: 49px;
   }
 
 
@@ -398,3 +420,125 @@ md-select-menu md-content{
 
 
 }
+
+
+.settings-modal{
+  background-color: #2d9d51;
+  md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar){
+    background-color: #2d9d51;
+  }
+}
+
+
+
+
+.settings-modal form{
+  background-color: #44a965;
+  color: #FFF;
+
+
+
+
+
+  .playlist-uri{
+    flex: 1 1 215px;
+  }
+
+
+  .playlist-status{
+    margin-top: 26px;
+    margin-left: 10px;
+    flex: 1 1 180px;
+  }
+
+
+  .playlist-status-valid{
+    md-icon{
+      flex: 0 0 28px;
+    }
+    .playlist-name{
+      flex: 1 0 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      position: relative;
+      white-space: nowrap;
+      line-height: 37px;
+      font-weight: bold;
+    }
+    .md-button{
+      flex: 0 0 40px;
+    }
+  }
+
+
+  .song-uri{
+    flex: 1 1 215px;
+  }
+
+
+  .song-status{
+    margin-top: 26px;
+    margin-left: 10px;
+    flex: 1 1 180px;
+    &.valid{
+      md-icon{
+      flex: 0 0 28px;
+      }
+    }
+  }
+
+
+
+
+
+
+  .viewer-type{
+    flex: 0 0 124px;
+  }
+
+  .up-to{
+    flex: 0 0 30px;
+    line-height: 75px;
+    margin-left: 4px;
+    opacity: .3;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  .number-of-requests{
+    flex: 0 0 30px;
+    input{
+      padding-top: 6px;
+      text-align: right;
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+          /* display: none; <- Crashes Chrome on hover */
+          -webkit-appearance: none;
+          margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+      }
+    }
+  }
+
+  .requests-per{
+    opacity: .3;
+    color: rgba(0, 0, 0, 0.87);
+    flex: 0 0 104px;
+    line-height: 75px;
+    margin-left: 4px;
+  }
+
+  .request-interval{
+    flex: 0 0 81px;
+  }
+
+
+}
+
+
+
+.blacklist-wrapper{
+  height: 100%;
+  .add-to-blacklist{
+    flex: 0 0 70px;
+  }
+}
+

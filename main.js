@@ -16,8 +16,8 @@ function createWindow () {
     height: 620,
     maxHeight: 610,
     minHeight: 610,
-    width: 425,
-    minWidth: 425,
+    width: 450,
+    minWidth: 450,
     title: 'song2stream',
     icon: path.join(__dirname, 's2s.png')
   });
