@@ -2,6 +2,7 @@ var tmi = require('tmi.js');
 var fs = require('fs');
 var path = require('path');
 var request=require('request');
+var _ = require('lodash');
 
 module.exports = function(twitchChannel, io){
 
@@ -137,6 +138,8 @@ module.exports = function(twitchChannel, io){
 
           var bot_settings = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/twitch_bot_settings.json'), 'utf8'));
 
+
+
           if(!bot_settings.requestsEnabled){
 
             var text = 'Song requests are closed.';
@@ -144,6 +147,7 @@ module.exports = function(twitchChannel, io){
 
           }else{
 
+          var blacklist = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/song_blacklist.json'), 'utf8'));
 
           // Check if this user is a sub.
           // if(user.subscriber || user['badges-raw'].includes('broadcaster/1')){
@@ -160,62 +164,76 @@ module.exports = function(twitchChannel, io){
               client.action(channel, text);
             }else{
 
-            //TODO: What is the track name of this
-            /// GET reeust for
+              // Check Blacklist
+              var blacklisted = _.filter(blacklist, function(o) { return spotifyUri === o.uri; });
+              console.log('blacklietd???');
+              console.log(blacklisted.length);
+              if(blacklisted.length > 0){
 
-              request.get('https://api.spotify.com/v1/tracks/'+ spotifyTrackId, options, function(err,res,body){
+                var json = blacklisted[0];
+                var text = 'Nice try, @' + user.username + '. "' + json.name + ' - ' + json.artist + '" is a blacklisted song.';
+                client.action(channel, text);
 
-                if(err){
-                  console.log('error finding requested spotify song details');
-                  console.log(err);
-                  text += '@' + user.username + ', I didn\'t recognize that Spotify URI. Get more info here: link';
-                  client.action(channel, text);
-                }
-
-                if(!err){
-                  // Success! We have a track.
-
-                  var json = JSON.parse(body);
-
-                  text += '@' + user.username + ' has requested: ' + json.name + ' - ' + json.artists[0].name;
-                  client.action(channel, text);
-
-                  // TODO: Write this track info into the requested_tracks.json
-                  var new_track = { name: json.name, artist: json.artists[0].name, id: spotifyTrackId, uri: spotifyUri, requested_by: user.username};
+              }else{
 
 
+                request.get('https://api.spotify.com/v1/tracks/'+ spotifyTrackId, options, function(err,res,body){
 
-                  // Open existing requested Tracks if be have one, or create one.
-                  var requests_array;
-
-                  try {
-                    requests_array = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/requested_tracks.json'), 'utf8'));
-                    console.log('Read Requests File');
-
-                  } catch (err) {
-                    console.log('Error Reading Requests File... Writing New File');
+                  if(err){
+                    console.log('error finding requested spotify song details');
                     console.log(err);
-
-                    fs.writeFileSync(path.join(__dirname, '/../../data/requested_tracks.json'), JSON.stringify([]));
-
-                    // Now read it back.
-                    requests_array = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/requested_tracks.json'), 'utf8'));
+                    text += '@' + user.username + ', I didn\'t recognize that Spotify URI. Get more info here: link';
+                    client.action(channel, text);
                   }
 
+                  if(!err){
+                    // Success! We have a track.
 
-                  requests_array.push(new_track);
-                  try {
-                    fs.writeFileSync(path.join(__dirname, '/../../data/requested_tracks.json'), JSON.stringify(requests_array));
-                    console.log('Wrote new Request to File');
-                    io.emit('song_request_added');
-                  } catch (err) {
-                    console.log('Error writing request to file');
-                    console.log(err);
+                    var json = JSON.parse(body);
+
+                    text += '@' + user.username + ' has requested: ' + json.name + ' - ' + json.artists[0].name;
+                    client.action(channel, text);
+
+                    // TODO: Write this track info into the requested_tracks.json
+                    var new_track = { name: json.name, artist: json.artists[0].name, id: spotifyTrackId, uri: spotifyUri, requested_by: user.username};
+
+
+
+                    // Open existing requested Tracks if be have one, or create one.
+                    var requests_array;
+
+                    try {
+                      requests_array = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/requested_tracks.json'), 'utf8'));
+                      console.log('Read Requests File');
+
+                    } catch (err) {
+                      console.log('Error Reading Requests File... Writing New File');
+                      console.log(err);
+
+                      fs.writeFileSync(path.join(__dirname, '/../../data/requested_tracks.json'), JSON.stringify([]));
+
+                      // Now read it back.
+                      requests_array = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/requested_tracks.json'), 'utf8'));
+                    }
+
+
+                    requests_array.push(new_track);
+                    try {
+                      fs.writeFileSync(path.join(__dirname, '/../../data/requested_tracks.json'), JSON.stringify(requests_array));
+                      console.log('Wrote new Request to File');
+                      io.emit('song_request_added');
+                    } catch (err) {
+                      console.log('Error writing request to file');
+                      console.log(err);
+                    }
+
+
                   }
+                });
 
 
-                }
-              });
+
+              }
 
           //}else{
             //text += '@' + user.username + ', only subscribers can request songs.'

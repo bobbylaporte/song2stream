@@ -188,8 +188,12 @@
             newSong.id = response.id;
             newSong.uri = response.uri;
 
-
-            vm.blacklist.push(newSong);
+            if(angular.isDefined(vm.blacklist)){
+              vm.blacklist.push(newSong);
+            }else{
+              vm.blacklist = [];
+              vm.blacklist.push(newSong);
+            }
 
             // Verified that it's a real song. Now add it.
             console.log('save blacklist');

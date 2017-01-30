@@ -331,7 +331,7 @@ module.exports = function(io){
   router.get('/stop_bot', function(req, res, next) {
 
       console.log('stop the bot!!!!');
-      console.log(twitchBot);
+      //console.log(twitchBot);
       twitchBot.disconnect();
       //maybe close
 
