@@ -68,10 +68,10 @@
 
     vm.selectOptions = {
       'alignText': [{label: 'Align Left', value: 'left'},{label: 'Align Right', value: 'right'}],
-      'animationType': [{label: 'Fade Out', value: 'fade-out'}, {label: 'Slide Down from Top', value: 'slide-up'}, {label: 'Slide Up from Bottom', value: 'slide-down'}, {label: 'Slide In from the Left', value: 'slide-left'}, {label: 'Slide In from the Right', value: 'slide-right'}],
+      'animationType': [{label: 'Fade Out', value: 'fade-out'}, {label: 'Slide Down from Top', value: 'slide-up'}, {label: 'Slide Up from Bottom', value: 'slide-down'}, {label: 'Slide In from the Left', value: 'slide-left'}, {label: 'Slide In from the Right', value: 'slide-right'}, {label: 'Custom (Use Advanced)', value: 'custom'}],
       'positionX': [{label: 'Align Left', value: 'left'}, {label: 'Align Right', value: 'right'}],
       'positionY': [{label: 'Align Top', value: 'top'}, {label: 'Align Bottom', value: 'bottom'}],
-      'templateType': [{label: 'Single Line', value: 'single_line'}, {label: 'Two Lines', value: 'two_lines'}]
+      'templateType': [{label: 'Single Line', value: 'single_line'}, {label: 'Two Lines', value: 'two_lines'}, {label: 'Custom (Use Advanced)', value: 'custom'}]
     };
 
 
