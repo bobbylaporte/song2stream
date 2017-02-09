@@ -151,11 +151,13 @@ module.exports = () => {
           var found_viewer = _.find(viewerlist, function(o) { return o.name === active_viewer; });
           if(found_viewer !== undefined){
             // Add a minute of viewtime to this person
-            found_viewer.viewed_minutes = found_viewer.viewed_minutes + 1;
+            found_viewer.session_minutes = found_viewer.session_minutes + 1;
+            found_viewer.total_minutes = found_viewer.total_minutes + 1;
+            found_viewer.last_seen_time = new Date().toString();
 
-            if(found_viewer.viewed_minutes >= 60){
+            if(found_viewer.session_minutes >= 60){
               found_viewer.song_request_count = found_viewer.song_request_count + 1;
-              found_viewer.viewed_minutes = 0;
+              found_viewer.session_minutes = 0;
             }
 
             var index = _.indexOf(viewerlist, _.find(viewerlist, {name: active_viewer}));
@@ -165,7 +167,7 @@ module.exports = () => {
             callback();
           }else{
             // Create a new viewer and push into viewer list
-            var new_viewer = {"name": active_viewer ,"song_request_count":0,"banned":false,"last_request_time": now.toString(), "viewed_minutes": 1};
+            var new_viewer = {"name": active_viewer ,"song_request_count":0,"banned":false,"last_request_time": now.toString(), "session_minutes": 1, "total_minutes": 1};
             viewerlist.push(new_viewer);
             callback();
           }

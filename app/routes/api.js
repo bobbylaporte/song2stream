@@ -367,13 +367,7 @@ module.exports = function(io){
 
     var settings = JSON.parse(fs.readFileSync(path.join(__dirname, '/../../data/twitch_bot_settings.json'), 'utf8'));
 
-    settings.playlistName = req.body.playlistName;
-    settings.playlistURI = req.body.playlistURI;
-
-
-    settings.viewerType = req.body.viewerType;
-    settings.numberOfRequests = req.body.numberOfRequests;
-    settings.requestsInterval = req.body.requestsInterval;
+    settings = req.body;
 
 
     fs.writeFileSync(path.join(__dirname, '/../../data/twitch_bot_settings.json'), JSON.stringify(settings));

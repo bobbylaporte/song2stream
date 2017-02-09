@@ -40,7 +40,7 @@
                         <md-icon aria-label="Disconnect">remove_circle</md-icon>
                     </md-button>
                   </div>
-                  <div><small><em>Playlist is connected</em></small></div>
+                  <div><small><em>Spotify playlist is connected!</em></small></div>
                 </div>
 
 
@@ -50,32 +50,100 @@
                 </div>
               </div>
 
-              <div layout="row">
+
+              <h3 class="token-title">Song Request Tokens</h3>
+
+              <span class="question">
+                <md-button class="md-primary">
+                  <md-tooltip md-direction="right">Opens External Info Page</md-tooltip>
+                  <md-icon>info</md-icon>
+                </md-button>
+              </span>
+              
+
+              <strong class="distro-rules">Distribution Rules</strong>
+
+
+              <div class="rule-set" ng-repeat="rule in modalCtrl.settings.distributionRules track by $index"  layout="row">
 
                 <md-input-container class="md-block viewer-type" flex>
-                  <md-select ng-disabled="true" ng-model="modalCtrl.settings.viewerType" name="viewerType" required>
-                    <md-option ng-value="'subscriber'">Subscribers</md-option>
+                  <md-select disabled="true" ng-model="rule.viewerType" name="viewerType" required>
+                    <md-option ng-value="'all'">All Viewers</md-option>
                     <md-option ng-value="'follower'">Followers</md-option>
-                    <!-- <md-option ng-value="'threeMonths'" disabled>3mo+ Subscribers</md-option> -->
+                    <md-option ng-value="'subscriber'">Subscribers</md-option>
                   </md-select>
                 </md-input-container>
 
-                <div class="up-to">get</div>
+<!--                 <div class="viewer-type" flex>
+                  <strong>{{rule.viewerType}}</strong>
+                </div> -->
+
+                <div class="up-to">will receive</div>
 
                 <md-input-container class="md-block number-of-requests" flex>
-                  <input min="1" ng-disabled="true" max="10" step="1" type="number" ng-model="modalCtrl.settings.numberOfRequests" name="numberOfRequests" required>
+                  <input min="0" max="10" step="1" type="number" ng-model="rule.numberOfRequests" name="numberOfRequests" required>
                   <div ng-messages="settingsForm.numberOfRequests.$error" role="alert">
-                    <div ng-message="required">You need to provide a Number</div>
+                    <div ng-message="required">Hey!</div>
                   </div>
                 </md-input-container>
 
-                <div class="requests-per">request(s) per</div>
+                <div class="requests-per">token(s) every</div>
+
+                <md-input-container class="md-block number-of-requests" flex>
+                  <input min="1" max="60" step="1" type="number" ng-model="rule.numberOfInterval" name="numberOfInterval" required>
+                  <div ng-messages="settingsForm.numberOfRequests.$error" role="alert">
+                    <div ng-message="required">Hey!</div>
+                  </div>
+                </md-input-container>
 
                 <md-input-container class="md-block request-interval" flex>
-                  <md-select ng-disabled="true" ng-model="modalCtrl.settings.requestInterval" name="requestInterval" required>
-                    <md-option ng-value="'hour'">Hour</md-option>
-                    <md-option ng-value="'day'">Day</md-option>
-                    <md-option ng-value="'week'">Week</md-option>
+                  <md-select disabled="true" ng-model="rule.requestInterval" name="requestInterval" required>
+                    <md-option ng-value="'minutes'">Minute(s)</md-option>
+                    <md-option ng-value="'hour'">Hour(s)</md-option>
+                  </md-select>
+                </md-input-container>
+
+              </div>
+
+  
+              <strong>Redemption Rules</strong>
+
+              <div class="rule-set" ng-repeat="rule in modalCtrl.settings.redemptionRules track by $index"  layout="row">
+
+                <md-input-container class="md-block viewer-type" flex>
+                  <md-select disabled="true" ng-model="rule.viewerType" name="viewerType" required>
+                    <md-option ng-value="'all'">All Viewers</md-option>
+                    <md-option ng-value="'follower'">Followers</md-option>
+                    <md-option ng-value="'subscriber'">Subscribers</md-option>
+                  </md-select>
+                </md-input-container>
+
+<!--                 <div class="viewer-type" flex>
+                  <strong>{{rule.viewerType}}</strong>
+                </div> -->
+
+                <div class="up-to">can redeem</div>
+
+                <md-input-container class="md-block number-of-requests" flex>
+                  <input min="0" max="10" step="1" type="number" ng-model="rule.numberOfRequests" name="numberOfRequests" required>
+                  <div ng-messages="settingsForm.numberOfRequests.$error" role="alert">
+                    <div ng-message="required">Hey!</div>
+                  </div>
+                </md-input-container>
+
+                <div class="requests-per">token(s) every</div>
+
+                <md-input-container class="md-block number-of-requests" flex>
+                  <input min="1" max="60" step="1" type="number" ng-model="rule.numberOfInterval" name="numberOfInterval" required>
+                  <div ng-messages="settingsForm.numberOfRequests.$error" role="alert">
+                    <div ng-message="required">Hey!</div>
+                  </div>
+                </md-input-container>
+
+                <md-input-container class="md-block request-interval" flex>
+                  <md-select disabled="true" ng-model="rule.requestInterval" name="requestInterval" required>
+                    <md-option ng-value="'minutes'">Minute(s)</md-option>
+                    <md-option ng-value="'hour'">Hour(s)</md-option>
                   </md-select>
                 </md-input-container>
 

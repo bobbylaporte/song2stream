@@ -24,7 +24,7 @@ md-tabs.primary-tabs md-content {
   height: 460px; }
 
 md-tabs.settings-tabs {
-  height: 503px; }
+  height: 495px; }
 
 md-tabs.settings-tabs md-content {
   background-color: #2d9d51;
@@ -328,13 +328,13 @@ md-select-menu md-content {
     .settings-modal form .song-status.valid md-icon {
       flex: 0 0 28px; }
   .settings-modal form .viewer-type {
-    flex: 0 0 124px; }
+    flex: 0 0 115px; }
   .settings-modal form .up-to {
-    flex: 0 0 30px;
-    line-height: 75px;
+    flex: 0 0 75px;
+    line-height: 39px;
     margin-left: 4px;
-    opacity: .3;
-    color: rgba(0, 0, 0, 0.87); }
+    color: #FFF;
+    opacity: 0.8; }
   .settings-modal form .number-of-requests {
     flex: 0 0 30px; }
     .settings-modal form .number-of-requests input {
@@ -346,16 +346,37 @@ md-select-menu md-content {
         margin: 0;
         /* <-- Apparently some margin are still there even though it's hidden */ }
   .settings-modal form .requests-per {
-    opacity: .3;
-    color: rgba(0, 0, 0, 0.87);
-    flex: 0 0 104px;
-    line-height: 75px;
-    margin-left: 4px; }
+    color: #FFF;
+    flex: 0 0 95px;
+    line-height: 39px;
+    margin-left: 4px;
+    opacity: 0.8; }
   .settings-modal form .request-interval {
-    flex: 0 0 81px; }
+    flex: 0 0 100px; }
+
+.rule-set {
+  font-size: 0.85em; }
+  .rule-set md-input-container {
+    margin: 0;
+    height: 36px; }
+
+.token-title {
+  float: left; }
+
+.question {
+  float: left;
+  display: block; }
+  .question .md-button {
+    margin-top: 12px;
+    margin-left: 0px;
+    min-width: 27px; }
+
+.distro-rules {
+  clear: left;
+  display: block; }
 
 .blacklist-wrapper {
-  height: 100%; }
+  height: 424px; }
   .blacklist-wrapper .add-to-blacklist {
     flex: 0 0 80px; }
 
@@ -371,21 +392,31 @@ md-select-menu md-content {
   line-height: 40px;
   height: 40px; }
 
-.viewer-list-item .viewer-request-count {
-  font-size: 28px;
-  line-height: 48px; }
-
-.viewer-list-item .banned-user {
-  flex: 0 0 200px;
-  line-height: 46px;
-  font-weight: bold; }
-  .viewer-list-item .banned-user .md-button {
-    flex: 0 0 70px; }
-
-.viewer-list-item .buttons {
-  flex: 0 0 140px; }
-  .viewer-list-item .buttons button {
-    margin: 0; }
-
-.viewer-list-item .text-holder {
-  margin-left: 15px; }
+.viewer-list-item {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-top: solid 1px #000; }
+  .viewer-list-item .viewer-list-item-row {
+    width: 100%;
+    padding-bottom: 10px; }
+    .viewer-list-item .viewer-list-item-row.bottom {
+      padding: 0 10px;
+      font-size: 14px;
+      line-height: 16px; }
+    .viewer-list-item .viewer-list-item-row .right {
+      text-align: right; }
+  .viewer-list-item .viewer-request-count {
+    font-size: 28px;
+    line-height: 58px; }
+  .viewer-list-item .banned-user {
+    flex: 0 0 200px;
+    line-height: 46px;
+    font-weight: bold; }
+    .viewer-list-item .banned-user .md-button {
+      flex: 0 0 70px; }
+  .viewer-list-item .buttons {
+    flex: 0 0 140px; }
+    .viewer-list-item .buttons button {
+      margin: 0; }
+  .viewer-list-item .text-holder {
+    margin-left: 15px; }

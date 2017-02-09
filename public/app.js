@@ -28,7 +28,7 @@
       'angulartics',
       'angulartics.google.analytics',
       'ui.ace',
-      // 'angularMoment',
+      'angularMoment',
       // 'moment-picker',
       // 'angular-notification-icons',
 

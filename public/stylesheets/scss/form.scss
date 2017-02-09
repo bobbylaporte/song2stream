@@ -39,7 +39,7 @@ md-tabs.primary-tabs md-content{
 
 
 md-tabs.settings-tabs{
-  height: 503px;
+  height: 495px;
 }
 
 md-tabs.settings-tabs md-content{
@@ -494,15 +494,15 @@ md-select-menu md-content{
 
 
   .viewer-type{
-    flex: 0 0 124px;
+    flex: 0 0 115px;
   }
 
   .up-to{
-    flex: 0 0 30px;
-    line-height: 75px;
+    flex: 0 0 75px;
+    line-height: 39px;
     margin-left: 4px;
-    opacity: .3;
-    color: rgba(0, 0, 0, 0.87);
+    color: #FFF;
+    opacity: 0.8;
   }
 
   .number-of-requests{
@@ -520,24 +520,53 @@ md-select-menu md-content{
   }
 
   .requests-per{
-    opacity: .3;
-    color: rgba(0, 0, 0, 0.87);
-    flex: 0 0 104px;
-    line-height: 75px;
+    color: #FFF;
+    flex: 0 0 95px;
+    line-height: 39px;
     margin-left: 4px;
+    opacity: 0.8;
   }
 
   .request-interval{
-    flex: 0 0 81px;
+    flex: 0 0 100px;
   }
 
 
 }
 
 
+.rule-set{
+  font-size: 0.85em;
+  md-input-container{
+    margin: 0;
+    height: 36px;
+  }
+}
+
+
+.token-title{
+  float:left;
+}
+
+
+.question{
+  float:left;
+  display: block;
+  .md-button{
+    margin-top: 12px;
+    margin-left: 0px;
+    min-width: 27px;
+  }
+}
+
+
+.distro-rules{
+  clear: left;
+  display: block;
+}
 
 .blacklist-wrapper{
-  height: 100%;
+  height: 424px;
   .add-to-blacklist{
     flex: 0 0 80px;
   }
@@ -558,9 +587,27 @@ md-select-menu md-content{
 }
 
 .viewer-list-item{
+
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-top: solid 1px #000;
+
+  .viewer-list-item-row{
+    width: 100%;
+    padding-bottom: 10px;
+    &.bottom{
+      padding: 0 10px;
+      font-size: 14px;
+      line-height: 16px;
+    }
+    .right{
+      text-align: right;
+    }
+  }
+
   .viewer-request-count{
     font-size: 28px;
-    line-height: 48px;
+    line-height: 58px;
   }
 
 
