@@ -9,13 +9,13 @@
                 {{dashboardCtrl.config.config_type}} Formatting
               </div>
 
-              <md-button ng-if="dashboardCtrl.config.config_type === 'basic'" ng-click="dashboardCtrl.config.config_type = 'advanced'" class="md-secondary md-raised form-type-toggle">
+<!--               <md-button ng-if="dashboardCtrl.config.config_type === 'basic'" ng-click="dashboardCtrl.config.config_type = 'advanced'" class="md-secondary md-raised form-type-toggle">
                 <md-icon>code</md-icon> Show Advanced
               </md-button>
 
               <md-button ng-if="dashboardCtrl.config.config_type === 'advanced'" ng-click="dashboardCtrl.config.config_type = 'basic'" class="md-secondary md-raised form-type-toggle">
                 <md-icon>format_paint</md-icon> Show Basic
-              </md-button>
+              </md-button> -->
             </div>
 
             <div class="form basic-form" ng-if="dashboardCtrl.config.config_type === 'basic'">
@@ -179,6 +179,11 @@
 <!--                 <md-switch class="request-switch md-warn" ng-disabled="!dashboardCtrl.requestsEnabled" ng-model="dashboardCtrl.autoApprove" aria-label="Auto Approve Song Requests">
                   Auto Approval <span ng-if="!dashboardCtrl.autoApprove">OFF</span> <strong ng-if="dashboardCtrl.autoApprove">ON</strong>
                 </md-switch> -->
+
+
+                <md-button class="viewers-button" ng-click="dashboardCtrl.openViewers($event)">
+                  <md-icon>group</md-icon> Viewers
+                </md-button>
 
               </div>
             </div>

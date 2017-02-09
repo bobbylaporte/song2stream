@@ -316,12 +316,12 @@ module.exports = function(io){
 
         res.status(200).send(settings);
       } catch (err) {
-        res.status(500).send('Fucked.');
+        res.status(500).send(err);
       }
 
 
     } catch (err) {
-      res.status(500).send('Fucked.');
+      res.status(500).send(err);
     }
 
     //
@@ -404,6 +404,37 @@ module.exports = function(io){
     //res.redirect('/home');
 
   });
+
+
+
+
+
+
+
+
+  router.get('/viewers', function(req, res, next) {
+    try {
+      var viewers = fs.readFileSync(path.join(__dirname, '/../../data/viewers_list.json'), 'utf8');
+      res.status(200).send(viewers);
+
+    } catch (err) {
+      res.status(500).send('No File.');
+    }
+  });
+
+
+  router.post('/viewers', function(req, res, next) {
+
+    fs.writeFileSync(path.join(__dirname, '/../../data/viewers_list.json'), JSON.stringify(req.body));
+    res.send('Saved');
+    //res.redirect('/home');
+
+  });
+
+
+
+
+
 
 
 

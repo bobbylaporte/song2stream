@@ -33,7 +33,7 @@ md-tabs.primary-tabs{
 
 md-tabs.primary-tabs md-content{
   background-color: #2d9d51;
-  height: 454px;
+  height: 460px;
 }
 
 
@@ -151,7 +151,7 @@ md-select-menu md-content{
 }
 
 
-.request-switch, .bot-switch{
+.request-switch, .bot-switch,{
   margin-top: 3px;
   margin-bottom: 0;
   color: #FFF;
@@ -169,7 +169,8 @@ md-select-menu md-content{
 
 
 .request-settings-button,
-.refresh-button{
+.refresh-button,
+.viewers-button{
   margin: 0;
   float: right;
   color: #FFF;
@@ -538,7 +539,52 @@ md-select-menu md-content{
 .blacklist-wrapper{
   height: 100%;
   .add-to-blacklist{
-    flex: 0 0 70px;
+    flex: 0 0 80px;
   }
 }
+
+
+.viewer-search-box{
+  font-size: 14px;
+  box-sizing: border-box;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  padding: 0 15px;
+  line-height: 40px;
+  height: 40px;
+}
+
+.viewer-list-item{
+  .viewer-request-count{
+    font-size: 28px;
+    line-height: 48px;
+  }
+
+
+
+  .banned-user{
+    flex: 0 0 200px;
+    line-height: 46px;
+    font-weight: bold;
+    .md-button{
+      flex: 0 0 70px;
+    }
+  }
+
+  .buttons{
+    flex: 0 0 140px;
+    button{
+      margin: 0;
+    }
+  }
+
+  .text-holder{
+    margin-left: 15px;
+  }
+}
+
+
 

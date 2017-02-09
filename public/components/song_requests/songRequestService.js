@@ -34,6 +34,10 @@
       getBlacklist: getBlacklist,
       saveBlacklist: saveBlacklist,
 
+
+      getViewers: getViewers,
+      saveViewers: saveViewers,
+
       removeSongFromBlacklist: removeSongFromBlacklist,
 
       logout: logout,
@@ -345,6 +349,29 @@
       return $q(function (resolve, reject) {
         $http.post('http://localhost:1337/api/blacklist', formData ).then(function (response) {
           console.log('saved blacklist');
+          resolve(response);
+        }).catch(function (err) {
+          reject(err);
+        });
+      });
+    }
+
+
+    function getViewers(){
+      return $q(function (resolve, reject) {
+        $http.get('http://localhost:1337/api/viewers').then(function (response) {
+          resolve(response.data);
+        }).catch(function (err) {
+          reject(err);
+        });
+      });
+    }
+
+
+    function saveViewers(formData) {
+      return $q(function (resolve, reject) {
+        $http.post('http://localhost:1337/api/viewers', formData ).then(function (response) {
+          console.log('saved viewers');
           resolve(response);
         }).catch(function (err) {
           reject(err);

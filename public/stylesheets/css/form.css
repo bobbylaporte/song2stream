@@ -21,7 +21,7 @@ md-tabs.primary-tabs {
 
 md-tabs.primary-tabs md-content {
   background-color: #2d9d51;
-  height: 454px; }
+  height: 460px; }
 
 md-tabs.settings-tabs {
   height: 503px; }
@@ -121,12 +121,14 @@ md-select-menu md-content {
   line-height: 36px; }
 
 .request-settings-button,
-.refresh-button {
+.refresh-button,
+.viewers-button {
   margin: 0;
   float: right;
   color: #FFF; }
   .request-settings-button md-icon,
-  .refresh-button md-icon {
+  .refresh-button md-icon,
+  .viewers-button md-icon {
     color: #FFF; }
 
 .refresh-button {
@@ -355,4 +357,35 @@ md-select-menu md-content {
 .blacklist-wrapper {
   height: 100%; }
   .blacklist-wrapper .add-to-blacklist {
+    flex: 0 0 80px; }
+
+.viewer-search-box {
+  font-size: 14px;
+  box-sizing: border-box;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  padding: 0 15px;
+  line-height: 40px;
+  height: 40px; }
+
+.viewer-list-item .viewer-request-count {
+  font-size: 28px;
+  line-height: 48px; }
+
+.viewer-list-item .banned-user {
+  flex: 0 0 200px;
+  line-height: 46px;
+  font-weight: bold; }
+  .viewer-list-item .banned-user .md-button {
     flex: 0 0 70px; }
+
+.viewer-list-item .buttons {
+  flex: 0 0 140px; }
+  .viewer-list-item .buttons button {
+    margin: 0; }
+
+.viewer-list-item .text-holder {
+  margin-left: 15px; }

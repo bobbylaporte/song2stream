@@ -1,0 +1,77 @@
+<md-dialog aria-label="Twitch Bot Settings" class="settings-modal">
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Manage Viewers</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="modalCtrl.cancel()">
+          <md-icon aria-label="Close dialog">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+
+
+
+      <div md-padding>
+        <input ng-model="modalCtrl.searchText" class="viewer-search-box" />
+        <md-list flex>
+          <md-list-item ng-repeat="viewer in modalCtrl.viewers track by $index" class="viewer-list-item" layout="row">
+            <div class="text-holder" flex>
+              <h3>
+                {{viewer.name}}
+              </h3>
+              <h4>{{viewer.last_request_time}}</h4>
+            </div>
+
+            <div class="buttons" layout="row">
+              <md-button class="md-warn" ng-click="modalCtrl.banViewer($index)" aria-label="Ban" flex>
+                <md-tooltip md-direction="left">Ban User from Requesting Songs</md-tooltip>
+                <md-icon>not_interested</md-icon>
+              </md-button>
+
+              <md-button class="" ng-click="modalCtrl.removeSongRequest($index)" aria-label="Remove" flex>
+                <md-icon>remove_circle_outline</md-icon>
+              </md-button>
+
+              <div class="viewer-request-count">{{viewer.song_request_count}}</div>
+
+              <md-button class="" ng-click="modalCtrl.addSongRequest($index)" aria-label="Add" flex>
+                <md-icon>add_circle_outline</md-icon>
+              </md-button>
+            </div>
+  <!--           <div class="banned-user" layout="row">
+              <div flex>User is Banned</div>
+              <md-button class="md-warn" ng-click="modalCtrl.addRequest(viewer.id)" flex>
+                Unban
+              </md-button>
+
+
+            </div> -->
+
+          </md-list-item>
+        </md-list>
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </md-dialog-content>
+<!--     <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button class="md-primary md-raised" ng-click="modalCtrl.save()">
+        Create Tournament
+      </md-button>
+    </md-dialog-actions> -->
+  </form>
+</md-dialog>

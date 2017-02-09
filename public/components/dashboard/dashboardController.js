@@ -181,8 +181,8 @@
 
     vm.openSettings = function(ev) {
       $mdDialog.show({
-        controller: 'TournamentCreateModalController as modalCtrl',
-        templateUrl: '/components/modals/tournament/tournamentCreateModalView.html',
+        controller: 'BotSettingsModalController as modalCtrl',
+        templateUrl: '/components/modals/settings/botSettingsModalView.html',
         parent: angular.element(document.body),
         targetEvent: ev,
         fullscreen: true
@@ -197,6 +197,25 @@
       });
     }
 
+
+
+    vm.openViewers = function(ev) {
+      $mdDialog.show({
+        controller: 'ViewersModalController as modalCtrl',
+        templateUrl: '/components/modals/viewers/viewersModalView.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        fullscreen: true
+      })
+      .then(function(answer) {
+        // console.log('closed!!!!!!!!');
+        // vm.checkPlaylist();
+
+      }, function() {
+        vm.status = 'You closed the dialog.';
+        vm.checkPlaylist();
+      });
+    }
 
 
 

@@ -24,7 +24,11 @@ module.exports = () => {
   var fs = require('fs');
   var util = require('util');
 
+  var request = require('request');
 
+  var cron = require('node-cron');
+  var async = require('async');
+  var _ = require('lodash');
 
 
 
@@ -107,6 +111,85 @@ module.exports = () => {
     // render the error page
     res.status(err.status || 500);
     res.render('error');
+  });
+
+
+
+
+
+  // CRON ACTIVITIES
+  cron.schedule('* * * * *', function(){
+    console.log('running a task every minute');
+
+
+    var viewerlist = JSON.parse(fs.readFileSync(path.join(__dirname, '/../data/viewers_list.json'), 'utf8'));
+    // Get all viewers in the chat currently
+    var userFile = JSON.parse(fs.readFileSync(path.join(__dirname, '/../data/twitch_user.json'), 'utf8'));
+
+    var options = {
+      url: 'http://tmi.twitch.tv/group/user/' + userFile.name + '/chatters'
+    };
+
+    var now = new Date();
+
+    request.get(options, function(err,response,body){
+      if(err){
+        console.log('error');
+        console.log(err);
+        //res.send('error');
+      }
+      if(!err){
+        // Success! We have our list of users.
+
+        var json = JSON.parse(body);
+
+        var active_viewers = json.chatters.viewers;
+
+        async.eachSeries(active_viewers, function(active_viewer, callback) {
+
+          // Find this viewer in out viewerList
+          var found_viewer = _.find(viewerlist, function(o) { return o.name === active_viewer; });
+          if(found_viewer !== undefined){
+            // Add a minute of viewtime to this person
+            found_viewer.viewed_minutes = found_viewer.viewed_minutes + 1;
+
+            if(found_viewer.viewed_minutes >= 60){
+              found_viewer.song_request_count = found_viewer.song_request_count + 1;
+              found_viewer.viewed_minutes = 0;
+            }
+
+            var index = _.indexOf(viewerlist, _.find(viewerlist, {name: active_viewer}));
+
+            // Replace item at index using native splice
+            viewerlist.splice(index, 1, found_viewer);
+            callback();
+          }else{
+            // Create a new viewer and push into viewer list
+            var new_viewer = {"name": active_viewer ,"song_request_count":0,"banned":false,"last_request_time": now.toString(), "viewed_minutes": 1};
+            viewerlist.push(new_viewer);
+            callback();
+          }
+
+
+        }, function(err) {
+
+          // Update viewers_list.json
+          try {
+            fs.writeFileSync(path.join(__dirname, '/../data/viewers_list.json'), JSON.stringify(viewerlist));
+            console.log('Updated Viewers List');
+            //io.emit('song_request_added');
+          } catch (err) {
+            console.log('Error writing viewerlist file');
+            console.log(err);
+          }
+
+        });
+
+
+      }
+    });
+
+
   });
 
 }
