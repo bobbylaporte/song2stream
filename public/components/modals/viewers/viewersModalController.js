@@ -9,9 +9,13 @@
 (function() {
   'use strict';
 
-  function ViewersModalController(authService, $q, $http, $location, $log, $scope, $timeout, $mdDialog, songRequestService, moment) {
+  function ViewersModalController(_, authService, $q, $http, $location, $log, $scope, $timeout, $mdDialog, songRequestService, moment, socket) {
 
     var vm = this;
+
+
+
+
 
     vm.cancel = function() {
       $mdDialog.cancel();
@@ -33,6 +37,10 @@
 
     vm.getViewers();
 
+    socket.on('viewer_list_updated', function(){
+      console.log('Viewer List Updated');
+      vm.getViewers();
+    });
 
 
 
@@ -49,6 +57,24 @@
         vm.saveViewers();
       }
     };
+
+
+
+
+    vm.banViewer = function(index){
+      //if(vm.viewers[index].song_request_count !== 0){
+        vm.viewers[index].banned = true;;
+        vm.saveViewers();
+      //}
+    };
+
+    vm.unbanViewer = function(index){
+      //if(vm.viewers[index].song_request_count !== 99){
+        vm.viewers[index].banned = false;
+        vm.saveViewers();
+      //}
+    };
+
 
 
 
@@ -78,7 +104,7 @@
 
 
   }
-  ViewersModalController.$inject = ['authService', '$q', '$http', '$location', '$log', '$scope', '$timeout', '$mdDialog', 'songRequestService', 'moment'];
+  ViewersModalController.$inject = ['_','authService', '$q', '$http', '$location', '$log', '$scope', '$timeout', '$mdDialog', 'songRequestService', 'moment', 'socket'];
 
   angular
     .module('uiApp')

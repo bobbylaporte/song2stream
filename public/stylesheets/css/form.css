@@ -409,9 +409,14 @@ md-select-menu md-content {
     font-size: 28px;
     line-height: 58px; }
   .viewer-list-item .banned-user {
-    flex: 0 0 200px;
-    line-height: 46px;
-    font-weight: bold; }
+    flex: 0 0 225px;
+    line-height: 59px; }
+    .viewer-list-item .banned-user md-icon {
+      position: relative;
+      top: -2px;
+      left: -5px; }
+    .viewer-list-item .banned-user strong {
+      color: #f44336; }
     .viewer-list-item .banned-user .md-button {
       flex: 0 0 70px; }
   .viewer-list-item .buttons {

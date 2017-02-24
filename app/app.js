@@ -141,7 +141,9 @@ module.exports = () => {
       if(!err){
         // Success! We have our list of users.
 
-        var json = JSON.parse(body);
+        //var json = JSON.parse(body);
+
+        var json = JSON.parse(fs.readFileSync(path.join(__dirname, '/../data/test/low5ive_viewers.json'), 'utf8'));
 
         var active_viewers = json.chatters.viewers;
 
@@ -179,7 +181,7 @@ module.exports = () => {
           try {
             fs.writeFileSync(path.join(__dirname, '/../data/viewers_list.json'), JSON.stringify(viewerlist));
             console.log('Updated Viewers List');
-            //io.emit('song_request_added');
+            //io.emit('viewer_list_updated');
           } catch (err) {
             console.log('Error writing viewerlist file');
             console.log(err);
