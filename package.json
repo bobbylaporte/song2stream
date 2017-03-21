@@ -44,6 +44,7 @@
     "socket.io": "^1.7.1",
     "spotify-local-control": "^1.0.0",
     "spotify-port-scanner-node": "^1.0.3",
+    "spotify-web-helper": "^1.7.1",
     "tmi.js": "^1.1.2"
   },
   "devDependencies": {
