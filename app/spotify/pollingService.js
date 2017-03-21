@@ -1,4 +1,4 @@
-const SpotifyWebHelper = require('@jonny/spotify-web-helper');
+const SpotifyWebHelper = require('spotify-web-helper');
 const fs = require('fs');
 const path = require('path');
 
@@ -7,7 +7,7 @@ let pollingTimer;
 
 module.exports = function(io){
 
-  helper.connect();
+  //helper.connect();
 
 
   helper.player.on('error', err => {
@@ -16,9 +16,9 @@ module.exports = function(io){
     if(err.type === '4110'){
       console.log('User Not Logged in');
       // Call init again in 5 seconds
-      pollingTimer = setTimeout(function(){
-        helper.connect();
-      }, 5000);
+      // pollingTimer = setTimeout(function(){
+      //   helper.connect();
+      // }, 5000);
     }
   });
 
@@ -158,7 +158,7 @@ module.exports = function(io){
     io.emit('spotify_disconnected');
 
 
-    helper.connect();
+    // helper.connect();
   }
 
 };
